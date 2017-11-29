@@ -1,9 +1,9 @@
-# MatchPaper #
-###The Tinder of Wallpapers###
+# MatchPaper
+### The Tinder of Wallpapers
 
 With this project we want to apply a Tinder-like approach to pictures and wallpapers.
 
-###Example###
+### Example
 
 ```
 A set of random images are proposed to you, you decide if you like the image or not.
