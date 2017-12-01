@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.mobile.matchpaper.MainActivity">
+    tools:context="com.mobile.matchpaper.view.MainActivity">
 
     <EditText
         android:id="@+id/et_search_box"
