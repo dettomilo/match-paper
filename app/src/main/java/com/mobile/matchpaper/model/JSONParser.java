@@ -14,7 +14,7 @@ public class JSONParser {
 
     /**
      * This method parses a JSON search result and returns a JSONSearchResult object that contains
-     * informations about the search result.
+     * information about the search result.
      *
      * @param jsonResult The json string content.
      * @return The object containing info on the search results.

@@ -15,7 +15,8 @@ import java.net.URL;
 
 public class RequestMaker {
 
-    private final String SEARCH_URL = "https://pixabay.com/api/?key=7232093-5c2e905e26143573763e287dc&q=QUERY_VALUES&image_type=photo&pretty=true";
+    private final String QUERY_SUBSTRING_PLACEHOLDER = "QUERY_VALUE";
+    private final String SEARCH_URL = "https://pixabay.com/api/?key=7232093-5c2e905e26143573763e287dc&q=" + QUERY_SUBSTRING_PLACEHOLDER + "&image_type=photo&pretty=true";
 
     public static void searchImages(String simpleQuery) throws MalformedURLException {
 
