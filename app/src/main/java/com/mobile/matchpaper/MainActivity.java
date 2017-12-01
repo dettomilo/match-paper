@@ -30,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
         mSearchResultsTextView = (TextView) findViewById(R.id.tv_search_results_json);
     }
 
+    /*
+        TODO Move makeSearchQuery() and the class queryTask to model
+     */
     private void makeSearchQuery() throws MalformedURLException {
         String query = mSearchBoxEditText.getText().toString();
         /* TODO the following code needs some polish
@@ -86,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /* TODO
-        of course, the result for now are raw json. Parsing!
+    /* TODO of course, the result for now are raw json. Parsing!
      */
 }
