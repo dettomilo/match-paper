@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         int itemThatWasClickedId = item.getItemId();
         if (itemThatWasClickedId == R.id.action_search) {
             try {
-                RequestMaker.searchImages(mSearchBoxEditText.getText().toString());
+                RequestMaker.searchImagesByQuery(mSearchBoxEditText.getText().toString());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }

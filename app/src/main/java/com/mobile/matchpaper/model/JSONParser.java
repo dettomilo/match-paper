@@ -11,7 +11,6 @@ import org.json.JSONObject;
  */
 
 public class JSONParser {
-
     /**
      * This method parses a JSON search result and returns a JSONSearchResult object that contains
      * information about the search result.

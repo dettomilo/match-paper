@@ -15,23 +15,14 @@ import java.net.URL;
 
 public class RequestMaker {
 
-    private final String QUERY_SUBSTRING_PLACEHOLDER = "QUERY_VALUE";
-    private final String SEARCH_URL = "https://pixabay.com/api/?key=7232093-5c2e905e26143573763e287dc&q=" + QUERY_SUBSTRING_PLACEHOLDER + "&image_type=photo&pretty=true";
+    private final String SEARCH_BASE_URL = "https://pixabay.com/api/?key=7232093-5c2e905e26143573763e287dc";
 
-    public static void searchImages(String simpleQuery) throws MalformedURLException {
+    public static void searchImagesByQuery(String simpleQuery) throws MalformedURLException {
 
 
-        URL searchUrl = new URL(getFormattedURL(simpleQuery));
+        URL searchUrl = new URL();
         // COMPLETED (4) Create a new queryTask and call its execute method, passing in the url to query
         new queryTask().execute(searchUrl);
-    }
-
-    /*
-        TODO format query to be URL ready use NETWORK UTILS maybeeeeeeee :)
-    */
-
-    private static String getFormattedURL(String searchQuery){
-        return searchQuery;
     }
 
     private static class queryTask extends AsyncTask<URL, Void, String> {

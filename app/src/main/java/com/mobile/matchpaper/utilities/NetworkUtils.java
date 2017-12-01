@@ -29,37 +29,64 @@ import java.util.Scanner;
  */
 public class NetworkUtils {
 
-    /* TODO
-        You can use this class to build the URL!
-     */
+    private enum ResultsOrder {
+        POPULAR ("popular"),
+        LATEST ("latest");
 
-    final static String GITHUB_BASE_URL =
-            "https://api.github.com/search/repositories";
+        private final String order;
 
-    final static String PARAM_QUERY = "q";
+        ResultsOrder (String order){
+            this.order = order;
+        }
 
-    /*
-     * The sort field. One of stars, forks, or updated.
-     * Default: results are sorted by best match if no field is specified.
-     */
-    final static String PARAM_SORT = "sort";
-    final static String sortBy = "stars";
+        public String toString(){
+                return this.order;
+        }
+    }
+
+    final static String PARAM_SEARCH_QUERY = "q";
+    final static String PARAM_SEARCH_ID = "id";
+    final static String PARAM_ORDER = "order";
+    final static String PARAM_PAGE_NUM = "page";
+    final static String PARAM_RESULTS_PER_PAGE = "per_page";
 
     /**
-     * Builds the URL used to query GitHub.
+     * Builds the URL used to query PixaBay.
      *
-     * @param githubSearchQuery The keyword that will be queried for.
-     * @return The URL to use to query the GitHub.
+     * @param baseUrl The base url for the query.
+     * @param searchQuery The search query [Leave empty if not used].
+     * @param searchID The ID of the image to be searched [Leave empty if not used].
+     * @param searchOrder The searching order of the images [Default: popular].
+     * @param pageNum The page number to be searched [Leave empty to use Default: 1].
+     * @param resultsPerPage The number of results per page [Leave empty to use Default: 20].
+     * @return The URL to use to query the PixaBay.
      */
-    public static URL buildUrl(String githubSearchQuery) {
-        Uri builtUri = Uri.parse(GITHUB_BASE_URL).buildUpon()
-                .appendQueryParameter(PARAM_QUERY, githubSearchQuery)
-                .appendQueryParameter(PARAM_SORT, sortBy)
-                .build();
+    public static URL buildSearchURL(String baseUrl, String searchQuery, String searchID, ResultsOrder searchOrder, String pageNum, String resultsPerPage) {
+
+        Uri.Builder uriBuilderTemp = Uri.parse(baseUrl).buildUpon();
+
+        if (searchQuery.length() > 0) {
+            uriBuilderTemp.appendQueryParameter(PARAM_SEARCH_QUERY, searchQuery);
+        }
+        if (searchID.length() > 0) {
+            uriBuilderTemp.appendQueryParameter(PARAM_SEARCH_ID, searchID);
+        }
+
+        uriBuilderTemp.appendQueryParameter(PARAM_ORDER, searchOrder.toString());
+
+        if (pageNum.length() > 0) {
+            uriBuilderTemp.appendQueryParameter(PARAM_PAGE_NUM, pageNum);
+        }
+        if (resultsPerPage.length() > 0) {
+            uriBuilderTemp.appendQueryParameter(PARAM_RESULTS_PER_PAGE, resultsPerPage);
+        }
+        uriBuilderTemp.appendQueryParameter("image_type", "photo");
+
+        Uri finalUrl = uriBuilderTemp.build();
 
         URL url = null;
         try {
-            url = new URL(builtUri.toString());
+            url = new URL(finalUrl.toString());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
