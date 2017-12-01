@@ -37,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void makeSearchQuery() throws MalformedURLException {
         String query = mSearchBoxEditText.getText().toString();
+        /* TODO the following code needs some polish
+            1) remove the actual url and make it into a constant
+            2) right now, if in the search bar you put two words separated by a space, the url won't
+            return any result. Fix that putting a + between the words (I highly recommend you use the
+            NetworkUtils class)
+         */
         URL searchUrl = new URL("https://pixabay.com/api/?key=7232093-5c2e905e26143573763e287dc&q=" + query + "&image_type=photo&pretty=true");
         mUrlDisplayTextView.setText(searchUrl.toString());
         // COMPLETED (4) Create a new queryTask and call its execute method, passing in the url to query
@@ -45,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
     public class queryTask extends AsyncTask<URL, Void, String> {
 
-        // COMPLETED (2) Override the doInBackground method to perform the query. Return the results. (Hint: You've already written the code to perform the query)
         @Override
         protected String doInBackground(URL... params) {
             URL searchUrl = params[0];
@@ -58,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
             return searchResults;
         }
 
-        // COMPLETED (3) Override onPostExecute to display the results in the TextView
         @Override
         protected void onPostExecute(String searchResults) {
             if (searchResults != null && !searchResults.equals("")) {
@@ -86,4 +90,8 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /* TODO
+        of course, the result for now are raw json. Parsing!
+     */
 }

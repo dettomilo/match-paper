@@ -29,6 +29,10 @@ import java.util.Scanner;
  */
 public class NetworkUtils {
 
+    /* TODO
+        You can use this class to build the URL!
+     */
+
     final static String GITHUB_BASE_URL =
             "https://api.github.com/search/repositories";
 
