@@ -1,6 +1,7 @@
 package com.mobile.matchpaper;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -37,11 +38,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        try {
-            result = getResponseFromHttpUrl(url);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new queryTask().execute(url);
 
         tvResult.setText(result);
     }
@@ -65,6 +62,21 @@ public class MainActivity extends AppCompatActivity {
             urlConnection.disconnect();
         }
 
+    }
+
+    public class queryTask extends AsyncTask<URL, Void, String>  {
+
+        @Override
+        protected String doInBackground(URL... urls) {
+            URL searchUrl = urls[0];
+            String querySearchResult = null;
+            try {
+                querySearchResult = getResponseFromHttpUrl(searchUrl);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return querySearchResult;
+        }
     }
 
     @Override
