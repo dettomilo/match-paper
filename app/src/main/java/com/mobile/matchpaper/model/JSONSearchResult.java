@@ -58,7 +58,7 @@ public class JSONSearchResult {
         if (amountOfImages > imageList.size()) {
             amountOfImages = imageList.size();
         }
-        return new ArrayList<>(imageList.subList(0, amountOfImages - 1));
+        return new ArrayList<>(imageList.subList(0, amountOfImages));
     }
 
     /**

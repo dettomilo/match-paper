@@ -55,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
         TODO complete function to update the view with the results
      */
     public static void searchResultsReceived(JSONSearchResult searchResult){
-        Log.d("Results received","Search results received. Total images: " + searchResult.getTotalImagesFound());
+        Log.d("Results received","Total found images: " + searchResult.getTotalImagesFound());
+
+        // Just for debug :)
+        Log.d("Debug image", "" + searchResult.getImageList(1).get(0).getMidResURL());
     }
 }

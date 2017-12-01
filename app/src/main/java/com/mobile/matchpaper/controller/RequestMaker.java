@@ -1,6 +1,7 @@
 package com.mobile.matchpaper.controller;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.mobile.matchpaper.model.JSONParser;
 import com.mobile.matchpaper.utilities.NetworkUtils;
@@ -17,12 +18,13 @@ import java.net.URL;
 public class RequestMaker {
 
     public static void searchImagesByQuery(String simpleQuery) throws MalformedURLException {
-
-        URL searchUrl = new URL(NetworkUtils.buildSearchURL(simpleQuery, "", NetworkUtils.ResultsOrder.POPULAR, "1", "20").toString());
-        new queryTask().execute(searchUrl);
+        String requestURL = NetworkUtils.buildSearchURL(simpleQuery, "", NetworkUtils.ResultsOrder.POPULAR, "1", "20").toString();
+        Log.d("Request URL", requestURL);
+        URL searchUrl = new URL(requestURL);
+        new QueryTaskAsync().execute(searchUrl);
     }
 
-    private static class queryTask extends AsyncTask<URL, Void, String> {
+    private static class QueryTaskAsync extends AsyncTask<URL, Void, String> {
 
         @Override
         protected String doInBackground(URL... params) {
@@ -36,9 +38,6 @@ public class RequestMaker {
             return searchResults;
         }
 
-        /**
-            TODO Elaborate the search results.
-         */
         @Override
         protected void onPostExecute(String searchResults) {
             if (searchResults != null && !searchResults.equals("")) {
