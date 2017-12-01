@@ -2,6 +2,7 @@ package com.mobile.matchpaper.controller;
 
 import android.os.AsyncTask;
 
+import com.mobile.matchpaper.model.JSONParser;
 import com.mobile.matchpaper.utilities.NetworkUtils;
 import com.mobile.matchpaper.view.MainActivity;
 
@@ -15,13 +16,9 @@ import java.net.URL;
 
 public class RequestMaker {
 
-    private final String SEARCH_BASE_URL = "https://pixabay.com/api/?key=7232093-5c2e905e26143573763e287dc";
-
     public static void searchImagesByQuery(String simpleQuery) throws MalformedURLException {
 
-
-        URL searchUrl = new URL();
-        // COMPLETED (4) Create a new queryTask and call its execute method, passing in the url to query
+        URL searchUrl = new URL(NetworkUtils.buildSearchURL(simpleQuery, "", NetworkUtils.ResultsOrder.POPULAR, "1", "20").toString());
         new queryTask().execute(searchUrl);
     }
 
@@ -39,13 +36,13 @@ public class RequestMaker {
             return searchResults;
         }
 
-        /*
+        /**
             TODO Elaborate the search results.
          */
         @Override
         protected void onPostExecute(String searchResults) {
             if (searchResults != null && !searchResults.equals("")) {
-                MainActivity.searchResultsReceived();
+                MainActivity.searchResultsReceived(JSONParser.parseJSONSearchResult(searchResults));
             }
         }
     }

@@ -29,7 +29,9 @@ import java.util.Scanner;
  */
 public class NetworkUtils {
 
-    private enum ResultsOrder {
+    private static final String SEARCH_BASE_URL = "https://pixabay.com/api/?key=7224233-e95ab7aee14015f4bc4fede93";
+
+    public enum ResultsOrder {
         POPULAR ("popular"),
         LATEST ("latest");
 
@@ -53,7 +55,6 @@ public class NetworkUtils {
     /**
      * Builds the URL used to query PixaBay.
      *
-     * @param baseUrl The base url for the query.
      * @param searchQuery The search query [Leave empty if not used].
      * @param searchID The ID of the image to be searched [Leave empty if not used].
      * @param searchOrder The searching order of the images [Default: popular].
@@ -61,9 +62,9 @@ public class NetworkUtils {
      * @param resultsPerPage The number of results per page [Leave empty to use Default: 20].
      * @return The URL to use to query the PixaBay.
      */
-    public static URL buildSearchURL(String baseUrl, String searchQuery, String searchID, ResultsOrder searchOrder, String pageNum, String resultsPerPage) {
+    public static URL buildSearchURL(String searchQuery, String searchID, ResultsOrder searchOrder, String pageNum, String resultsPerPage) {
 
-        Uri.Builder uriBuilderTemp = Uri.parse(baseUrl).buildUpon();
+        Uri.Builder uriBuilderTemp = Uri.parse(SEARCH_BASE_URL).buildUpon();
 
         if (searchQuery.length() > 0) {
             uriBuilderTemp.appendQueryParameter(PARAM_SEARCH_QUERY, searchQuery);
