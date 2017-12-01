@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Just for debug :)
         // searchResult.getImageList() is also available to return ALL images
-        // use .getDrawable---() to return a DRAWABLA that can be displayed.
+        // use .getDrawable---() to return a DRAWABLE that can be displayed.
         Log.d("Debug image", "" + searchResult.getImageList(1).get(0).getMidResURL());
     }
 }
