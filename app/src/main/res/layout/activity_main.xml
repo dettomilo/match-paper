@@ -7,20 +7,41 @@
     android:orientation="vertical"
     tools:context="com.mobile.matchpaper.MainActivity">
 
-    <TextView
-        android:id="@+id/tv_result"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <ScrollView
-        android:id="@+id/sv_images"
+    <EditText
+        android:id="@+id/et_search_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="10"></ScrollView>
+        android:hint="Enter a query, then click Search"
+        android:textSize="22sp"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:id="@+id/tv_url_display"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Click search and your URL will show up here!"
+        android:textSize="22sp"
+        android:layout_weight="1"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_weight="20">
+
+        <TextView
+            android:id="@+id/tv_search_results_json"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Make a search!"
+            android:textSize="18sp" />
+    </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <Button
             android:layout_width="wrap_content"
