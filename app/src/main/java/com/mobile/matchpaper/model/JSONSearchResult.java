@@ -18,7 +18,7 @@ public class JSONSearchResult {
     private int totalImagesFound = 0;
     private ArrayList<ImageContainer> imageList;
 
-    public JSONSearchResult (int totalImagesFound, JSONArray imagesArray) {
+    public JSONSearchResult (Integer totalImagesFound, JSONArray imagesArray) {
         this.totalImagesFound = totalImagesFound;
         this.imageList = parseJSONImages(imagesArray);
     }
@@ -54,7 +54,7 @@ public class JSONSearchResult {
         @param amountOfImages The amount of images to be returned.
         @return A list of ImageContainer
      */
-    public ArrayList<ImageContainer> getImageList(int amountOfImages) {
+    public ArrayList<ImageContainer> getImageList(Integer amountOfImages) {
         if (amountOfImages > imageList.size()) {
             amountOfImages = imageList.size();
         }
