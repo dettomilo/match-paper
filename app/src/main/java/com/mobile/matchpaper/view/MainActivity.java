@@ -39,14 +39,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemThatWasClickedId = item.getItemId();
+
         if (itemThatWasClickedId == R.id.action_search) {
-            try {
-                RequestMaker.searchImagesByQuery(mSearchBoxEditText.getText().toString());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
+            RequestMaker.searchImagesByQuery(mSearchBoxEditText.getText().toString(), 1, 20);
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 

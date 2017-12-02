@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.mobile.matchpaper.model.JSONParser;
+import com.mobile.matchpaper.model.JSONSearchResult;
 import com.mobile.matchpaper.view.MainActivity;
 
 import java.io.IOException;
@@ -37,6 +38,41 @@ public class RequestMaker {
     }
 
     /**
+     *  Searches for images by image IDs
+     * @param imagesIDs Image IDs (If multiple, separate them by comma. Ex: ID1,ID2,...)
+     * @param pageNumber The result page number.
+     * @param resultsPerPage The results per page.
+     */
+    public static void searchImagesByID(String imagesIDs, Integer pageNumber, Integer resultsPerPage) {
+        String requestURL = buildSearchURL(
+                "",
+                imagesIDs,
+                ResultsOrder.POPULAR,
+                pageNumber.toString(),
+                resultsPerPage.toString()
+        ).toString();
+
+        makeRequest(requestURL, QueryType.ID_SEARCH);
+    }
+
+    /**
+     * Gets a list of random images ordered by the LATEST uploaded.
+     * @param pageNumber
+     * @param resultsPerPage
+     */
+    public static void searchRandomImages(Integer pageNumber, Integer resultsPerPage) {
+        String requestURL = buildSearchURL(
+                "",
+                "",
+                ResultsOrder.LATEST,
+                pageNumber.toString(),
+                resultsPerPage.toString()
+        ).toString();
+
+        makeRequest(requestURL, QueryType.RANDOM_IMAGE);
+    }
+
+    /**
      * Makes a request using a request URL.
      * @param requestURL The request URL.
      * @param type The kind of request.
@@ -58,7 +94,7 @@ public class RequestMaker {
 
         @Override
         protected String doInBackground(QueryContainer ...params) {
-            
+
             URL searchUrl = params[0].getQueryUrl();
             type = params[0].getType();
 
@@ -74,10 +110,22 @@ public class RequestMaker {
         @Override
         protected void onPostExecute(String searchResults) {
             if (searchResults != null && !searchResults.equals("")) {
+
                 // When the query ends, check what kind of query it was, and call the appropriate method.
+                JSONSearchResult searchResultsContainer = JSONParser.parseJSONSearchResult(searchResults);
+
                 switch (type){
                     case QUERY_SEARCH:
-                        MainActivity.searchResultsReceived(JSONParser.parseJSONSearchResult(searchResults));
+                        MainActivity.searchResultsReceived(searchResultsContainer);
+                        break;
+                    case ID_SEARCH:
+                        // TODO Call appropriate view method for ID_SEARCH (Like visualize a previously liked image stored by ID)
+                        break;
+                    case HQ_ID_SEARCH:
+                        // TODO Call appropriate view method for HQ_ID_SEARCH (Like to download an image in HQ)
+                        break;
+                    case RANDOM_IMAGE:
+                        // TODO Call appropriate view method for RANDOM_IMAGE (Like to fill the random image Like/Dislike page)
                         break;
                 }
 
