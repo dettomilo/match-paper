@@ -33,9 +33,11 @@
             app:elevation="6dp"
             android:layout_gravity="end"
             app:pressedTranslationZ="12dp"
+            app:rippleColor="#FFF"
 
             android:id="@+id/fab"
             android:src="@drawable/ic_search_black_24dp"
+            android:clickable="true"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
