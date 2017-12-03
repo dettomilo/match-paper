@@ -28,6 +28,19 @@
             android:text="Search"
             style="@style/AnotherStyle"/>
 
+        <android.support.design.widget.FloatingActionButton
+            app:fabSize="normal"
+            app:elevation="6dp"
+            android:layout_gravity="end"
+            app:pressedTranslationZ="12dp"
+
+            android:id="@+id/fab"
+            android:src="@drawable/fab_plus"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"/>
+
     </FrameLayout>
 
     <Toolbar
