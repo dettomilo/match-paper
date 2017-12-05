@@ -1,14 +1,21 @@
 package com.mobile.matchpaper.model;
 
 import android.content.Context;
+import android.util.Log;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * The object of this class contains the user data as a SINGLETON object.
@@ -20,6 +27,9 @@ public class UserPreferences implements Serializable {
     private static UserPreferences Instance = null;
     private static final long serialVersionUID = 777L;
     private static final String SAVE_FILENAME = "MatchPaperSave";
+
+    private static ArrayList<ImageContainer> likedImages = new ArrayList<>();
+    private static Map<String, Integer> likedTags = new HashMap<>();
 
     protected UserPreferences (){
         // To avoid instantiation :)
@@ -37,6 +47,11 @@ public class UserPreferences implements Serializable {
         return Instance;
     }
 
+    /**
+     *  Saves user prefs to disk.
+     * @param contextPath The context of the app.
+     * @throws IOException
+     */
     public static void SavePreferences(Context contextPath) throws IOException {
         ObjectOutputStream outputStream = new ObjectOutputStream(contextPath.openFileOutput(SAVE_FILENAME, Context.MODE_PRIVATE));
         outputStream.writeObject(GetInstance());
@@ -45,8 +60,103 @@ public class UserPreferences implements Serializable {
         outputStream.close();
     }
 
+    /**
+     * Loads user prefs from disk.
+     * @param contextPath The context of the app.
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public static void LoadPreferences(Context contextPath) throws IOException, ClassNotFoundException {
         ObjectInputStream inputStream = new ObjectInputStream(contextPath.openFileInput(SAVE_FILENAME));
         Instance = (UserPreferences)inputStream.readObject();
+    }
+
+    /**
+     * Memorizes the liked image and updateds liked tags.
+     * @param likedImage The image to like.
+     */
+    public static void LikeImage(ImageContainer likedImage) {
+        likedImages.add(likedImage);
+
+        // Adds +1 to every tag of the image
+        for (String tag:likedImage.getTagList()) {
+
+            String lowerTag = tag.toLowerCase();
+            Integer previousTagLikes = 0;
+
+            if (likedTags.containsKey(lowerTag)) {
+                previousTagLikes = likedTags.get(lowerTag).intValue();
+            }
+
+            likedTags.put(lowerTag, previousTagLikes + 1);
+        }
+    }
+
+    /**
+     * This removes an image from the liked list, and removes the corresponding liked tags.
+     * @param imageID The ID of the image to remove.
+     */
+    public static void UnlikeImage(String imageID) {
+
+        ImageContainer foundImg = null;
+
+        for (ImageContainer img: likedImages) {
+            if (imageID.equals(img.getImageID())) {
+                foundImg = img;
+                break;
+            }
+        }
+
+        if (foundImg != null) {
+            likedImages.remove(foundImg);
+
+            // Remove -1 to every tag of the image
+            for (String tag:foundImg.getTagList()) {
+
+                String lowerTag = tag.toLowerCase();
+                // There should be already at least 1 like per tag since the image was found in the liked ones.
+                Integer previousTagLikes  = likedTags.get(lowerTag).intValue();
+
+                likedTags.put(lowerTag, previousTagLikes - 1);
+            }
+        } else {
+            Log.d("Image not found!", "Can't unlike image with ID: " + imageID);
+        }
+    }
+
+    /**
+     * Get all the liked images.
+     * @return The liked images arraylist.
+     */
+    public static ArrayList<ImageContainer> GetLikedImages() {
+        return new ArrayList<>(likedImages);
+    }
+
+    /**
+     * Gets the map TAG - LIKES ordered descending.
+     * @return The ordered map.
+     */
+    public static Map<String, Integer> GetMostLikedTags() {
+
+        return sortByValue(likedTags);
+    }
+
+    /**
+     * Map ordering by value ♥ Stack Overflow ♥
+     */
+    private static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+        List<Map.Entry<K, V>> list = new LinkedList<>(map.entrySet());
+        Collections.sort( list, new Comparator<Map.Entry<K, V>>() {
+            @Override
+            public int compare(Map.Entry<K, V> o1, Map.Entry<K, V> o2) {
+                return (o2.getValue()).compareTo(o1.getValue());
+            }
+        });
+
+        Map<K, V> result = new LinkedHashMap<>();
+        for (Map.Entry<K, V> entry : list) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+        return result;
     }
 }
