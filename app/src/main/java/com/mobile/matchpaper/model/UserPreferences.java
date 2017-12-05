@@ -35,7 +35,7 @@ public class UserPreferences implements Serializable {
     }
 
     /**
-     * Get the SINGLETON of UserPreference
+     * Get the SINGLETON of UserPreferences
      * @return The user preference object.
      */
     public static UserPreferences GetInstance() {
@@ -47,7 +47,7 @@ public class UserPreferences implements Serializable {
     }
 
     /**
-     *  Saves user prefs to disk.
+     * Saves user prefs to disk.
      * @param contextPath The context of the app.
      * @throws IOException
      */
