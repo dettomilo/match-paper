@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
         tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -82,24 +85,6 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int itemThatWasClickedId = item.getItemId();
-
-        if (itemThatWasClickedId == R.id.action_search) {
-            RequestMaker.searchImagesByQuery(mSearchBoxEditText.getText().toString(), 1, 20);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     /**
