@@ -111,26 +111,27 @@ public class MainActivity extends AppCompatActivity {
         //UserPreferences.GetInstance().LikeImage(searchResult.getImageList().get(0));
         //UserPreferences.GetInstance().UnlikeImage(searchResult.getImageList().get(0).getImageID());
 
-        Log.d("Liked Images: ", "Count: " + UserPreferences.GetInstance().GetLikedImages().size());
-        Log.d("Liked Tags: ", "" + UserPreferences.GetInstance().GetMostLikedTags().toString());
-
-        /* SAVE TEST
+/*
         try {
             UserPreferences.GetInstance().SavePreferences();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        */
+
+        UserPreferences.GetInstance().LikeImage(searchResult.getImageList().get(1));
+
+        Log.d("Liked Images1", "Count: " + UserPreferences.GetInstance().GetLikedImages().size());
+        Log.d("Liked Tags1", "" + UserPreferences.GetInstance().GetMostLikedTags().toString());*/
 
         try {
             UserPreferences.GetInstance().LoadPreferences();
+
+            Log.d("Liked Images after load", "Count: " + UserPreferences.GetInstance().GetLikedImages().size());
+            Log.d("Liked Tags after load", "" + UserPreferences.GetInstance().GetMostLikedTags().toString());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-        Log.d("Liked Images: ", "Count: " + UserPreferences.GetInstance().GetLikedImages().size());
-        Log.d("Liked Tags: ", "" + UserPreferences.GetInstance().GetMostLikedTags().toString());
     }
 }

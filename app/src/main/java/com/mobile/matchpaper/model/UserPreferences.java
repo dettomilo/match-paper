@@ -22,16 +22,15 @@ import java.util.Map;
  * As a singleton this class is automatically instantiated only one time.
  */
 
-public class UserPreferences implements Serializable {
+public class UserPreferences {
 
     private static UserPreferences Instance = null;
-    private static final long serialVersionUID = 777L;
     private static final String SAVE_FILENAME = "MatchPaperSave";
 
     private static ArrayList<ImageContainer> likedImages = new ArrayList<>();
     private static Map<String, Integer> likedTags = new HashMap<>();
 
-    protected UserPreferences (){
+    private UserPreferences (){
         // To avoid instantiation :)
     }
 
@@ -56,7 +55,7 @@ public class UserPreferences implements Serializable {
 
         FileOutputStream outFile = contextPath.openFileOutput(SAVE_FILENAME, Context.MODE_PRIVATE);
         ObjectOutputStream outputStream = new ObjectOutputStream(outFile);
-        outputStream.writeObject(GetInstance());
+        outputStream.writeObject(new UserPreferencesSerializable(new ArrayList<>(likedImages), new HashMap<>(likedTags)));
 
         outputStream.flush();
         outputStream.close();
@@ -71,7 +70,12 @@ public class UserPreferences implements Serializable {
         Context contextPath = MatchPaperApp.getContext();
 
         ObjectInputStream inputStream = new ObjectInputStream(contextPath.openFileInput(SAVE_FILENAME));
-        Instance = (UserPreferences)inputStream.readObject();
+        UserPreferencesSerializable loadedUserPrefs = (UserPreferencesSerializable)inputStream.readObject();
+
+        likedImages = loadedUserPrefs.getLikedImages();
+        likedTags = loadedUserPrefs.getLikedTags();
+
+        inputStream.close();
     }
 
     /**
