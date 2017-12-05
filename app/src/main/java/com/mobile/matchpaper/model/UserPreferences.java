@@ -3,6 +3,7 @@ package com.mobile.matchpaper.model;
 import android.content.Context;
 import android.util.Log;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -48,11 +49,13 @@ public class UserPreferences implements Serializable {
 
     /**
      * Saves user prefs to disk.
-     * @param contextPath The context of the app.
      * @throws IOException
      */
-    public static void SavePreferences(Context contextPath) throws IOException {
-        ObjectOutputStream outputStream = new ObjectOutputStream(contextPath.openFileOutput(SAVE_FILENAME, Context.MODE_PRIVATE));
+    public static void SavePreferences() throws IOException {
+        Context contextPath = MatchPaperApp.getContext();
+
+        FileOutputStream outFile = contextPath.openFileOutput(SAVE_FILENAME, Context.MODE_PRIVATE);
+        ObjectOutputStream outputStream = new ObjectOutputStream(outFile);
         outputStream.writeObject(GetInstance());
 
         outputStream.flush();
@@ -61,11 +64,12 @@ public class UserPreferences implements Serializable {
 
     /**
      * Loads user prefs from disk.
-     * @param contextPath The context of the app.
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public static void LoadPreferences(Context contextPath) throws IOException, ClassNotFoundException {
+    public static void LoadPreferences() throws IOException, ClassNotFoundException {
+        Context contextPath = MatchPaperApp.getContext();
+
         ObjectInputStream inputStream = new ObjectInputStream(contextPath.openFileInput(SAVE_FILENAME));
         Instance = (UserPreferences)inputStream.readObject();
     }

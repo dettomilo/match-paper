@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
-        
+
         /**
          * TODO Remove this line after testing:
          */
@@ -116,14 +116,14 @@ public class MainActivity extends AppCompatActivity {
 
         /* SAVE TEST
         try {
-            UserPreferences.GetInstance().SavePreferences(MatchPaperApp.getContext());
+            UserPreferences.GetInstance().SavePreferences();
         } catch (IOException e) {
             e.printStackTrace();
         }
         */
 
         try {
-            UserPreferences.GetInstance().LoadPreferences(MatchPaperApp.getContext());
+            UserPreferences.GetInstance().LoadPreferences();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
