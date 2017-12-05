@@ -9,16 +9,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.mobile.matchpaper.R;
 import com.mobile.matchpaper.controller.RequestMaker;
+import com.mobile.matchpaper.model.MatchPaperApp;
 import com.mobile.matchpaper.model.JSONSearchResult;
+import com.mobile.matchpaper.model.UserPreferences;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
         tabs.setupWithViewPager(viewPager);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        /**
+         * TODO Remove this line after testing:
+         */
+        RequestMaker.searchRandomImages(1, 5);
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -92,11 +97,39 @@ public class MainActivity extends AppCompatActivity {
         TODO complete function to update the view with the results
      */
     public static void searchResultsReceived(JSONSearchResult searchResult){
+        /**
+         * TODO Remove this content when not needed (It's just for demo)
+         */
         Log.d("Results received","Total found images: " + searchResult.getTotalImagesFound());
 
         // Just for debug :)
         // searchResult.getImageList() is also available to return ALL images
         // use .getDrawable---() to return a DRAWABLE that can be displayed.
         Log.d("Debug image", "" + searchResult.getImageList(1).get(0).getMidResURL());
+
+        //UserPreferences.GetInstance().LikeImage(searchResult.getImageList().get(0));
+        //UserPreferences.GetInstance().UnlikeImage(searchResult.getImageList().get(0).getImageID());
+
+        Log.d("Liked Images: ", "Count: " + UserPreferences.GetInstance().GetLikedImages().size());
+        Log.d("Liked Tags: ", "" + UserPreferences.GetInstance().GetMostLikedTags().toString());
+
+        /* SAVE TEST
+        try {
+            UserPreferences.GetInstance().SavePreferences(MatchPaperApp.getContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        */
+
+        try {
+            UserPreferences.GetInstance().LoadPreferences(MatchPaperApp.getContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("Liked Images: ", "Count: " + UserPreferences.GetInstance().GetLikedImages().size());
+        Log.d("Liked Tags: ", "" + UserPreferences.GetInstance().GetMostLikedTags().toString());
     }
 }

@@ -126,6 +126,9 @@ public class RequestMaker {
                         break;
                     case RANDOM_IMAGE:
                         // TODO Call appropriate view method for RANDOM_IMAGE (Like to fill the random image Like/Dislike page)
+                        // JUST FOR TEST!!! {
+                            MainActivity.searchResultsReceived(searchResultsContainer);
+                        // }
                         break;
                 }
 

@@ -117,9 +117,13 @@ public class UserPreferences implements Serializable {
                 Integer previousTagLikes  = likedTags.get(lowerTag).intValue();
 
                 likedTags.put(lowerTag, previousTagLikes - 1);
+
+                if(likedTags.get(lowerTag).intValue() == 0) {
+                    likedTags.remove(lowerTag);
+                }
             }
         } else {
-            Log.d("Image not found!", "Can't unlike image with ID: " + imageID);
+            Log.e("Image ID not found!", "Can't unlike image with ID: " + imageID);
         }
     }
 
