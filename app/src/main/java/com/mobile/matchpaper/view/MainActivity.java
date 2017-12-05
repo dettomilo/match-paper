@@ -110,8 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
         //UserPreferences.GetInstance().LikeImage(searchResult.getImageList().get(0));
         //UserPreferences.GetInstance().UnlikeImage(searchResult.getImageList().get(0).getImageID());
-
-/*
+        /*
         try {
             UserPreferences.GetInstance().SavePreferences();
         } catch (IOException e) {
@@ -121,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         UserPreferences.GetInstance().LikeImage(searchResult.getImageList().get(1));
 
         Log.d("Liked Images1", "Count: " + UserPreferences.GetInstance().GetLikedImages().size());
-        Log.d("Liked Tags1", "" + UserPreferences.GetInstance().GetMostLikedTags().toString());*/
+        Log.d("Liked Tags1", "" + UserPreferences.GetInstance().GetMostLikedTags().toString());
 
         try {
             UserPreferences.GetInstance().LoadPreferences();
@@ -133,5 +132,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+        */
     }
 }
