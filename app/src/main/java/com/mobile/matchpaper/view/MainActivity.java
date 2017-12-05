@@ -38,21 +38,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
-
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
+        
         /**
          * TODO Remove this line after testing:
          */
         RequestMaker.searchRandomImages(1, 5);
+
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
+
     }
 
     private void setupViewPager(ViewPager viewPager) {
