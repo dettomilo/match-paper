@@ -8,6 +8,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * A single object of this class is created from a search result representing the searched data
@@ -52,21 +54,36 @@ public class JSONSearchResult {
         This method returns a list of images, the amount of images returned is always
         less or equal to the amount of total images cointaned in the search result.
         @param amountOfImages The amount of images to be returned.
+        @param shuffleArray Should the resulting array be randomized?
         @return A list of ImageContainer
      */
-    public ArrayList<ImageContainer> getImageList(Integer amountOfImages) {
+    public ArrayList<ImageContainer> getImageList(Integer amountOfImages, Boolean shuffleArray) {
         if (amountOfImages > imageList.size()) {
             amountOfImages = imageList.size();
         }
-        return new ArrayList<>(imageList.subList(0, amountOfImages));
+
+        ArrayList<ImageContainer> result = new ArrayList<>(imageList.subList(0, amountOfImages));
+
+        if (shuffleArray) {
+            Collections.shuffle(result);
+        }
+
+        return new ArrayList<>(result);
     }
 
     /**
         This method returns the searched list of images.
+        @param shuffleArray Should the resulting array be randomized?
         @return A list of ImageContainer
      */
-    public ArrayList<ImageContainer> getImageList() {
-        return new ArrayList<>(imageList);
+    public ArrayList<ImageContainer> getImageList(Boolean shuffleArray) {
+        ArrayList<ImageContainer> result = new ArrayList<>(imageList);
+
+        if (shuffleArray) {
+            Collections.shuffle(result);
+        }
+
+        return new ArrayList<>(result);
     }
 
     private ArrayList<String> tagParser(String tags){
@@ -88,6 +105,10 @@ public class JSONSearchResult {
         return new ArrayList<>(Arrays.asList(tmpTags));
     }
 
+    /**
+     * Get the number of found images in total (Max 500)
+     * @return The number of found images.
+     */
     public int getTotalImagesFound() {
         return totalImagesFound;
     }

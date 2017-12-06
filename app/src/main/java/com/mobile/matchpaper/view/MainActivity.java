@@ -106,10 +106,10 @@ public class MainActivity extends AppCompatActivity {
         // Just for debug :)
         // searchResult.getImageList() is also available to return ALL images
         // use .getDrawable---() to return a DRAWABLE that can be displayed.
-        Log.d("Debug image", "" + searchResult.getImageList(1).get(0).getMidResURL());
+        Log.d("Debug image", "" + searchResult.getImageList(1, false).get(0).getMidResURL());
 
-        //UserPreferences.GetInstance().LikeImage(searchResult.getImageList().get(0));
-        //UserPreferences.GetInstance().UnlikeImage(searchResult.getImageList().get(0).getImageID());
+        //UserPreferences.GetInstance().LikeImage(searchResult.getImageList(false).get(0));
+        //UserPreferences.GetInstance().UnlikeImage(searchResult.getImageList(false).get(0).getImageID());
         /*
         try {
             UserPreferences.GetInstance().SavePreferences();
