@@ -41,22 +41,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-
         viewPager = findViewById(R.id.viewpager);
         setupViewPager(viewPager);
-
         tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
 
-        /**
-         * TODO Remove this line after testing:
-         */
-        RequestMaker.searchRandomImages(1, 5);
-
-        //getSupportActionBar().setDisplayShowTitleEnabled(false);
-
+        // Attach a listener to fab
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
                         Snackbar.LENGTH_LONG).show();
             }
         });
+
+        /**
+         * TODO Remove this line after testing:
+         */
+        RequestMaker.searchRandomImages(1, 5);
     }
 
     private void setupViewPager(ViewPager viewPager) {

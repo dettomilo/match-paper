@@ -29,7 +29,9 @@ public class ListFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
-                R.layout.recycler_view, container, false);
+                R.layout.recycler_view,
+                container,
+                false);
 
         // Add a fab programmatically. Too bad it doesn't work.
         // TODO fix!
