@@ -28,10 +28,9 @@ public class SwipeFragment extends Fragment{
         LinearLayout ll = (LinearLayout) inflater.inflate(
                 R.layout.recycler_view, container, false);
 
-        if(ll.getParent() != null)
-            ((ViewGroup)ll.getParent()).removeView(ll);
-
         RecyclerView recyclerView = ll.findViewById(R.id.my_recycler_view);
+        if(recyclerView.getParent() != null)
+            ((ViewGroup)recyclerView.getParent()).removeView(recyclerView);
 
         ContentAdapter adapter = new ContentAdapter(recyclerView.getContext());
         recyclerView.setAdapter(adapter);

@@ -36,10 +36,9 @@ public class ListFragment extends Fragment{
                 container,
                 false);
 
-        if(ll.getParent() != null)
-            ((ViewGroup)ll.getParent()).removeView(ll);
-
         RecyclerView recyclerView = ll.findViewById(R.id.my_recycler_view);
+        if(recyclerView.getParent() != null)
+            ((ViewGroup)recyclerView.getParent()).removeView(recyclerView);
 
         // Add a fab programmatically. Too bad it doesn't work.
         // TODO fix!
