@@ -1,13 +1,12 @@
 package com.mobile.matchpaper.view;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +20,8 @@ import com.mobile.matchpaper.R;
  * Created by emilio on 12/4/17.
  */
 
-public class ListContentFragment extends Fragment{
+public class ListFragment extends Fragment{
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -30,19 +30,20 @@ public class ListContentFragment extends Fragment{
         ContentAdapter adapter = new ContentAdapter(recyclerView.getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        // Set padding for Tiles
+        int tilePadding = getResources().getDimensionPixelSize(R.dimen.tile_padding);
+        recyclerView.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         return recyclerView;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView avator;
-        public TextView name;
-        public TextView description;
+        public ImageView picture;
+        //public TextView name;
         public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.item_list, parent, false));
-            avator = (ImageView) itemView.findViewById(R.id.list_avatar);
-            name = (TextView) itemView.findViewById(R.id.list_title);
-            description = (TextView) itemView.findViewById(R.id.list_desc);
+            picture = (ImageView) itemView.findViewById(R.id.tile_picture);
+            //name = (TextView) itemView.findViewById(R.id.tile_title);
         }
     }
     /**
@@ -50,18 +51,16 @@ public class ListContentFragment extends Fragment{
      */
     public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
         // Set numbers of List in RecyclerView.
-        private static final int LENGTH = 18;
+        private static final int LENGTH = 6;
         private final String[] mPlaces;
-        private final String[] mPlaceDesc;
-        private final Drawable[] mPlaceAvators;
+        private final Drawable[] mPlacePictures;
         public ContentAdapter(Context context) {
             Resources resources = context.getResources();
             mPlaces = resources.getStringArray(R.array.places);
-            mPlaceDesc = resources.getStringArray(R.array.place_desc);
-            TypedArray a = resources.obtainTypedArray(R.array.place_avator);
-            mPlaceAvators = new Drawable[a.length()];
-            for (int i = 0; i < mPlaceAvators.length; i++) {
-                mPlaceAvators[i] = a.getDrawable(i);
+            TypedArray a = resources.obtainTypedArray(R.array.places_picture);
+            mPlacePictures = new Drawable[a.length()];
+            for (int i = 0; i < mPlacePictures.length; i++) {
+                mPlacePictures[i] = a.getDrawable(i);
             }
             a.recycle();
         }
@@ -73,9 +72,8 @@ public class ListContentFragment extends Fragment{
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.avator.setImageDrawable(mPlaceAvators[position % mPlaceAvators.length]);
-            holder.name.setText(mPlaces[position % mPlaces.length]);
-            holder.description.setText(mPlaceDesc[position % mPlaceDesc.length]);
+            holder.picture.setImageDrawable(mPlacePictures[position % mPlacePictures.length]);
+            //holder.name.setText(mPlaces[position % mPlaces.length]);
         }
 
         @Override

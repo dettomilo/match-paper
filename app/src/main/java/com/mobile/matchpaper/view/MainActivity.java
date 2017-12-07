@@ -14,11 +14,8 @@ import android.widget.TextView;
 
 import com.mobile.matchpaper.R;
 import com.mobile.matchpaper.controller.RequestMaker;
-import com.mobile.matchpaper.model.MatchPaperApp;
 import com.mobile.matchpaper.model.JSONSearchResult;
-import com.mobile.matchpaper.model.UserPreferences;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,9 +55,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new ListContentFragment(), "List");
-        adapter.addFragment(new TileContentFragment(), "Tile");
-        adapter.addFragment(new CardContentFragment(), "Card");
+        adapter.addFragment(new SwipeFragment(), "Swipe");
+        adapter.addFragment(new ListFragment(), "List");
+        adapter.addFragment(new FavoritesFragment(), "Favorites");
         viewPager.setAdapter(adapter);
     }
 
