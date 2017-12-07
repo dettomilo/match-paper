@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mobile.matchpaper.R;
@@ -24,8 +25,14 @@ public class SwipeFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        RecyclerView recyclerView = (RecyclerView) inflater.inflate(
+        LinearLayout ll = (LinearLayout) inflater.inflate(
                 R.layout.recycler_view, container, false);
+
+        if(ll.getParent() != null)
+            ((ViewGroup)ll.getParent()).removeView(ll);
+
+        RecyclerView recyclerView = ll.findViewById(R.id.my_recycler_view);
+
         ContentAdapter adapter = new ContentAdapter(recyclerView.getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
@@ -45,7 +52,7 @@ public class SwipeFragment extends Fragment{
         }
     }
     /**
-     * Adapter to display recycler view.
+     * Adapter to display recycler view content.
      */
     public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
         // Set numbers of List in RecyclerView.

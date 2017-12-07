@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,10 +31,15 @@ public class ListFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        RecyclerView recyclerView = (RecyclerView) inflater.inflate(
+        LinearLayout ll = (LinearLayout) inflater.inflate(
                 R.layout.recycler_view,
                 container,
                 false);
+
+        if(ll.getParent() != null)
+            ((ViewGroup)ll.getParent()).removeView(ll);
+
+        RecyclerView recyclerView = ll.findViewById(R.id.my_recycler_view);
 
         // Add a fab programmatically. Too bad it doesn't work.
         // TODO fix!
@@ -43,12 +49,11 @@ public class ListFragment extends Fragment{
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.START;
         fabSearch.setLayoutParams(lp);
-        //container.addView(fabSearch);
 
-        ViewPager viewPager = (ViewPager) container;
+        /*ViewPager viewPager = (ViewPager) container;
         Integer i = ((ViewPager) container).getCurrentItem();
         Toast.makeText(getActivity(), i.toString(),
-                Toast.LENGTH_LONG).show();
+                Toast.LENGTH_LONG).show();*/
 
         ContentAdapter adapter = new ContentAdapter(recyclerView.getContext());
         recyclerView.setAdapter(adapter);

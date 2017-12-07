@@ -47,14 +47,14 @@ public class MainActivity extends AppCompatActivity {
         tabs.setupWithViewPager(viewPager);
 
         // Attach a listener to fab
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Snackbar.make(v, "Hello Snackbar!",
                         Snackbar.LENGTH_LONG).show();
             }
-        });
+        });*/
 
         /**
          * TODO Remove this line after testing:
