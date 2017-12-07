@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mobile.matchpaper.R;
 
@@ -41,7 +43,12 @@ public class ListFragment extends Fragment{
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.START;
         fabSearch.setLayoutParams(lp);
-        container.addView(fabSearch);
+        //container.addView(fabSearch);
+
+        ViewPager viewPager = (ViewPager) container;
+        Integer i = ((ViewPager) container).getCurrentItem();
+        Toast.makeText(getActivity(), i.toString(),
+                Toast.LENGTH_LONG).show();
 
         ContentAdapter adapter = new ContentAdapter(recyclerView.getContext());
         recyclerView.setAdapter(adapter);
