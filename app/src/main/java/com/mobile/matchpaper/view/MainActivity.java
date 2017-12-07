@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ViewPager viewPager;
     private TabLayout tabs;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,16 +46,37 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager(viewPager);
         tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+        fab = findViewById(R.id.fab);
+
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                if(position == 1) {
+                    fab.setVisibility(View.VISIBLE);
+                } else {
+                    fab.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         // Attach a listener to fab
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Snackbar.make(v, "Hello Snackbar!",
                         Snackbar.LENGTH_LONG).show();
             }
-        });*/
+        });
 
         /**
          * TODO Remove this line after testing:
