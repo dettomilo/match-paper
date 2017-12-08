@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager(viewPager);
         tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+        // This line set the open tab to be the second one
         tabs.getTabAt(1).select();
         fab = findViewById(R.id.fab);
         fab.animate().translationY(fab.getHeight());
@@ -55,14 +56,6 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
                 if(position == 1) {
-                    /*fab.animate()
-                            .translationY(0)
-                            .withEndAction(new Runnable() {
-                                @Override
-                                public void run() {
-                                    fab.setVisibility(View.VISIBLE);
-                                }
-                            });*/
                     fab.animate()
                             .alpha(1.0f)
                             .translationY(0);
