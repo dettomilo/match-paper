@@ -1,6 +1,5 @@
 package com.mobile.matchpaper.view;
 
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -10,14 +9,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mobile.matchpaper.R;
 import com.mobile.matchpaper.controller.RequestMaker;
@@ -139,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         /**
          * TODO Remove this content when not needed (It's just for demo)
          */
-        Log.d("Results received","Total found images: " + searchResult.getTotalImagesFound());
+        Log.d("Results received","Total found images: " + searchResult.getNumberOfImagesFound());
 
         // Just for debug :)
         // searchResult.getImageList() is also available to return ALL images

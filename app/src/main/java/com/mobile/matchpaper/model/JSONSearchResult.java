@@ -109,7 +109,7 @@ public class JSONSearchResult {
      * Get the number of found images in total (Max 500)
      * @return The number of found images.
      */
-    public int getTotalImagesFound() {
+    public int getNumberOfImagesFound() {
         return totalImagesFound;
     }
 }
