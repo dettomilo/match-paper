@@ -109,7 +109,6 @@ public class ListFragment extends Fragment{
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             holder.picture.setImageDrawable(mPlacePictures[position % mPlacePictures.length]);
-            //holder.name.setText(mPlaces[position % mPlaces.length]);
         }
 
         @Override
