@@ -46,16 +46,38 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager(viewPager);
         tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+        tabs.getTabAt(1).select();
         fab = findViewById(R.id.fab);
+        fab.animate().translationY(fab.getHeight());
 
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
                 if(position == 1) {
-                    fab.setVisibility(View.VISIBLE);
+                    /*fab.animate()
+                            .translationY(0)
+                            .withEndAction(new Runnable() {
+                                @Override
+                                public void run() {
+                                    fab.setVisibility(View.VISIBLE);
+                                }
+                            });*/
+                    fab.animate()
+                            .alpha(1.0f)
+                            .translationY(0);
                 } else {
-                    fab.setVisibility(View.GONE);
+                    /*fab.animate()
+                            .translationY(fab.getHeight())
+                            .withEndAction(new Runnable() {
+                                @Override
+                                public void run() {
+                                    fab.setVisibility(View.INVISIBLE);
+                                }
+                            });*/
+                    fab.animate()
+                            .translationY(fab.getHeight())
+                            .alpha(0.0f);
                 }
             }
 
