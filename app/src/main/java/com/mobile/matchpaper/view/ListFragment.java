@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -17,12 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mobile.matchpaper.R;
 import com.mobile.matchpaper.controller.RequestMaker;
+import com.mobile.matchpaper.model.ImageContainer;
 import com.mobile.matchpaper.model.JSONSearchResult;
+
+import java.util.ArrayList;
 
 /**
  * Created by emilio on 12/4/17.
@@ -30,9 +30,14 @@ import com.mobile.matchpaper.model.JSONSearchResult;
 
 public class ListFragment extends Fragment{
 
+    static ArrayList<ImageContainer> images;
+    static Integer numOfImagesFound;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        RequestMaker.searchRandomImages(1, 20);
+
         LinearLayout ll = (LinearLayout) inflater.inflate(
                 R.layout.recycler_view,
                 container,
@@ -64,8 +69,6 @@ public class ListFragment extends Fragment{
         recyclerView.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
-        RequestMaker.searchRandomImages(1, 20);
-
         return recyclerView;
     }
 
@@ -80,7 +83,8 @@ public class ListFragment extends Fragment{
     }
 
     public static void searchResultsReceived(JSONSearchResult searchResult) {
-        Integer numOfImagesFound = searchResult.getNumberOfImagesFound();
+        numOfImagesFound = searchResult.getNumberOfImagesFound();
+        images.addAll(searchResult.getImageList(true));
     }
 
     /**
@@ -88,8 +92,10 @@ public class ListFragment extends Fragment{
      */
     public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-        // Set numbers of List in RecyclerView.
-        private static final int LENGTH = 6;
+        for i in images {
+
+        }
+
         private final Drawable[] mPlacePictures;
         public ContentAdapter(Context context) {
             Resources resources = context.getResources();
@@ -113,7 +119,7 @@ public class ListFragment extends Fragment{
 
         @Override
         public int getItemCount() {
-            return LENGTH;
+            return numOfImagesFound;
         }
     }
 }
