@@ -23,7 +23,8 @@
         android:layout_gravity="right|bottom"
         android:layout_marginBottom="@dimen/md_keylines"
         android:layout_marginRight="@dimen/md_keylines"
-        app:srcCompat="@drawable/ic_add"
+        android:src="@drawable/ic_search_black_24dp"
+        app:rippleColor="#FFF"
         android:tint="@color/white"
         android:visibility="visible"/>
 

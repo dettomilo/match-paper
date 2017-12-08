@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mobile.matchpaper.R;
@@ -26,9 +27,9 @@ public class SwipeFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         LinearLayout ll = (LinearLayout) inflater.inflate(
-                R.layout.recycler_view, container, false);
+                R.layout.item_swipe, container, false);
 
-        RecyclerView recyclerView = ll.findViewById(R.id.my_recycler_view);
+        /*RecyclerView recyclerView = ll.findViewById(R.id.my_recycler_view);
         if(recyclerView.getParent() != null)
             ((ViewGroup)recyclerView.getParent()).removeView(recyclerView);
 
@@ -36,9 +37,11 @@ public class SwipeFragment extends Fragment{
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        return recyclerView;
+        return recyclerView;*/
+        return ll;
     }
 
+    /*
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView avator;
         public TextView name;
@@ -52,7 +55,7 @@ public class SwipeFragment extends Fragment{
     }
     /**
      * Adapter to display recycler view content.
-     */
+     *
     public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
         // Set numbers of List in RecyclerView.
         private static final int LENGTH = 18;
@@ -87,5 +90,5 @@ public class SwipeFragment extends Fragment{
         public int getItemCount() {
             return LENGTH;
         }
-    }
+    }*/
 }
