@@ -11,22 +11,6 @@
     android:layout_marginRight="@dimen/md_keylines"
     android:foreground="?attr/selectableItemBackground">
 
-    <!--TODO change the fab to be shown once-->
-    <android.support.design.widget.FloatingActionButton
-        app:fabSize="normal"
-        app:elevation="6dp"
-        android:layout_gravity="end"
-        app:pressedTranslationZ="12dp"
-        app:rippleColor="#FFF"
-
-        android:id="@+id/fab"
-        android:src="@drawable/ic_search_black_24dp"
-        android:clickable="true"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp" android:focusable="true" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

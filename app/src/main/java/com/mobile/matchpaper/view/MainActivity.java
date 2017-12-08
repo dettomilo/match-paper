@@ -27,12 +27,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    //TODO Delete useless views
-    private EditText mSearchBoxEditText;
-    private TextView mUrlDisplayTextView;
-    private TextView mSearchResultsTextView;
-
-    private Toolbar toolbar;
     private ViewPager viewPager;
     private TabLayout tabs;
     private FloatingActionButton fab;
