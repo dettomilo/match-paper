@@ -21,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobile.matchpaper.R;
+import com.mobile.matchpaper.controller.RequestMaker;
+import com.mobile.matchpaper.model.JSONSearchResult;
 
 /**
  * Created by emilio on 12/4/17.
@@ -61,6 +63,9 @@ public class ListFragment extends Fragment{
         int tilePadding = getResources().getDimensionPixelSize(R.dimen.tile_padding);
         recyclerView.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+
+        RequestMaker.searchRandomImages(1, 20);
+
         return recyclerView;
     }
 
@@ -73,17 +78,21 @@ public class ListFragment extends Fragment{
             //name = (TextView) itemView.findViewById(R.id.tile_title);
         }
     }
+
+    public static void searchResultsReceived(JSONSearchResult searchResult) {
+        Integer numOfImagesFound = searchResult.getNumberOfImagesFound();
+    }
+
     /**
      * Adapter to display recycler view.
      */
     public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
+
         // Set numbers of List in RecyclerView.
         private static final int LENGTH = 6;
-        private final String[] mPlaces;
         private final Drawable[] mPlacePictures;
         public ContentAdapter(Context context) {
             Resources resources = context.getResources();
-            mPlaces = resources.getStringArray(R.array.places);
             TypedArray a = resources.obtainTypedArray(R.array.places_picture);
             mPlacePictures = new Drawable[a.length()];
             for (int i = 0; i < mPlacePictures.length; i++) {
