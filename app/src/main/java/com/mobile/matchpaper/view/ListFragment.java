@@ -78,6 +78,7 @@ public class ListFragment extends Fragment{
     }
 
     private ArrayList<ImageContainer> getPhotos() {
+        RequestMaker.searchRandomImages(1,20);
         return new ArrayList<>();
     }
 
