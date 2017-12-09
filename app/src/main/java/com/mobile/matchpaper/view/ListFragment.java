@@ -4,18 +4,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +25,6 @@ import com.mobile.matchpaper.model.JSONSearchResult;
 import com.mobile.matchpaper.model.MatchPaperApp;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 /**
  * Created by emilio on 12/4/17.
@@ -38,21 +32,23 @@ import java.util.LinkedList;
 
 public class ListFragment extends Fragment{
 
+    private static final int RESULTS_PER_PAGE = 50;
+    private static final String DOWNLOAD_FINISHED_EVENT_NAME = "list_image_download_finished";
+
     static ArrayList<Drawable> drawableImages = new ArrayList<>();
     static ArrayList<ImageContainer> imageContainers = new ArrayList<>();
 
     static Integer numOfImagesFound;
     static ContentAdapter adapter;
-    private static final String downloadFinishedEventName = "list_image_download_finished";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(mMessageReceiver,
-                new IntentFilter(downloadFinishedEventName));
+                new IntentFilter(DOWNLOAD_FINISHED_EVENT_NAME));
 
-        RequestMaker.searchRandomImages(1, 200);
+        RequestMaker.searchRandomImages(1, RESULTS_PER_PAGE);
 
         drawableImages = new ArrayList<>();
         numOfImagesFound = 0;
@@ -130,7 +126,7 @@ public class ListFragment extends Fragment{
 
         // Starts all the downloads for the drawableImages:
         for (ImageContainer img:imageContainers){
-            ImageVisualizer.downloadImageAndNotifyView(img.getMidResURL(), downloadFinishedEventName, img);
+            ImageVisualizer.downloadImageAndNotifyView(img.getMidResURL(), DOWNLOAD_FINISHED_EVENT_NAME, img);
         }
 
         adapter.notifyDataSetChanged();
