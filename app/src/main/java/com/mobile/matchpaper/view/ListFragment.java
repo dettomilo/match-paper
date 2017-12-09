@@ -37,6 +37,8 @@ public class ListFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         RequestMaker.searchRandomImages(1, 20);
+        images = new ArrayList<>();
+        numOfImagesFound = 0;
 
         LinearLayout ll = (LinearLayout) inflater.inflate(
                 R.layout.recycler_view,
@@ -46,15 +48,6 @@ public class ListFragment extends Fragment{
         RecyclerView recyclerView = ll.findViewById(R.id.my_recycler_view);
         if(recyclerView.getParent() != null)
             ((ViewGroup)recyclerView.getParent()).removeView(recyclerView);
-
-        // Add a fab programmatically. Too bad it doesn't work.
-        // TODO fix!
-        FloatingActionButton fabSearch = new FloatingActionButton(getContext());
-        CoordinatorLayout.LayoutParams lp = new CoordinatorLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp.gravity = Gravity.START;
-        fabSearch.setLayoutParams(lp);
 
         /*ViewPager viewPager = (ViewPager) container;
         Integer i = ((ViewPager) container).getCurrentItem();
@@ -103,7 +96,7 @@ public class ListFragment extends Fragment{
     public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         private Drawable[] drawablePreviews;
-        static ArrayList<Drawable> drawableArrayList;
+        static ArrayList<Drawable> drawableArrayList = new ArrayList<>();
         //private final Drawable[] mPlacePictures;
         public ContentAdapter(Context context) {
 
