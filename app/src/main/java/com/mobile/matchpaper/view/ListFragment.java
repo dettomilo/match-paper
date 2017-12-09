@@ -38,7 +38,7 @@ public class ListFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        RequestMaker.searchRandomImages(1, 20);
+        RequestMaker.searchRandomImages(1, 100);
         images = new ArrayList<>();
         numOfImagesFound = 0;
 
@@ -108,7 +108,7 @@ public class ListFragment extends Fragment{
         public void onBindViewHolder(ViewHolder holder, int position) {
             Log.d("Current position", "Position requested is: " + position);
             ImageContainer img = images.get(position);
-            holder.picture.setImageDrawable(img.getDrawablePreview());
+            holder.picture.setImageDrawable(img.getDrawableMidRes());
         }
 
         @Override
