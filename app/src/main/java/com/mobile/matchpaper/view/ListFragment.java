@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -95,14 +96,6 @@ public class ListFragment extends Fragment{
             }
 
             drawablePreviews = drawableArrayList.toArray(new Drawable[drawableArrayList.size()]);
-
-            Resources resources = context.getResources();
-            TypedArray a = resources.obtainTypedArray(R.array.places_picture);
-            drawablePreviews = new Drawable[a.length()];
-            for (int i = 0; i < drawablePreviews.length; i++) {
-                drawablePreviews[i] = a.getDrawable(i);
-            }
-            a.recycle();
         }
 
         @Override
@@ -112,12 +105,14 @@ public class ListFragment extends Fragment{
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.picture.setImageDrawable(drawablePreviews[position % drawablePreviews.length]);
+            Log.d("Current position", "Position requested is: " + position);
+            ImageContainer img = images.get(position);
+            holder.picture.setImageDrawable(img.getDrawablePreview());
         }
 
         @Override
         public int getItemCount() {
-            return numOfImagesFound;
+            return images.size();
         }
     }
 
