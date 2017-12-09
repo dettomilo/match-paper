@@ -33,6 +33,7 @@ public class ListFragment extends Fragment{
 
     static ArrayList<ImageContainer> images = new ArrayList<>();
     static Integer numOfImagesFound;
+    static ContentAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,7 +56,7 @@ public class ListFragment extends Fragment{
         Toast.makeText(getActivity(), i.toString(),
                 Toast.LENGTH_LONG).show();*/
 
-        ContentAdapter adapter = new ContentAdapter(recyclerView.getContext());
+        adapter = new ContentAdapter(recyclerView.getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         // Set padding for Tiles
@@ -123,5 +124,6 @@ public class ListFragment extends Fragment{
     public static void searchResultsReceived(JSONSearchResult searchResult) {
         numOfImagesFound = searchResult.getNumberOfImagesFound();
         images.addAll(searchResult.getImageList(true));
+        adapter.notifyDataSetChanged();
     }
 }
