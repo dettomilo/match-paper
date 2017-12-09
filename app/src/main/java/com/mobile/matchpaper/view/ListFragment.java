@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 public class ListFragment extends Fragment{
 
-    static ArrayList<ImageContainer> images;
+    static ArrayList<ImageContainer> images = new ArrayList<>();
     static Integer numOfImagesFound;
 
     @Override
@@ -78,7 +78,7 @@ public class ListFragment extends Fragment{
     }
 
     private ArrayList<ImageContainer> getPhotos() {
-        return new ArrayList<>();
+        return images;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
