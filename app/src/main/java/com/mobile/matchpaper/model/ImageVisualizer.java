@@ -1,8 +1,17 @@
 package com.mobile.matchpaper.model;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
+
+import com.mobile.matchpaper.R;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
@@ -17,12 +26,12 @@ public class ImageVisualizer {
      * @return The Drawable representing the image.
      */
     public static Drawable getDrawableImageFromURL(final String URL) {
-        try {
-            InputStream is = (InputStream) new URL(URL).getContent();
-            Drawable d = Drawable.createFromStream(is, "src name");
-            return d;
-        } catch (Exception e) {
-            return null;
-        }
+        ImageView view = new ImageView(MatchPaperApp.getContext());
+
+        Picasso.with(MatchPaperApp.getContext())
+                .load(URL)
+                .into(view);
+
+        return view.getDrawable();
     }
 }
