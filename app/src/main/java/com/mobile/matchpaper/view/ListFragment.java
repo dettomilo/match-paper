@@ -24,6 +24,7 @@ import com.mobile.matchpaper.model.ImageContainer;
 import com.mobile.matchpaper.model.JSONSearchResult;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Created by emilio on 12/4/17.
@@ -31,7 +32,7 @@ import java.util.ArrayList;
 
 public class ListFragment extends Fragment{
 
-    static ArrayList<ImageContainer> images = new ArrayList<>();
+    static LinkedList<ImageContainer> images;
     static Integer numOfImagesFound;
     static ContentAdapter adapter;
 
@@ -39,7 +40,7 @@ public class ListFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         RequestMaker.searchRandomImages(1, 100);
-        images = new ArrayList<>();
+        images = new LinkedList<>();
         numOfImagesFound = 0;
 
         LinearLayout ll = (LinearLayout) inflater.inflate(
@@ -118,7 +119,7 @@ public class ListFragment extends Fragment{
         }
     }
 
-    private ArrayList<ImageContainer> getPhotos() {
+    private LinkedList<ImageContainer> getPhotos() {
         return images;
     }
 
