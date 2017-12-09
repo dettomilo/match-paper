@@ -87,6 +87,11 @@ public class MainActivity extends AppCompatActivity {
         RequestMaker.searchRandomImages(1, 20);
     }
 
+    /*@Override
+    protected void onResume() {
+        super.onResume();
+    }*/
+
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new SwipeFragment(), "Swipe");

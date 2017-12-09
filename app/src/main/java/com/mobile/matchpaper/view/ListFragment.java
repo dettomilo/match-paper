@@ -72,6 +72,15 @@ public class ListFragment extends Fragment{
         return recyclerView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    private ArrayList<ImageContainer> getPhotos() {
+        return new ArrayList<>();
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView picture;
         //public TextView name;
@@ -92,17 +101,22 @@ public class ListFragment extends Fragment{
      */
     public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-        for i in images {
-
-        }
-
-        private final Drawable[] mPlacePictures;
+        private Drawable[] drawablePreviews;
+        static ArrayList<Drawable> drawableArrayList;
+        //private final Drawable[] mPlacePictures;
         public ContentAdapter(Context context) {
+
+            for (ImageContainer i : images) {
+                drawableArrayList.add(i.getDrawablePreview());
+            }
+
+            drawablePreviews = drawableArrayList.toArray(new Drawable[drawableArrayList.size()]);
+
             Resources resources = context.getResources();
             TypedArray a = resources.obtainTypedArray(R.array.places_picture);
-            mPlacePictures = new Drawable[a.length()];
-            for (int i = 0; i < mPlacePictures.length; i++) {
-                mPlacePictures[i] = a.getDrawable(i);
+            drawablePreviews = new Drawable[a.length()];
+            for (int i = 0; i < drawablePreviews.length; i++) {
+                drawablePreviews[i] = a.getDrawable(i);
             }
             a.recycle();
         }
@@ -114,7 +128,7 @@ public class ListFragment extends Fragment{
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.picture.setImageDrawable(mPlacePictures[position % mPlacePictures.length]);
+            holder.picture.setImageDrawable(drawablePreviews[position % drawablePreviews.length]);
         }
 
         @Override
