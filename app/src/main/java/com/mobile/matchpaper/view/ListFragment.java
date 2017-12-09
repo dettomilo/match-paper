@@ -70,6 +70,7 @@ public class ListFragment extends Fragment{
     @Override
     public void onResume() {
         super.onResume();
+        adapter.notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
