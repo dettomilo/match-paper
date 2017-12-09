@@ -30,6 +30,8 @@ public class ImageVisualizer {
 
         Picasso.with(MatchPaperApp.getContext())
                 .load(URL)
+                .resize(300,300)
+                .centerCrop()
                 .into(view);
 
         return view.getDrawable();
