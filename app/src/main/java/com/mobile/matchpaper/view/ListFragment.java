@@ -52,7 +52,7 @@ public class ListFragment extends Fragment{
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(mMessageReceiver,
                 new IntentFilter(downloadFinishedEventName));
 
-        RequestMaker.searchRandomImages(1, 100);
+        RequestMaker.searchRandomImages(1, 200);
 
         drawableImages = new ArrayList<>();
         numOfImagesFound = 0;
@@ -126,7 +126,7 @@ public class ListFragment extends Fragment{
 
     public static void searchResultsReceived(JSONSearchResult searchResult) {
         numOfImagesFound = searchResult.getNumberOfImagesFound();
-        imageContainers = searchResult.getImageList(true);
+        imageContainers.addAll(searchResult.getImageList(true));
 
         // Starts all the downloads for the drawableImages:
         for (ImageContainer img:imageContainers){
