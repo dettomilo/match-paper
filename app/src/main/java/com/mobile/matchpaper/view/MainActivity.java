@@ -80,11 +80,6 @@ public class MainActivity extends AppCompatActivity {
                         Snackbar.LENGTH_LONG).show();
             }
         });
-
-        /**
-         * TODO Remove this line after testing:
-         */
-        RequestMaker.searchRandomImages(1, 20);
     }
 
     /*@Override
@@ -131,43 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
         This method is called from the controller when the search results are completed.
-        TODO complete function to update the view with the results
      */
     public static void searchResultsReceived(JSONSearchResult searchResult){
-        /**
-         * TODO Remove this content when not needed (It's just for demo)
-         */
-        Log.d("Results received","Total found images: " + searchResult.getNumberOfImagesFound());
-
-        // Just for debug :)
-        // searchResult.getImageList() is also available to return ALL images
-        // use .getDrawable---() to return a DRAWABLE that can be displayed.
-        Log.d("Debug image", "" + searchResult.getImageList(1, false).get(0).getMidResURL());
-
-        //UserPreferences.GetInstance().LikeImage(searchResult.getImageList(false).get(0));
-        //UserPreferences.GetInstance().UnlikeImage(searchResult.getImageList(false).get(0).getImageID());
-        /*
-        try {
-            UserPreferences.GetInstance().SavePreferences();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        UserPreferences.GetInstance().LikeImage(searchResult.getImageList().get(1));
-
-        Log.d("Liked Images1", "Count: " + UserPreferences.GetInstance().GetLikedImages().size());
-        Log.d("Liked Tags1", "" + UserPreferences.GetInstance().GetMostLikedTags().toString());
-
-        try {
-            UserPreferences.GetInstance().LoadPreferences();
-
-            Log.d("Liked Images after load", "Count: " + UserPreferences.GetInstance().GetLikedImages().size());
-            Log.d("Liked Tags after load", "" + UserPreferences.GetInstance().GetMostLikedTags().toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        */
     }
 }
