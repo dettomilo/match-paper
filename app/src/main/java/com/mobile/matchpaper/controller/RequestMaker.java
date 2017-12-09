@@ -1,5 +1,6 @@
 package com.mobile.matchpaper.controller;
 
+import android.app.FragmentManager;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -127,10 +128,7 @@ public class RequestMaker {
                         break;
                     case RANDOM_IMAGE:
                         // TODO Call appropriate view method for RANDOM_IMAGE (Like to fill the random image Like/Dislike page)
-                        // JUST FOR TEST!!! {
-                            MainActivity.searchResultsReceived(searchResultsContainer);
-                            ListFragment.searchResultsReceived(searchResultsContainer);
-                        // }
+                        ListFragment.searchResultsReceived(searchResultsContainer);
                         break;
                 }
 

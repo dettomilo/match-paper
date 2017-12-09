@@ -1,17 +1,16 @@
 package com.mobile.matchpaper.view;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +18,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.mobile.matchpaper.R;
+import com.mobile.matchpaper.controller.ImageVisualizer;
 import com.mobile.matchpaper.controller.RequestMaker;
 import com.mobile.matchpaper.model.ImageContainer;
 import com.mobile.matchpaper.model.JSONSearchResult;
+import com.mobile.matchpaper.model.MatchPaperApp;
 
 import java.util.ArrayList;
 
@@ -31,15 +32,21 @@ import java.util.ArrayList;
 
 public class ListFragment extends Fragment{
 
-    static ArrayList<ImageContainer> images = new ArrayList<>();
+    static ArrayList<Drawable> drawableImages = new ArrayList<>();
+    static ArrayList<ImageContainer> imageContainers = new ArrayList<>();
     static Integer numOfImagesFound;
     static ContentAdapter adapter;
+    private static final String downloadFinishedEventName = "list_image_download_finished";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(mMessageReceiver,
+                new IntentFilter(downloadFinishedEventName));
+
         RequestMaker.searchRandomImages(1, 100);
-        images = new ArrayList<>();
+        drawableImages = new ArrayList<>();
         numOfImagesFound = 0;
 
         LinearLayout ll = (LinearLayout) inflater.inflate(
@@ -88,16 +95,7 @@ public class ListFragment extends Fragment{
      */
     public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-        private Drawable[] drawablePreviews;
-        static ArrayList<Drawable> drawableArrayList = new ArrayList<>();
-        //private final Drawable[] mPlacePictures;
         public ContentAdapter(Context context) {
-
-            for (ImageContainer i : images) {
-                drawableArrayList.add(i.getDrawablePreview());
-            }
-
-            drawablePreviews = drawableArrayList.toArray(new Drawable[drawableArrayList.size()]);
         }
 
         @Override
@@ -108,23 +106,51 @@ public class ListFragment extends Fragment{
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             Log.d("Current position", "Position requested is: " + position);
-            ImageContainer img = images.get(position);
-            holder.picture.setImageDrawable(img.getDrawableMidRes());
+            Drawable img = drawableImages.get(position);
+            holder.picture.setImageDrawable(img);
         }
 
         @Override
         public int getItemCount() {
-            return images.size();
+            return drawableImages.size();
         }
-    }
-
-    private ArrayList<ImageContainer> getPhotos() {
-        return images;
     }
 
     public static void searchResultsReceived(JSONSearchResult searchResult) {
         numOfImagesFound = searchResult.getNumberOfImagesFound();
-        images.addAll(searchResult.getImageList(true));
+        imageContainers = searchResult.getImageList(true);
+
+        // Starts all the downloads for the drawableImages:
+        for (ImageContainer img:imageContainers){
+            ImageVisualizer.downloadImageAndNotifyView(img.getMidResURL(), downloadFinishedEventName, img);
+        }
+
         adapter.notifyDataSetChanged();
+    }
+
+    public void addDrawableToList(String imageID) {
+        for (ImageContainer img:imageContainers) {
+            if (img.getImageID().equals(imageID)) {
+                drawableImages.add(img.getMidResDrawable());
+                adapter.notifyDataSetChanged();
+                break;
+            }
+        }
+    }
+
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            String message = intent.getStringExtra("loadedImageID");
+            addDrawableToList(message);
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        // Unregister since the activity is about to be closed.
+        LocalBroadcastManager.getInstance(MatchPaperApp.getContext()).unregisterReceiver(mMessageReceiver);
+        super.onDestroy();
     }
 }

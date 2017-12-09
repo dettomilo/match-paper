@@ -2,6 +2,8 @@ package com.mobile.matchpaper.model;
 
 import android.graphics.drawable.Drawable;
 
+import com.mobile.matchpaper.controller.ImageVisualizer;
+
 import java.util.ArrayList;
 
 /**
@@ -14,6 +16,7 @@ public class ImageContainer {
     private ArrayList<String> tagList;
     private String previewURL = "";
     private String midResURL = "";
+
     private Drawable midResDrawable = null;
 
     public ImageContainer(String imageID, ArrayList<String> tagList, String previewURL, String midResURL) {
@@ -39,16 +42,11 @@ public class ImageContainer {
         return midResURL;
     }
 
-    public Drawable getDrawablePreview() {
-        return ImageVisualizer.getDrawableImageFromURL(previewURL);
+    public Drawable getMidResDrawable() {
+        return midResDrawable;
     }
 
-    public Drawable getDrawableMidRes() {
-
-        if (midResDrawable == null){
-            midResDrawable = ImageVisualizer.getDrawableImageFromURL(midResURL);
-        }
-
-        return midResDrawable;
+    public void setMidResDrawable(Drawable midResDrawable) {
+        this.midResDrawable = midResDrawable;
     }
 }
