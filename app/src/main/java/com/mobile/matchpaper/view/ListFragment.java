@@ -70,10 +70,6 @@ public class ListFragment extends Fragment{
         super.onResume();
     }
 
-    private ArrayList<ImageContainer> getPhotos() {
-        return images;
-    }
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView picture;
         //public TextView name;
@@ -82,11 +78,6 @@ public class ListFragment extends Fragment{
             picture = (ImageView) itemView.findViewById(R.id.tile_picture);
             //name = (TextView) itemView.findViewById(R.id.tile_title);
         }
-    }
-
-    public static void searchResultsReceived(JSONSearchResult searchResult) {
-        numOfImagesFound = searchResult.getNumberOfImagesFound();
-        images.addAll(searchResult.getImageList(true));
     }
 
     /**
@@ -128,5 +119,14 @@ public class ListFragment extends Fragment{
         public int getItemCount() {
             return numOfImagesFound;
         }
+    }
+
+    private ArrayList<ImageContainer> getPhotos() {
+        return images;
+    }
+
+    public static void searchResultsReceived(JSONSearchResult searchResult) {
+        numOfImagesFound = searchResult.getNumberOfImagesFound();
+        images.addAll(searchResult.getImageList(true));
     }
 }
