@@ -33,12 +33,9 @@ import java.util.LinkedList;
 
 public class ListFragment extends Fragment{
 
-<<<<<<< HEAD
     static ArrayList<Drawable> drawableImages = new ArrayList<>();
     static ArrayList<ImageContainer> imageContainers = new ArrayList<>();
-=======
-    static LinkedList<ImageContainer> images;
->>>>>>> origin/master
+
     static Integer numOfImagesFound;
     static ContentAdapter adapter;
     private static final String downloadFinishedEventName = "list_image_download_finished";
@@ -51,11 +48,8 @@ public class ListFragment extends Fragment{
                 new IntentFilter(downloadFinishedEventName));
 
         RequestMaker.searchRandomImages(1, 100);
-<<<<<<< HEAD
+
         drawableImages = new ArrayList<>();
-=======
-        images = new LinkedList<>();
->>>>>>> origin/master
         numOfImagesFound = 0;
 
         LinearLayout ll = (LinearLayout) inflater.inflate(
