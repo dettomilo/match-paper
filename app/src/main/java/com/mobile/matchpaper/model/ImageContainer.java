@@ -14,6 +14,7 @@ public class ImageContainer {
     private ArrayList<String> tagList;
     private String previewURL = "";
     private String midResURL = "";
+    private Drawable midResDrawable = null;
 
     public ImageContainer(String imageID, ArrayList<String> tagList, String previewURL, String midResURL) {
         this.imageID = imageID;
@@ -43,6 +44,11 @@ public class ImageContainer {
     }
 
     public Drawable getDrawableMidRes() {
-        return ImageVisualizer.getDrawableImageFromURL(midResURL);
+
+        if (midResDrawable == null){
+            midResDrawable = ImageVisualizer.getDrawableImageFromURL(midResURL);
+        }
+
+        return midResDrawable;
     }
 }
