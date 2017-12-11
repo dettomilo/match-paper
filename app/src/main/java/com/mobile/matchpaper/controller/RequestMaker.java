@@ -66,7 +66,7 @@ public class RequestMaker {
         String requestURL = buildSearchURL(
                 "",
                 "",
-                ResultsOrder.LATEST,
+                ResultsOrder.POPULAR,
                 pageNumber.toString(),
                 resultsPerPage.toString()
         ).toString();

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -25,7 +24,6 @@ import com.mobile.matchpaper.model.ImageContainer;
 import com.mobile.matchpaper.model.JSONSearchResult;
 import com.mobile.matchpaper.model.MatchPaperApp;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,17 +33,19 @@ import java.util.List;
 
 public class ListFragment extends Fragment{
 
-    private static final int RESULTS_PER_PAGE = 6;
-    private static final int NEW_REQUEST_THRESHOLD = 3;
+    private static final int RESULTS_PER_PAGE = 24;
+    private static final int NEW_REQUEST_THRESHOLD = 20;
+
     private static final String DOWNLOAD_FINISHED_EVENT_NAME = "list_image_download_finished";
 
     private static List<Drawable> drawableImages = new LinkedList<>();
     private static List<ImageContainer> imageContainers = new LinkedList<>();
 
-    //private static Integer numOfImagesFound;
+    private static Integer maxImagesFound = 0;
     private static ContentAdapter adapter;
 
     private static Integer currentPage = 1;
+    private static Integer lastRequestAtPosition = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -115,15 +115,18 @@ public class ListFragment extends Fragment{
         public void onBindViewHolder(ViewHolder holder, int position) {
             Log.d("Current position", "Position requested is: " + position + " total images: " + getItemCount() + " page: " + currentPage);
 
+            Drawable img = drawableImages.get(position);
+            holder.picture.setImageDrawable(img);
+
             final Integer currentMaxPosition = (drawableImages.size() - 1 - NEW_REQUEST_THRESHOLD);
 
-            if (position ==  currentMaxPosition){
+            if (position ==  currentMaxPosition && getItemCount() <= maxImagesFound && lastRequestAtPosition != position){
+                //This is to avoid duplicate requests on the same page position:
+                lastRequestAtPosition = position;
+
                 currentPage++;
                 RequestMaker.searchRandomImages(currentPage, RESULTS_PER_PAGE);
             }
-
-            Drawable img = drawableImages.get(position);
-            holder.picture.setImageDrawable(img);
         }
 
         @Override
@@ -133,7 +136,7 @@ public class ListFragment extends Fragment{
     }
 
     public static void searchResultsReceived(JSONSearchResult searchResult) {
-        //numOfImagesFound += searchResult.getNumberOfImagesFound();
+        maxImagesFound = searchResult.getNumberOfImagesFound();
         final List<ImageContainer> results = searchResult.getImageList(true);
         imageContainers.addAll(results);
 

@@ -21,10 +21,13 @@ public class JSONParser {
     static public JSONSearchResult parseJSONSearchResult(String jsonResult){
 
         try {
-            JSONObject jObject = new JSONObject(jsonResult.replaceAll("\n", "\\n"));
+            if (!jsonResult.contains("[ERROR 400]")) {
+                JSONObject jObject = new JSONObject(jsonResult.replaceAll("\n", "\\n"));
 
-            return new JSONSearchResult(jObject.getInt("totalHits"), jObject.getJSONArray("hits"));
-
+                return new JSONSearchResult(jObject.getInt("totalHits"), jObject.getJSONArray("hits"));
+            }  else {
+                Log.e("Json parse error", "Results ended.");
+            }
         } catch (JSONException e) {
             e.printStackTrace();
             Log.e("Json parse error", "Error parsing JSON");
