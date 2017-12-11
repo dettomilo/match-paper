@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -25,6 +26,8 @@ import com.mobile.matchpaper.model.JSONSearchResult;
 import com.mobile.matchpaper.model.MatchPaperApp;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by emilio on 12/4/17.
@@ -32,14 +35,17 @@ import java.util.ArrayList;
 
 public class ListFragment extends Fragment{
 
-    private static final int RESULTS_PER_PAGE = 50;
+    private static final int RESULTS_PER_PAGE = 6;
+    private static final int NEW_REQUEST_THRESHOLD = 3;
     private static final String DOWNLOAD_FINISHED_EVENT_NAME = "list_image_download_finished";
 
-    static ArrayList<Drawable> drawableImages = new ArrayList<>();
-    static ArrayList<ImageContainer> imageContainers = new ArrayList<>();
+    private static List<Drawable> drawableImages = new LinkedList<>();
+    private static List<ImageContainer> imageContainers = new LinkedList<>();
 
-    static Integer numOfImagesFound;
-    static ContentAdapter adapter;
+    //private static Integer numOfImagesFound;
+    private static ContentAdapter adapter;
+
+    private static Integer currentPage = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,10 +54,8 @@ public class ListFragment extends Fragment{
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(mMessageReceiver,
                 new IntentFilter(DOWNLOAD_FINISHED_EVENT_NAME));
 
-        RequestMaker.searchRandomImages(1, RESULTS_PER_PAGE);
 
-        drawableImages = new ArrayList<>();
-        numOfImagesFound = 0;
+        RequestMaker.searchRandomImages(currentPage, RESULTS_PER_PAGE);
 
         LinearLayout ll = (LinearLayout) inflater.inflate(
                 R.layout.recycler_view,
@@ -109,7 +113,15 @@ public class ListFragment extends Fragment{
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            Log.d("Current position", "Position requested is: " + position);
+            Log.d("Current position", "Position requested is: " + position + " total images: " + getItemCount() + " page: " + currentPage);
+
+            final Integer currentMaxPosition = (drawableImages.size() - 1 - NEW_REQUEST_THRESHOLD);
+
+            if (position ==  currentMaxPosition){
+                currentPage++;
+                RequestMaker.searchRandomImages(currentPage, RESULTS_PER_PAGE);
+            }
+
             Drawable img = drawableImages.get(position);
             holder.picture.setImageDrawable(img);
         }
@@ -121,21 +133,23 @@ public class ListFragment extends Fragment{
     }
 
     public static void searchResultsReceived(JSONSearchResult searchResult) {
-        numOfImagesFound = searchResult.getNumberOfImagesFound();
-        imageContainers.addAll(searchResult.getImageList(true));
+        //numOfImagesFound += searchResult.getNumberOfImagesFound();
+        final List<ImageContainer> results = searchResult.getImageList(true);
+        imageContainers.addAll(results);
 
         // Starts all the downloads for the drawableImages:
-        for (ImageContainer img:imageContainers){
-            ImageVisualizer.downloadImageAndNotifyView(img.getMidResURL(), DOWNLOAD_FINISHED_EVENT_NAME, img);
+        for (ImageContainer imageToDownload:results){
+            ImageVisualizer.downloadImageAndNotifyView(DOWNLOAD_FINISHED_EVENT_NAME, imageToDownload, ImageVisualizer.ResolutionQuality.PREVIEW);
         }
 
         adapter.notifyDataSetChanged();
     }
 
-    public void addDrawableToList(String imageID) {
+    public void addDrawablePreviewToList(String imageID) {
         for (ImageContainer img:imageContainers) {
-            if (img.getImageID().equals(imageID)) {
-                drawableImages.add(img.getMidResDrawable());
+            if (img.getImageID().equals(imageID) && !drawableImages.contains(img.getPreviewDrawable())) {
+                //Log.d("FOUND", "ImageID: " + img.getImageID());
+                drawableImages.add(img.getPreviewDrawable());
                 adapter.notifyDataSetChanged();
                 break;
             }
@@ -147,7 +161,8 @@ public class ListFragment extends Fragment{
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
             String message = intent.getStringExtra("loadedImageID");
-            addDrawableToList(message);
+            Log.d("DownloadCompleted", "ImageID: " + message);
+            addDrawablePreviewToList(message);
         }
     };
 

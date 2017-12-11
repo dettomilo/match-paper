@@ -23,11 +23,12 @@ public class ImageVisualizer {
 
     /**
      * Returns a Drawable from an URL
-     * @param URL The URL of the Image.
      * @return The Drawable representing the image.
      */
-    public static void downloadImageAndNotifyView(final String URL, final String downloadFinishedEventName, final ImageContainer originalImage) {
+    public static void downloadImageAndNotifyView(final String downloadFinishedEventName, final ImageContainer originalImage, final ResolutionQuality quality) {
         ImageView view = new ImageView(MatchPaperApp.getContext());
+
+        String URL = "";
 
         Target finalTarget = new Target() {
             private Bitmap img;
@@ -38,7 +39,21 @@ public class ImageVisualizer {
 
                 Intent intent = new Intent(downloadFinishedEventName);
                 intent.putExtra("loadedImageID", originalImage.getImageID());
-                originalImage.setMidResDrawable(getDrawable());
+                switch (quality){
+                    case PREVIEW:
+                        originalImage.setPreviewDrawable(getDrawable());
+                        break;
+                    case MID:
+                        originalImage.setMidResDrawable(getDrawable());
+                        break;
+                    case HIGH:
+                        /**
+                         * TODO Add HQ download.
+                         */
+                        originalImage.setMidResDrawable(getDrawable());
+                        break;
+                }
+
                 LocalBroadcastManager.getInstance(MatchPaperApp.getContext()).sendBroadcast(intent);
 
                 targetsQueue.remove(this);
@@ -59,14 +74,33 @@ public class ImageVisualizer {
             }
         };
 
-
+        switch (quality) {
+            case PREVIEW:
+                URL = originalImage.getPreviewURL();
+                break;
+            case MID:
+                URL = originalImage.getMidResURL();
+                break;
+            case HIGH:
+                /**
+                 * TODO Add HQ download.
+                 */
+                URL = originalImage.getMidResURL();
+                break;
+        }
 
         Picasso.with(MatchPaperApp.getContext())
                 .load(URL)
-                .resize(350,350)
+                .resize(300,300)
                 .centerCrop()
                 .into(finalTarget);
 
         targetsQueue.add(finalTarget);
+    }
+
+    public enum ResolutionQuality {
+        HIGH,
+        MID,
+        PREVIEW;
     }
 }

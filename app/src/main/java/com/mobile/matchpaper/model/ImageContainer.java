@@ -17,6 +17,7 @@ public class ImageContainer {
     private String previewURL = "";
     private String midResURL = "";
 
+    private Drawable previewDrawable = null;
     private Drawable midResDrawable = null;
 
     public ImageContainer(String imageID, ArrayList<String> tagList, String previewURL, String midResURL) {
@@ -48,5 +49,13 @@ public class ImageContainer {
 
     public void setMidResDrawable(Drawable midResDrawable) {
         this.midResDrawable = midResDrawable;
+    }
+
+    public Drawable getPreviewDrawable() {
+        return previewDrawable;
+    }
+
+    public void setPreviewDrawable(Drawable previewDrawable) {
+        this.previewDrawable = previewDrawable;
     }
 }
