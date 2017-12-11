@@ -148,7 +148,6 @@ public class ListFragment extends Fragment{
     public void addDrawablePreviewToList(String imageID) {
         for (ImageContainer img:imageContainers) {
             if (img.getImageID().equals(imageID) && !drawableImages.contains(img.getPreviewDrawable())) {
-                //Log.d("FOUND", "ImageID: " + img.getImageID());
                 drawableImages.add(img.getPreviewDrawable());
                 adapter.notifyDataSetChanged();
                 break;
@@ -161,7 +160,6 @@ public class ListFragment extends Fragment{
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
             String message = intent.getStringExtra("loadedImageID");
-            Log.d("DownloadCompleted", "ImageID: " + message);
             addDrawablePreviewToList(message);
         }
     };
