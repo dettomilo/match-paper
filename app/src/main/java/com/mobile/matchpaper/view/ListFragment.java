@@ -102,11 +102,9 @@ public class ListFragment extends Fragment{
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView picture;
-        //public TextView name;
         public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.item_list, parent, false));
-            picture = (ImageView) itemView.findViewById(R.id.tile_picture);
-            //name = (TextView) itemView.findViewById(R.id.tile_title);
+            picture = itemView.findViewById(R.id.tile_picture);
         }
     }
 
