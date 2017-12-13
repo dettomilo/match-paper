@@ -130,11 +130,18 @@ public class ListFragment extends Fragment{
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(ViewHolder holder, final int position) {
             Log.d("Current position", "Position requested is: " + position + " total images: " + getItemCount() + " page: " + currentPage);
 
             Drawable img = drawableImages.get(position);
             holder.picture.setImageDrawable(img);
+
+            holder.picture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("ClickEvent", "Clicked image with ID: " + imageContainers.get(position).getImageID());
+                }
+            });
 
             final Integer currentMaxPosition = (drawableImages.size() - 1 - NEW_REQUEST_THRESHOLD);
 
