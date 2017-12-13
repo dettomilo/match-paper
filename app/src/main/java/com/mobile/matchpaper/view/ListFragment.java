@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.mobile.matchpaper.R;
 import com.mobile.matchpaper.controller.ImageVisualizer;
@@ -78,6 +79,17 @@ public class ListFragment extends Fragment{
         int tilePadding = getResources().getDimensionPixelSize(R.dimen.tile_padding);
         recyclerView.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (!recyclerView.canScrollVertically(1)) {
+                    Toast.makeText(getActivity(),"Bottom reached",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
         return recyclerView;
     }
