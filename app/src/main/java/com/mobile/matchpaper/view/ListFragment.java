@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
@@ -100,11 +101,17 @@ public class ListFragment extends Fragment{
         adapter.notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView picture;
         public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.item_list, parent, false));
             picture = itemView.findViewById(R.id.tile_picture);
+        }
+
+        @Override
+        public void onClick(View view) {
+            Toast.makeText(view.getContext(),"Image tapped",Toast.LENGTH_LONG).show();
+            Snackbar.make(view, "Action is pressed", Snackbar.LENGTH_LONG).show();
         }
     }
 
