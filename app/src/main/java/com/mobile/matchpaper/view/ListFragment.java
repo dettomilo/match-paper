@@ -1,5 +1,6 @@
 package com.mobile.matchpaper.view;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -56,7 +57,6 @@ public class ListFragment extends Fragment{
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(mMessageReceiver,
                 new IntentFilter(DOWNLOAD_FINISHED_EVENT_NAME));
 
-
         RequestMaker.searchRandomImages(currentPage, RESULTS_PER_PAGE);
 
         LinearLayout ll = (LinearLayout) inflater.inflate(
@@ -110,6 +110,7 @@ public class ListFragment extends Fragment{
 
         @Override
         public void onClick(View view) {
+            Log.d("Image tapped","Image tapped");
             Toast.makeText(view.getContext(),"Image tapped",Toast.LENGTH_LONG).show();
             Snackbar.make(view, "Action is pressed", Snackbar.LENGTH_LONG).show();
         }
