@@ -1,6 +1,5 @@
 package com.mobile.matchpaper.view;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -119,7 +118,7 @@ public class ListFragment extends Fragment{
     /**
      * Adapter to display recycler view.
      */
-    public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
+    public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         public ContentAdapter(Context context) {
         }
@@ -140,6 +139,7 @@ public class ListFragment extends Fragment{
                 @Override
                 public void onClick(View v) {
                     Log.d("ClickEvent", "Clicked image with ID: " + imageContainers.get(position).getImageID());
+                    showFullScreenImage(v);
                 }
             });
 
@@ -158,6 +158,12 @@ public class ListFragment extends Fragment{
         public int getItemCount() {
             return drawableImages.size();
         }
+    }
+
+    public void showFullScreenImage(View view) {
+        Intent intent = new Intent(this.getActivity(), DisplayImage.class);
+
+        startActivity(intent);
     }
 
     public static void searchResultsReceived(JSONSearchResult searchResult) {
