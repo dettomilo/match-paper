@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobile.matchpaper.R;
@@ -139,7 +140,7 @@ public class ListFragment extends Fragment{
                 @Override
                 public void onClick(View v) {
                     Log.d("ClickEvent", "Clicked image with ID: " + imageContainers.get(position).getImageID());
-                    showFullScreenImage(v);
+                    showFullScreenImage(v, "Aò");
                 }
             });
 
@@ -160,9 +161,9 @@ public class ListFragment extends Fragment{
         }
     }
 
-    public void showFullScreenImage(View view) {
+    public void showFullScreenImage(View view, String text) {
         Intent intent = new Intent(this.getActivity(), DisplayImage.class);
-
+        intent.putExtra("MSG", text);
         startActivity(intent);
     }
 

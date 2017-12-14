@@ -3,6 +3,7 @@ package com.mobile.matchpaper.view;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.mobile.matchpaper.R;
 
@@ -14,5 +15,9 @@ public class DisplayImage extends AppCompatActivity {
         setContentView(R.layout.activity_display_image);
 
         Intent intent = getIntent();
+        String msg = intent.getStringExtra("MSG");
+
+        TextView textView = findViewById(R.id.textView);
+        textView.setText(msg);
     }
 }
