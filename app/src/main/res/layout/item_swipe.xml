@@ -5,47 +5,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="?android:attr/selectableItemBackground"
     android:padding="@dimen/md_keylines"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center">
 
         <ImageView
             android:id="@+id/list_avatar"
-            android:layout_width="@dimen/avator_size"
-            android:layout_height="@dimen/avator_size"
+            android:layout_width="190dp"
+            android:layout_height="190dp"
             android:scaleType="centerCrop"
             tools:src="@drawable/a_avator"
             android:src="@drawable/ic_android_black_24dp"
+            android:tint="#a4c639"
+            android:layout_margin="24dp"
             />
-
-        <TextView
-            android:id="@+id/list_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/md_keylines"
-            android:layout_toRightOf="@+id/list_avatar"
-            tools:text="@string/item_title"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:textSize="@dimen/article_subheading"
-            android:text="@string/search"/>
-
-        <TextView
-            android:id="@+id/list_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/list_title"
-            android:layout_marginLeft="@dimen/md_keylines"
-            android:layout_toRightOf="@+id/list_avatar"
-            android:textColor="@color/medium_grey"
-            android:ellipsize="end"
-            android:singleLine="true"
-            tools:text="@string/item_desc"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:textSize="@dimen/list_body"
-            android:text="@string/detail_desc"/>
 
     </LinearLayout>
 
@@ -57,14 +35,20 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Asd"
-            android:layout_weight="1"/>
+            android:text="NAY!"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_x_black_24dp"
+            android:drawableTint="#FF0000"
+            android:padding="16dp"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dsa"
-            android:layout_weight="1"/>
+            android:text="YAY!"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_star_black_24dp"
+            android:drawableTint="#FFFF00"
+            android:padding="16dp"/>
 
     </LinearLayout>
 
