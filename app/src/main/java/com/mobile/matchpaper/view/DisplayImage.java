@@ -15,7 +15,7 @@ public class DisplayImage extends AppCompatActivity {
         setContentView(R.layout.activity_display_image);
 
         Intent intent = getIntent();
-        String msg = intent.getStringExtra("MSG");
+        String msg = intent.getStringExtra(ListFragment.INTENT_STRING_CONTENT);
 
         TextView textView = findViewById(R.id.textView);
         textView.setText(msg);

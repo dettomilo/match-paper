@@ -40,6 +40,7 @@ public class ListFragment extends Fragment{
     private static final int NEW_REQUEST_THRESHOLD = 20;
 
     private static final String DOWNLOAD_FINISHED_EVENT_NAME = "list_image_download_finished";
+    protected static final String INTENT_STRING_CONTENT = "image_id";
 
     private static List<Drawable> drawableImages = new LinkedList<>();
     private static List<ImageContainer> imageContainers = new LinkedList<>();
@@ -139,8 +140,10 @@ public class ListFragment extends Fragment{
             holder.picture.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("ClickEvent", "Clicked image with ID: " + imageContainers.get(position).getImageID());
-                    showFullScreenImage(v, "Aò");
+                    String id = imageContainers.get(position).getImageID();
+                    String msg = "Clicked image with ID: ";
+                    Log.d("ClickEvent", msg + id);
+                    showFullScreenImage(v, id);
                 }
             });
 
@@ -163,7 +166,7 @@ public class ListFragment extends Fragment{
 
     public void showFullScreenImage(View view, String text) {
         Intent intent = new Intent(this.getActivity(), DisplayImage.class);
-        intent.putExtra("MSG", text);
+        intent.putExtra(INTENT_STRING_CONTENT, text);
         startActivity(intent);
     }
 
