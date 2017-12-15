@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
@@ -17,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobile.matchpaper.R;
@@ -102,18 +100,11 @@ public class ListFragment extends Fragment{
         adapter.notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView picture;
         public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.item_list, parent, false));
             picture = itemView.findViewById(R.id.tile_picture);
-        }
-
-        @Override
-        public void onClick(View view) {
-            Log.d("Image tapped","Image tapped");
-            Toast.makeText(view.getContext(),"Image tapped",Toast.LENGTH_LONG).show();
-            Snackbar.make(view, "Action is pressed", Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -164,8 +155,8 @@ public class ListFragment extends Fragment{
         }
     }
 
-    public void showFullScreenImage(View view, String text) {
-        Intent intent = new Intent(this.getActivity(), DisplayImage.class);
+    private void showFullScreenImage(View view, String text) {
+        Intent intent = new Intent(this.getActivity(), DisplayImageActivity.class);
         intent.putExtra(INTENT_STRING_CONTENT, text);
         startActivity(intent);
     }

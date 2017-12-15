@@ -1,5 +1,6 @@
 package com.mobile.matchpaper.view;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -76,16 +77,17 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(v, "Hello Snackbar!",
-                        Snackbar.LENGTH_LONG).show();
+                /*Snackbar.make(v, "Hello Snackbar!",
+                        Snackbar.LENGTH_LONG).show();*/
+                showSearchActivity(v);
             }
         });
     }
 
-    /*@Override
-    protected void onResume() {
-        super.onResume();
-    }*/
+    private void showSearchActivity(View view) {
+        Intent intent = new Intent(this, SearchableActivity.class);
+        startActivity(intent);
+    }
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());

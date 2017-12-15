@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.mobile.matchpaper.R;
 
-public class DisplayImage extends AppCompatActivity {
+public class DisplayImageActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

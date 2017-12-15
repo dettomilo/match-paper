@@ -4,14 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mobile.matchpaper.view.DisplayImageActivity"
-    android:gravity="center">
+    tools:context="com.mobile.matchpaper.view.SearchableActivity"
+    android:gravity="top">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <SearchView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp"/>
+        android:background="@color/button_grey"/>
 </LinearLayout>
