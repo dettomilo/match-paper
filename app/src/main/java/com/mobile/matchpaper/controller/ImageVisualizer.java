@@ -77,23 +77,28 @@ public class ImageVisualizer {
         switch (quality) {
             case PREVIEW:
                 URL = originalImage.getPreviewURL();
+                Picasso.with(MatchPaperApp.getContext())
+                        .load(URL)
+                        .resize(350,350)
+                        .centerCrop()
+                        .into(finalTarget);
                 break;
             case MID:
                 URL = originalImage.getMidResURL();
+                Picasso.with(MatchPaperApp.getContext())
+                        .load(URL)
+                        .into(finalTarget);
                 break;
             case HIGH:
                 /**
                  * TODO Add HQ download.
                  */
                 URL = originalImage.getMidResURL();
+                Picasso.with(MatchPaperApp.getContext())
+                        .load(URL)
+                        .into(finalTarget);
                 break;
         }
-
-        Picasso.with(MatchPaperApp.getContext())
-                .load(URL)
-                .resize(300,300)
-                .centerCrop()
-                .into(finalTarget);
 
         targetsQueue.add(finalTarget);
     }
