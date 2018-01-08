@@ -40,11 +40,11 @@ public class ListFragment extends Fragment{
     private static final String DOWNLOAD_FINISHED_EVENT_NAME = "list_image_download_finished";
     protected static final String INTENT_STRING_CONTENT = "image_id";
 
-    private static List<Drawable> drawableImages = new LinkedList<>();
     private static List<ImageContainer> imageContainers = new LinkedList<>();
 
     private static Integer maxImagesFound = 0;
     private static ContentAdapter adapter;
+    private static Integer loadedImagesNumber = 0;
 
     private static Integer currentPage = 1;
     private static Integer lastRequestAtPosition = 0;
@@ -123,22 +123,22 @@ public class ListFragment extends Fragment{
 
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
-            Log.d("Current position", "Position requested is: " + position + " total images: " + getItemCount() + " page: " + currentPage);
+            //Log.d("Current position", "Position requested is: " + position + " total images: " + getItemCount() + " page: " + currentPage);
 
-            Drawable img = drawableImages.get(position);
+            Drawable img = imageContainers.get(position).getPreviewDrawable();
             holder.picture.setImageDrawable(img);
 
             holder.picture.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     String id = imageContainers.get(position).getImageID();
-                    String msg = "Clicked image with ID: ";
-                    Log.d("ClickEvent", msg + id);
+                    //String msg = "Clicked image with ID: ";
+                    Log.d("ClickEvent", "Position: " + position + " " + imageContainers.get(position).getMidResURL());
                     showFullScreenImage(v, id);
                 }
             });
 
-            final Integer currentMaxPosition = (drawableImages.size() - 1 - NEW_REQUEST_THRESHOLD);
+            final Integer currentMaxPosition = (imageContainers.size() - 1 - NEW_REQUEST_THRESHOLD);
 
             if (position ==  currentMaxPosition && getItemCount() <= maxImagesFound && lastRequestAtPosition != position){
                 //This is to avoid duplicate requests on the same page position:
@@ -151,7 +151,7 @@ public class ListFragment extends Fragment{
 
         @Override
         public int getItemCount() {
-            return drawableImages.size();
+            return loadedImagesNumber;
         }
     }
 
@@ -175,13 +175,8 @@ public class ListFragment extends Fragment{
     }
 
     public void addDrawablePreviewToList(String imageID) {
-        for (ImageContainer img:imageContainers) {
-            if (img.getImageID().equals(imageID) && !drawableImages.contains(img.getPreviewDrawable())) {
-                drawableImages.add(img.getPreviewDrawable());
-                adapter.notifyDataSetChanged();
-                break;
-            }
-        }
+        adapter.notifyDataSetChanged();
+        loadedImagesNumber++;
     }
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
