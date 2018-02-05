@@ -45,7 +45,6 @@ public class SwipeFragment extends Fragment{
         Button likeButton = getView().findViewById(R.id.like_btn);
         Button dislikeButton = getView().findViewById(R.id.dislike_btn);
 
-
         likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
