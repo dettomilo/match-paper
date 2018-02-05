@@ -32,12 +32,14 @@ public class FavoritesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        LinearLayout ll = (LinearLayout) inflater.inflate(
+        /*LinearLayout ll = (LinearLayout) inflater.inflate(
+                R.layout.recycler_view, container, false);*/
+        RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.recycler_view, container, false);
 
-        RecyclerView recyclerView = ll.findViewById(R.id.my_recycler_view);
+        /*RecyclerView recyclerView = ll.findViewById(R.id.my_recycler_view);
         if(recyclerView.getParent() != null)
-            ((ViewGroup)recyclerView.getParent()).removeView(recyclerView);
+            ((ViewGroup)recyclerView.getParent()).removeView(recyclerView);*/
 
         ContentAdapter adapter = new ContentAdapter(recyclerView.getContext());
         recyclerView.setAdapter(adapter);

@@ -58,14 +58,14 @@ public class ListFragment extends Fragment{
 
         RequestMaker.searchRandomImages(currentPage, RESULTS_PER_PAGE);
 
-        LinearLayout ll = (LinearLayout) inflater.inflate(
+        RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.recycler_view,
                 container,
                 false);
 
-        RecyclerView recyclerView = ll.findViewById(R.id.my_recycler_view);
+        /*RecyclerView recyclerView = ll.findViewById(R.id.my_recycler_view);
         if(recyclerView.getParent() != null)
-            ((ViewGroup)recyclerView.getParent()).removeView(recyclerView);
+            ((ViewGroup)recyclerView.getParent()).removeView(recyclerView);*/
 
         /*ViewPager viewPager = (ViewPager) container;
         Integer i = ((ViewPager) container).getCurrentItem();
