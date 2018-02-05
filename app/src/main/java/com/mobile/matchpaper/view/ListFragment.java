@@ -63,15 +63,6 @@ public class ListFragment extends Fragment{
                 container,
                 false);
 
-        /*RecyclerView recyclerView = ll.findViewById(R.id.my_recycler_view);
-        if(recyclerView.getParent() != null)
-            ((ViewGroup)recyclerView.getParent()).removeView(recyclerView);*/
-
-        /*ViewPager viewPager = (ViewPager) container;
-        Integer i = ((ViewPager) container).getCurrentItem();
-        Toast.makeText(getActivity(), i.toString(),
-                Toast.LENGTH_LONG).show();*/
-
         adapter = new ContentAdapter(recyclerView.getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);

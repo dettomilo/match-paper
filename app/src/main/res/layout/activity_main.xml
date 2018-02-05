@@ -9,12 +9,12 @@
     tools:context="com.mobile.matchpaper.view.MainActivity"
     android:background="#f1f1f1">
 
-    <ProgressBar
+    <!--<ProgressBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/progressbar"
         android:layout_gravity="bottom"
-        android:visibility="visible"/>
+        android:visibility="visible" />-->
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
