@@ -86,7 +86,7 @@ public class ListFragment extends Fragment{
                 super.onScrollStateChanged(recyclerView, newState);
 
                 if (!recyclerView.canScrollVertically(1)) {
-                    Toast.makeText(getActivity(),"Bottom reached",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"Loading new images...",Toast.LENGTH_SHORT).show();
                 }
             }
         });

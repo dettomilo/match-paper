@@ -23,6 +23,8 @@ public class SearchableActivity extends AppCompatActivity {
         //showSoftKeyboard(searchView);
         searchView.requestFocus();
         ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE))
-                .toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                .toggleSoftInput(
+                        InputMethodManager.SHOW_FORCED,
+                        InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
 }
