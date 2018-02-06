@@ -4,19 +4,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.mobile.matchpaper.view.SearchableActivity"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
-    <SearchView
-        android:id="@+id/search_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/button_grey"
-        android:gravity="bottom"/>
+        android:orientation="horizontal">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/et_search"
+            android:hint="Enter a keyword..."
+            android:layout_weight="1"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:inputType="text"
+            android:maxLines="1"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ib_search"
+            android:src="@drawable/ic_search_black_24dp"
+            android:background="@null"
+            android:tint="@color/colorAccent"
+            android:layout_gravity="end"
+            android:padding="@dimen/activity_horizontal_margin"/>
+
+    </LinearLayout>
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/tv_search_results"
         android:text="No results for the query requested!"
-        android:gravity="center"/>
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"/>
 
 </LinearLayout>
