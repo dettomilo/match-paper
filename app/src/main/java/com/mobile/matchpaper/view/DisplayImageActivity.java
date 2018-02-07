@@ -78,9 +78,10 @@ public class DisplayImageActivity extends AppCompatActivity {
             // Get extra data included in the Intent
             String imageID = intent.getStringExtra("loadedImageID");
 
-            ImageView view = new ImageView(context);
-            view.setImageDrawable(tmpImage.getMidResDrawable());
-            setContentView(view);
+            //ImageView view = new ImageView(context);
+            //view.setImageDrawable(tmpImage.getMidResDrawable());
+            fullScreenImg.setImageDrawable(tmpImage.getMidResDrawable());
+            //fullScreenImg.postInvalidate();
         }
     };
 }
