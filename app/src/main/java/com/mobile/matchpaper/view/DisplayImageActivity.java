@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mobile.matchpaper.R;
@@ -31,6 +32,7 @@ public class DisplayImageActivity extends AppCompatActivity {
     private ImageButton downloadButton;
     private ImageButton setWallpaperButton;
     private ImageContainer tmpImage;
+    private ProgressBar progressBar;
     public static final String DOWNLOAD_FINISHED_EVENT_NAME = "display_image_download_finished";
 
     @Override
@@ -46,6 +48,7 @@ public class DisplayImageActivity extends AppCompatActivity {
         favoritesButton = findViewById(R.id.btn_img_favorites);
         downloadButton = findViewById(R.id.btn_img_download);
         setWallpaperButton = findViewById(R.id.btn_img_set_wallpaper);
+        progressBar = findViewById(R.id.progressbar_image);
 
         Intent intent = getIntent();
         String imageID = intent.getStringExtra(ListFragment.INTENT_STRING_CONTENT);
@@ -78,10 +81,12 @@ public class DisplayImageActivity extends AppCompatActivity {
             // Get extra data included in the Intent
             String imageID = intent.getStringExtra("loadedImageID");
 
-            //ImageView view = new ImageView(context);
-            //view.setImageDrawable(tmpImage.getMidResDrawable());
             fullScreenImg.setImageDrawable(tmpImage.getMidResDrawable());
-            //fullScreenImg.postInvalidate();
+            //The following line doesn't seem to be necessary
+            fullScreenImg.postInvalidate();
+
+            progressBar.setVisibility(View.GONE);
+            fullScreenImg.setVisibility(View.VISIBLE);
         }
     };
 }
