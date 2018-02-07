@@ -93,7 +93,7 @@ public class NetworkUtils {
             e.printStackTrace();
         }
 
-        Log.d("URL_Created", url.toString());
+        //Log.d("URL_Created", url.toString());
 
         return url;
     }
@@ -139,7 +139,7 @@ public class NetworkUtils {
             e.printStackTrace();
         }
 
-        Log.d("URL_Created", url.toString());
+        //Log.d("URL_Created", url.toString());
 
         return url;
     }

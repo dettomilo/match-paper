@@ -3,7 +3,6 @@ package com.mobile.matchpaper.view;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,8 +18,6 @@ import android.widget.Toast;
 
 import com.mobile.matchpaper.R;
 import com.mobile.matchpaper.controller.ImageVisualizer;
-import com.mobile.matchpaper.controller.RequestMaker;
-import com.mobile.matchpaper.controller.SearchResultReceivedListener;
 import com.mobile.matchpaper.model.ImageContainer;
 import com.mobile.matchpaper.model.JSONSearchResult;
 import com.mobile.matchpaper.model.MatchPaperApp;
@@ -50,15 +47,7 @@ public class FavoritesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(favouriteImageDownloadFinished,
-                new IntentFilter(DOWNLOAD_FINISHED_EVENT_NAME));
-
-        RequestMaker.searchImagesByID(GetConcatenatedLikedIDs(), new SearchResultReceivedListener() {
-            @Override
-            public void callListenerEvent(JSONSearchResult results) {
-                searchResultsReceived(results);
-            }
-        });
+        imageContainers = UserPreferences.GetInstance().GetLikedImages();
 
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.recycler_view,
@@ -146,7 +135,7 @@ public class FavoritesFragment extends Fragment {
                         showFullScreenImage(v, id);
                     }
                 });
-
+                /*
                 final Integer currentMaxPosition = (imageContainers.size() - 1 - NEW_REQUEST_THRESHOLD);
 
                 if (position ==  currentMaxPosition && getItemCount() <= maxImagesFound && lastRequestAtPosition != position){
@@ -160,13 +149,13 @@ public class FavoritesFragment extends Fragment {
                             searchResultsReceived(results);
                         }
                     });
-                }
+                }*/
             }
         }
 
         @Override
         public int getItemCount() {
-            return loadedImagesNumber;
+            return imageContainers.size();
         }
     }
 
@@ -193,24 +182,8 @@ public class FavoritesFragment extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
-    public void addDrawablePreviewToList(String imageID) {
+    public static void notifyViewForDatasetChange() {
+        imageContainers = UserPreferences.GetInstance().GetLikedImages();
         adapter.notifyDataSetChanged();
-        loadedImagesNumber++;
-    }
-
-    private BroadcastReceiver favouriteImageDownloadFinished = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Get extra data included in the Intent
-            String message = intent.getStringExtra("loadedImageID");
-            addDrawablePreviewToList(message);
-        }
-    };
-
-    @Override
-    public void onDestroy() {
-        // Unregister since the activity is about to be closed.
-        LocalBroadcastManager.getInstance(MatchPaperApp.getContext()).unregisterReceiver(favouriteImageDownloadFinished);
-        super.onDestroy();
     }
 }

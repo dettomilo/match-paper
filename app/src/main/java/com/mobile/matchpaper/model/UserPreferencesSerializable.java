@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class UserPreferencesSerializable implements Serializable {
 
-    private static final long serialVersionUID = 777L;
+    private static final long serialVersionUID = 7778L;
 
     private static ArrayList<ImageContainer> likedImages = new ArrayList<>();
     private static Map<String, Integer> likedTags = new HashMap<>();

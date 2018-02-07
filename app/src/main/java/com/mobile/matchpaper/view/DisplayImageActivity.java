@@ -97,4 +97,11 @@ public class DisplayImageActivity extends AppCompatActivity {
             fullScreenImg.setVisibility(View.VISIBLE);
         }
     };
+
+    @Override
+    public void onDestroy() {
+        // Unregister since the activity is about to be closed.
+        LocalBroadcastManager.getInstance(MatchPaperApp.getContext()).unregisterReceiver(fullscreenImageDownloadFinished);
+        super.onDestroy();
+    }
 }

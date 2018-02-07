@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.mobile.matchpaper.model.ImageContainer;
@@ -37,25 +38,25 @@ public class ImageVisualizer {
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 img = bitmap;
 
-                onDownloadCompleted();
+                onDownloadCompleted(getDrawable());
             }
 
             @Override
-            public void onDownloadCompleted(){
+            public void onDownloadCompleted(Drawable d){
                 Intent intent = new Intent(downloadFinishedEventName);
                 intent.putExtra("loadedImageID", originalImage.getImageID());
                 switch (quality){
                     case PREVIEW:
-                        originalImage.setPreviewDrawable(getDrawable());
+                        originalImage.setPreviewDrawable(d);
                         break;
                     case MID:
-                        originalImage.setMidResDrawable(getDrawable());
+                        originalImage.setMidResDrawable(d);
                         break;
                     case HIGH:
-                        originalImage.setFullHDDrawable(getDrawable());
+                        originalImage.setFullHDDrawable(d);
                         break;
                     case FULL:
-                        originalImage.setFullResDrawable(getDrawable());
+                        originalImage.setFullResDrawable(d);
                         break;
                 }
 
@@ -89,7 +90,7 @@ public class ImageVisualizer {
                             .centerCrop()
                             .into(finalTarget);
                 } else {
-                    finalTarget.onDownloadCompleted();
+                    finalTarget.onDownloadCompleted(originalImage.getPreviewDrawable());
                 }
                 break;
             case MID:
@@ -99,7 +100,7 @@ public class ImageVisualizer {
                             .load(URL)
                             .into(finalTarget);
                 } else {
-                    finalTarget.onDownloadCompleted();
+                    finalTarget.onDownloadCompleted(originalImage.getMidResDrawable());
                 }
                 break;
             case HIGH:
@@ -109,7 +110,7 @@ public class ImageVisualizer {
                             .load(URL)
                             .into(finalTarget);
                 } else {
-                    finalTarget.onDownloadCompleted();
+                    finalTarget.onDownloadCompleted(originalImage.getFullHDDrawable());
                 }
                 break;
             case FULL:
@@ -119,7 +120,7 @@ public class ImageVisualizer {
                             .load(URL)
                             .into(finalTarget);
                 } else {
-                    finalTarget.onDownloadCompleted();
+                    finalTarget.onDownloadCompleted(originalImage.getFullResDrawable());
                 }
                 break;
         }

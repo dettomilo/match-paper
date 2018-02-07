@@ -1,7 +1,9 @@
 package com.mobile.matchpaper.controller;
 
+import android.graphics.drawable.Drawable;
+
 import com.squareup.picasso.Target;
 
 public interface CustomTarget extends Target {
-    void onDownloadCompleted();
+    void onDownloadCompleted(Drawable d);
 }

@@ -3,6 +3,8 @@ package com.mobile.matchpaper.model;
 import android.content.Context;
 import android.util.Log;
 
+import com.mobile.matchpaper.view.FavoritesFragment;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -72,8 +74,10 @@ public class UserPreferences {
         ObjectInputStream inputStream = new ObjectInputStream(contextPath.openFileInput(SAVE_FILENAME));
         UserPreferencesSerializable loadedUserPrefs = (UserPreferencesSerializable)inputStream.readObject();
 
-        likedImages = loadedUserPrefs.getLikedImages();
-        likedTags = loadedUserPrefs.getLikedTags();
+        likedImages = new ArrayList<>(loadedUserPrefs.getLikedImages());
+        likedTags = new HashMap<>(loadedUserPrefs.getLikedTags());
+
+        Log.d("LoadedSaves", likedImages.toArray().length + " images and: " + likedTags.size() + " tags.");
 
         inputStream.close();
     }
@@ -102,19 +106,31 @@ public class UserPreferences {
      * @param likedImage The image to like.
      */
     public static void AddImageToFavourites(ImageContainer likedImage) {
-        likedImages.add(likedImage);
+        if (!likedImages.contains(likedImage)) {
+            likedImages.add(likedImage);
 
-        // Adds +1 to every tag of the image
-        for (String tag:likedImage.getTagList()) {
+            // Adds +1 to every tag of the image
+            for (String tag:likedImage.getTagList()) {
 
-            String lowerTag = tag.toLowerCase();
-            Integer previousTagLikes = 0;
+                String lowerTag = tag.toLowerCase();
+                Integer previousTagLikes = 0;
 
-            if (likedTags.containsKey(lowerTag)) {
-                previousTagLikes = likedTags.get(lowerTag).intValue();
+                if (likedTags.containsKey(lowerTag)) {
+                    previousTagLikes = likedTags.get(lowerTag).intValue();
+                }
+
+                likedTags.put(lowerTag, previousTagLikes + 1);
             }
 
-            likedTags.put(lowerTag, previousTagLikes + 1);
+            try {
+                SavePreferences();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            FavoritesFragment.notifyViewForDatasetChange();
+
+            Log.d("AddedToFavourites", "Favourite images count: " + likedImages.size());
         }
     }
 
