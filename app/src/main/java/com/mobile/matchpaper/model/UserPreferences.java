@@ -1,7 +1,11 @@
 package com.mobile.matchpaper.model;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.view.View;
 
 import com.mobile.matchpaper.view.FavoritesFragment;
 
@@ -57,7 +61,17 @@ public class UserPreferences {
 
         FileOutputStream outFile = contextPath.openFileOutput(SAVE_FILENAME, Context.MODE_PRIVATE);
         ObjectOutputStream outputStream = new ObjectOutputStream(outFile);
-        outputStream.writeObject(new UserPreferencesSerializable(new ArrayList<>(likedImages), new HashMap<>(likedTags)));
+
+        ArrayList<String> likedIDs = new ArrayList<>();
+
+        for (ImageContainer img : likedImages) {
+            likedIDs.add(img.getImageID());
+        }
+
+        UserPreferencesSerializable prefs = new UserPreferencesSerializable(likedIDs, new HashMap<>(likedTags));
+        outputStream.writeObject(prefs);
+
+        Log.d("FILESAVE", "SAVED " + prefs.getLikedImages().size() + " images and: " + prefs.getLikedTags().size() + " tags.");
 
         outputStream.flush();
         outputStream.close();
@@ -68,19 +82,27 @@ public class UserPreferences {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public static void LoadPreferences() throws IOException, ClassNotFoundException {
+    public static ArrayList<String> LoadPreferences() throws IOException, ClassNotFoundException {
         Context contextPath = MatchPaperApp.getContext();
 
         ObjectInputStream inputStream = new ObjectInputStream(contextPath.openFileInput(SAVE_FILENAME));
         UserPreferencesSerializable loadedUserPrefs = (UserPreferencesSerializable)inputStream.readObject();
 
-        likedImages = new ArrayList<>(loadedUserPrefs.getLikedImages());
+        ArrayList<String> likedIDs = new ArrayList<>(loadedUserPrefs.getLikedImages());
         likedTags = new HashMap<>(loadedUserPrefs.getLikedTags());
 
-        Log.d("LoadedSaves", likedImages.toArray().length + " images and: " + likedTags.size() + " tags.");
+        Log.d("FILESAVE", "LOADED " + likedImages.toArray().length + " images and: " + likedTags.size() + " tags.");
 
         inputStream.close();
+
+        return likedIDs;
     }
+
+    public static void SetLikedImages(ArrayList<ImageContainer> downloadedList){
+        likedImages = new ArrayList<>(downloadedList);
+        FavoritesFragment.notifyViewForDatasetChange();
+    }
+
     /**
      * Memorizes the liked image tags.
      * @param likedImage The image to like.
@@ -125,12 +147,13 @@ public class UserPreferences {
             try {
                 SavePreferences();
             } catch (IOException e) {
+                Log.d("FILESAVE", "ERROR SAVING! :(");
                 e.printStackTrace();
             }
 
             FavoritesFragment.notifyViewForDatasetChange();
 
-            Log.d("AddedToFavourites", "Favourite images count: " + likedImages.size());
+            Log.d("UserPreferences", "Favourite images count: " + likedImages.size());
         }
     }
 

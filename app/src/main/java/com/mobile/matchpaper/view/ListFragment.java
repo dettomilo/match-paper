@@ -31,8 +31,8 @@ import java.util.List;
 
 public class ListFragment extends Fragment{
 
-    private static final int RESULTS_PER_PAGE = 24;
-    private static final int NEW_REQUEST_THRESHOLD = 20;
+    private static final int RESULTS_PER_PAGE = 5;
+    private static final int NEW_REQUEST_THRESHOLD = 5;
 
     private static final String DOWNLOAD_FINISHED_EVENT_NAME = "list_image_download_finished";
     protected static final String INTENT_STRING_CONTENT = "image_id";
@@ -53,12 +53,7 @@ public class ListFragment extends Fragment{
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(homeImageDownloadFinished,
                 new IntentFilter(DOWNLOAD_FINISHED_EVENT_NAME));
 
-        RequestMaker.searchRandomImages(currentPage, RESULTS_PER_PAGE, new SearchResultReceivedListener() {
-            @Override
-            public void callListenerEvent(JSONSearchResult results) {
-                searchResultsReceived(results);
-            }
-        });
+        QueryForMostLikedTags();
 
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.recycler_view,
@@ -87,21 +82,36 @@ public class ListFragment extends Fragment{
         return recyclerView;
     }
 
-    private String GetMostLikedTags(){
-        String likedTags = "";
-        int maxTags = 6;
+    private void QueryForMostLikedTags(){
+
+        int maxTags = 15;
         int currTags = 0;
 
-        for (String tag : UserPreferences.GetInstance().GetMostLikedTags().keySet()) {
-            if (currTags < maxTags){
-                likedTags += tag + " ";
-                currTags++;
-            } else {
-                break;
+        if (!UserPreferences.GetInstance().GetMostLikedTags().keySet().isEmpty()) {
+            Log.d("NOTEMPTY", "SADASDASDAS");
+
+            for (String tag : UserPreferences.GetInstance().GetMostLikedTags().keySet()) {
+                if (currTags < maxTags){
+                    // Mixing things up
+                    RequestMaker.searchImagesByQuery(tag, currentPage, 4, new SearchResultReceivedListener() {
+                        @Override
+                        public void callListenerEvent(JSONSearchResult results) {
+                            searchResultsReceived(results);
+                        }
+                    });
+                    currTags++;
+                } else {
+                    break;
+                }
             }
+        } else {
+            RequestMaker.searchRandomImages(currentPage, 24, new SearchResultReceivedListener() {
+                @Override
+                public void callListenerEvent(JSONSearchResult results) {
+                    searchResultsReceived(results);
+                }
+            });
         }
-        Log.d("Home liked tags", likedTags);
-        return likedTags;
     }
 
     @Override
@@ -155,12 +165,8 @@ public class ListFragment extends Fragment{
                 lastRequestAtPosition = position;
 
                 currentPage++;
-                RequestMaker.searchImagesByQuery(GetMostLikedTags(),currentPage, RESULTS_PER_PAGE, new SearchResultReceivedListener() {
-                    @Override
-                    public void callListenerEvent(JSONSearchResult results) {
-                        searchResultsReceived(results);
-                    }
-                });
+
+                QueryForMostLikedTags();
             }
         }
 

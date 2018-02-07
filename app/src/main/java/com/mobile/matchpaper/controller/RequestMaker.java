@@ -131,9 +131,7 @@ public class RequestMaker {
 
                 // When the query ends, check what kind of query it was, and call the appropriate method.
                 JSONSearchResult searchResultsContainer = JSONParser.parseJSONSearchResult(searchResults);
-
                 listener.callListenerEvent(searchResultsContainer);
-                Log.d("ListenerType", searchResultsContainer.getImageList(false).size() + "");
             }
         }
     }

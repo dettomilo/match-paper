@@ -4,13 +4,14 @@ import android.graphics.drawable.Drawable;
 
 import com.mobile.matchpaper.controller.ImageVisualizer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * This class contains the info about an image.
  */
 
-public class ImageContainer {
+public class ImageContainer implements Serializable {
 
     private String imageID = "";
     private ArrayList<String> tagList;
