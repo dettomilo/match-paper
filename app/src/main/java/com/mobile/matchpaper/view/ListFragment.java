@@ -89,9 +89,16 @@ public class ListFragment extends Fragment{
 
     private String GetMostLikedTags(){
         String likedTags = "";
+        int maxTags = 6;
+        int currTags = 0;
 
         for (String tag : UserPreferences.GetInstance().GetMostLikedTags().keySet()) {
-            likedTags += tag + " ";
+            if (currTags < maxTags){
+                likedTags += tag + " ";
+                currTags++;
+            } else {
+                break;
+            }
         }
         Log.d("Home liked tags", likedTags);
         return likedTags;
