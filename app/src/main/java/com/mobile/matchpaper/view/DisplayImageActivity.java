@@ -52,13 +52,6 @@ public class DisplayImageActivity extends AppCompatActivity {
 
         tmpImage = ListFragment.getImageFromHomeByID(imageID);
 
-        RequestMaker.searchImagesByID(imageID, new SearchResultReceivedListener() {
-            @Override
-            public void callListenerEvent(JSONSearchResult results) {
-                searchResultsReceived(results);
-            }
-        });
-
         if (tmpImage != null) {
             ImageVisualizer.downloadImageAndNotifyView(DOWNLOAD_FINISHED_EVENT_NAME, tmpImage, ImageVisualizer.ResolutionQuality.MID);
         }
@@ -77,12 +70,6 @@ public class DisplayImageActivity extends AppCompatActivity {
                 }*/
             }
         });
-    }
-
-    private void searchResultsReceived(JSONSearchResult result){
-        if (tmpImage != null) {
-            ImageVisualizer.downloadImageAndNotifyView(DOWNLOAD_FINISHED_EVENT_NAME, tmpImage, ImageVisualizer.ResolutionQuality.MID);
-        }
     }
 
     private BroadcastReceiver fullscreenImageDownloadFinished = new BroadcastReceiver() {
