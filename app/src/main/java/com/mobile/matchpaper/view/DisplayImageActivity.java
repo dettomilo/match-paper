@@ -79,7 +79,9 @@ public class DisplayImageActivity extends AppCompatActivity {
             String imageID = intent.getStringExtra("loadedImageID");
             ListFragment.getImageFromHomeByID(imageID).setFullHDDrawable(imageToDownload.getFullHDDrawable());
 
-            // TODO Visualize image taking the drawable from imageToDownload.getFullHDDrawable()
+            ImageView view = new ImageView(context);
+            view.setImageDrawable(imageToDownload.getFullHDDrawable());
+            setContentView(view);
         }
     };
 
