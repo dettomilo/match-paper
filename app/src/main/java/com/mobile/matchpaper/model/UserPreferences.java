@@ -77,12 +77,31 @@ public class UserPreferences {
 
         inputStream.close();
     }
+    /**
+     * Memorizes the liked image tags.
+     * @param likedImage The image to like.
+     */
+    public static void LikeImage(ImageContainer likedImage) {
+
+        // Adds +1 to every tag of the image
+        for (String tag:likedImage.getTagList()) {
+
+            String lowerTag = tag.toLowerCase();
+            Integer previousTagLikes = 0;
+
+            if (likedTags.containsKey(lowerTag)) {
+                previousTagLikes = likedTags.get(lowerTag).intValue();
+            }
+
+            likedTags.put(lowerTag, previousTagLikes + 1);
+        }
+    }
 
     /**
      * Memorizes the liked image and updateds liked tags.
      * @param likedImage The image to like.
      */
-    public static void LikeImage(ImageContainer likedImage) {
+    public static void AddImageToFavourites(ImageContainer likedImage) {
         likedImages.add(likedImage);
 
         // Adds +1 to every tag of the image
@@ -103,7 +122,7 @@ public class UserPreferences {
      * This removes an image from the liked list, and removes the corresponding liked tags.
      * @param imageID The ID of the image to remove.
      */
-    public static void UnlikeImage(String imageID) {
+    public static void RemoveImageFromFavourites(String imageID) {
 
         ImageContainer foundImg = null;
 
