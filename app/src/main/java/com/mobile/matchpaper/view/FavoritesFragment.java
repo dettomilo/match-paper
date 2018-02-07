@@ -33,15 +33,11 @@ import com.mobile.matchpaper.controller.RequestMaker;
 import com.mobile.matchpaper.model.ImageContainer;
 import com.mobile.matchpaper.model.JSONSearchResult;
 import com.mobile.matchpaper.model.MatchPaperApp;
+import com.mobile.matchpaper.model.UserPreferences;
 
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by emilio on 12/4/17.
- */
-
-//TODO show user favorites
 public class FavoritesFragment extends Fragment {
 
     private static final int RESULTS_PER_PAGE = 24;
@@ -66,7 +62,7 @@ public class FavoritesFragment extends Fragment {
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(mMessageReceiver,
                 new IntentFilter(DOWNLOAD_FINISHED_EVENT_NAME));
 
-        RequestMaker.searchRandomImages(currentPage, RESULTS_PER_PAGE);
+        RequestMaker.searchImagesByID(GetConcatenatedLikedIDs(), currentPage, RESULTS_PER_PAGE);
 
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.recycler_view,
@@ -93,6 +89,16 @@ public class FavoritesFragment extends Fragment {
         });
 
         return recyclerView;
+    }
+
+    private String GetConcatenatedLikedIDs(){
+        String concatIDs = "";
+
+        for (ImageContainer img : UserPreferences.GetInstance().GetLikedImages()){
+            concatIDs += img.getImageID() + ',';
+        }
+
+        return concatIDs;
     }
 
     @Override
@@ -124,29 +130,32 @@ public class FavoritesFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
-            Log.d("Current position", "Position requested is: " + position + " total images: " + getItemCount() + " page: " + currentPage);
+            Log.d("Current position", "Position requested wdfffffffis: " + position + " total images: " + getItemCount() + " page: " + currentPage);
 
-            Drawable img = imageContainers.get(position).getPreviewDrawable();
-            holder.picture.setImageDrawable(img);
+            if (false) {
 
-            holder.picture.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String id = imageContainers.get(position).getImageID();
-                    //String msg = "Clicked image with ID: ";
-                    Log.d("ClickEvent", "Position: " + position + " " + imageContainers.get(position).getMidResURL());
-                    showFullScreenImage(v, id);
+                Drawable img = imageContainers.get(position).getPreviewDrawable();
+                holder.picture.setImageDrawable(img);
+
+                holder.picture.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String id = imageContainers.get(position).getImageID();
+                        //String msg = "Clicked image with ID: ";
+                        Log.d("ClickEvent", "Position: " + position + " " + imageContainers.get(position).getMidResURL());
+                        showFullScreenImage(v, id);
+                    }
+                });
+
+                final Integer currentMaxPosition = (imageContainers.size() - 1 - NEW_REQUEST_THRESHOLD);
+
+                if (position ==  currentMaxPosition && getItemCount() <= maxImagesFound && lastRequestAtPosition != position){
+                    //This is to avoid duplicate requests on the same page position:
+                    lastRequestAtPosition = position;
+
+                    currentPage++;
+                    RequestMaker.searchImagesByID(GetConcatenatedLikedIDs(), currentPage, RESULTS_PER_PAGE);
                 }
-            });
-
-            final Integer currentMaxPosition = (imageContainers.size() - 1 - NEW_REQUEST_THRESHOLD);
-
-            if (position ==  currentMaxPosition && getItemCount() <= maxImagesFound && lastRequestAtPosition != position){
-                //This is to avoid duplicate requests on the same page position:
-                lastRequestAtPosition = position;
-
-                currentPage++;
-                RequestMaker.searchRandomImages(currentPage, RESULTS_PER_PAGE);
             }
         }
 

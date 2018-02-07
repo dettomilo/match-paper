@@ -16,7 +16,9 @@ import android.view.View;
 import com.mobile.matchpaper.R;
 import com.mobile.matchpaper.controller.RequestMaker;
 import com.mobile.matchpaper.model.JSONSearchResult;
+import com.mobile.matchpaper.model.UserPreferences;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         viewPager = findViewById(R.id.viewpager);
@@ -82,6 +85,15 @@ public class MainActivity extends AppCompatActivity {
                 showSearchActivity(v);
             }
         });
+
+        try {
+            UserPreferences.GetInstance().LoadPreferences();
+            Log.d("Loaded", "on start");
+        } catch (IOException e) {
+            Log.d("Error loading file", "No savefile");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void showSearchActivity(View view) {
@@ -126,9 +138,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-        This method is called from the controller when the search results are completed.
-     */
-    public static void searchResultsReceived(JSONSearchResult searchResult){
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        try {
+            UserPreferences.GetInstance().SavePreferences();
+            Log.d("Saved", "on exit");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            UserPreferences.GetInstance().LoadPreferences();
+            Log.d("Loaded", "on resume");
+        } catch (IOException e) {
+            Log.d("Error loading file", "No savefile");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

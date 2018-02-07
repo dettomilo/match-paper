@@ -24,6 +24,7 @@ import com.mobile.matchpaper.controller.RequestMaker;
 import com.mobile.matchpaper.model.ImageContainer;
 import com.mobile.matchpaper.model.JSONSearchResult;
 import com.mobile.matchpaper.model.MatchPaperApp;
+import com.mobile.matchpaper.model.UserPreferences;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -56,7 +57,7 @@ public class ListFragment extends Fragment{
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(mMessageReceiver,
                 new IntentFilter(DOWNLOAD_FINISHED_EVENT_NAME));
 
-        RequestMaker.searchRandomImages(currentPage, RESULTS_PER_PAGE);
+        RequestMaker.searchImagesByQuery(GetMostLikedTags(),currentPage, RESULTS_PER_PAGE);
 
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.recycler_view,
@@ -83,6 +84,16 @@ public class ListFragment extends Fragment{
         });
 
         return recyclerView;
+    }
+
+    private String GetMostLikedTags(){
+        String likedTags = "";
+
+        for (String tag : UserPreferences.GetInstance().GetMostLikedTags().keySet()) {
+            likedTags += tag + " ";
+        }
+        Log.d("Home liked tags", likedTags);
+        return likedTags;
     }
 
     @Override
@@ -136,7 +147,7 @@ public class ListFragment extends Fragment{
                 lastRequestAtPosition = position;
 
                 currentPage++;
-                RequestMaker.searchRandomImages(currentPage, RESULTS_PER_PAGE);
+                RequestMaker.searchImagesByQuery(GetMostLikedTags(),currentPage, RESULTS_PER_PAGE);
             }
         }
 

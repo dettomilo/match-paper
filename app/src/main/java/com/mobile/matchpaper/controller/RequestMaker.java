@@ -119,9 +119,12 @@ public class RequestMaker {
 
                 switch (type){
                     case QUERY_SEARCH:
-                        MainActivity.searchResultsReceived(searchResultsContainer);
+                        Log.d("Search", "Home search completed");
+                        ListFragment.searchResultsReceived(searchResultsContainer);
                         break;
                     case ID_SEARCH:
+                        Log.d("Search", "Favorite search completed");
+                        FavoritesFragment.searchResultsReceived(searchResultsContainer);
                         // TODO Call appropriate view method for ID_SEARCH (Like visualize a previously liked image stored by ID)
                         break;
                     case HQ_ID_SEARCH:
@@ -129,8 +132,6 @@ public class RequestMaker {
                         break;
                     case RANDOM_IMAGE:
                         // TODO Call appropriate view method for RANDOM_IMAGE (Like to fill the random image Like/Dislike page)
-                        ListFragment.searchResultsReceived(searchResultsContainer);
-                        FavoritesFragment.searchResultsReceived(searchResultsContainer);
                         break;
                 }
 
