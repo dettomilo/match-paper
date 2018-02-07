@@ -94,6 +94,10 @@ public class FavoritesFragment extends Fragment {
             concatIDs += img.getImageID() + ',';
         }
 
+        if (concatIDs == "") {
+            concatIDs = "NO_ID";
+        }
+
         return concatIDs;
     }
 
@@ -126,9 +130,9 @@ public class FavoritesFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
-            Log.d("Current position", "Position requested wdfffffffis: " + position + " total images: " + getItemCount() + " page: " + currentPage);
+            Log.d("Current position", "Position requested is: " + position + " total images: " + getItemCount() + " page: " + currentPage);
 
-            if (false) {
+            if (!imageContainers.isEmpty()) {
 
                 Drawable img = imageContainers.get(position).getPreviewDrawable();
                 holder.picture.setImageDrawable(img);

@@ -33,16 +33,25 @@ public class JSONSearchResult {
 
             try {
                 currImg = imagesArray.getJSONObject(i);
-
-                tmpList.add(new ImageContainer(
+                if (currImg.has("tags")) {
+                    tmpList.add(new ImageContainer(
                             currImg.getString("id"),
                             tagParser(currImg.getString("tags")),
                             currImg.getString("previewURL"),
                             currImg.getString("webformatURL"),
                             "",
                             ""
-                ));
-
+                    ));
+                } else {
+                    tmpList.add(new ImageContainer(
+                            currImg.getString("id_hash"),
+                            new ArrayList<String>(),
+                            currImg.getString("previewURL"),
+                            currImg.getString("webformatURL"),
+                            currImg.getString("fullHDURL"),
+                            currImg.getString("imageURL")
+                    ));
+                }
             } catch (JSONException e) {
                 Log.e("Parsing Error", "Error parsing results array.");
                 e.printStackTrace();

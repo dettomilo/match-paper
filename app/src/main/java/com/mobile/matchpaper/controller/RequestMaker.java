@@ -58,6 +58,22 @@ public class RequestMaker {
     }
 
     /**
+     *  Searches for images by image IDs
+     * @param imagesIDs Image IDs (If multiple, separate them by comma. Ex: ID1,ID2,...)
+     */
+    public static void searchHDImagesByID(String imagesIDs, SearchResultReceivedListener downloadFinishedListener) {
+        String requestURL = buildHDSearchURL(
+                "",
+                imagesIDs,
+                ResultsOrder.POPULAR,
+                "",
+                ""
+        ).toString();
+
+        makeRequest(requestURL, downloadFinishedListener);
+    }
+
+    /**
      * Gets a list of random images ordered by the LATEST uploaded.
      * @param pageNumber
      * @param resultsPerPage

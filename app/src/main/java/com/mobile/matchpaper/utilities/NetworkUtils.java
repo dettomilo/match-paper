@@ -66,6 +66,51 @@ public class NetworkUtils {
     public static URL buildSearchURL(String searchQuery, String searchID, ResultsOrder searchOrder, String pageNum, String resultsPerPage) {
 
         Uri.Builder uriBuilderTemp = Uri.parse(SEARCH_BASE_URL).buildUpon();
+
+        if (searchQuery.length() > 0) {
+            uriBuilderTemp.appendQueryParameter(PARAM_SEARCH_QUERY, searchQuery);
+        }
+        if (searchID.length() > 0) {
+            uriBuilderTemp.appendQueryParameter(PARAM_SEARCH_ID, searchID);
+        }
+
+        uriBuilderTemp.appendQueryParameter(PARAM_ORDER, searchOrder.toString());
+
+        if (pageNum.length() > 0) {
+            uriBuilderTemp.appendQueryParameter(PARAM_PAGE_NUM, pageNum);
+        }
+        if (resultsPerPage.length() > 0) {
+            uriBuilderTemp.appendQueryParameter(PARAM_RESULTS_PER_PAGE, resultsPerPage);
+        }
+        uriBuilderTemp.appendQueryParameter("image_type", "photo");
+
+        Uri finalUrl = uriBuilderTemp.build();
+
+        URL url = null;
+        try {
+            url = new URL(finalUrl.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("URL_Created", url.toString());
+
+        return url;
+    }
+
+    /**
+     * Builds the URL used to query PixaBay in HD.
+     *
+     * @param searchQuery The search query [Leave empty if not used].
+     * @param searchID The ID of the image to be searched [Leave empty if not used].
+     * @param searchOrder The searching order of the images [Default: popular].
+     * @param pageNum The page number to be searched [Leave empty to use Default: 1].
+     * @param resultsPerPage The number of results per page [Leave empty to use Default: 20].
+     * @return The URL to use to query the PixaBay.
+     */
+    public static URL buildHDSearchURL(String searchQuery, String searchID, ResultsOrder searchOrder, String pageNum, String resultsPerPage) {
+
+        Uri.Builder uriBuilderTemp = Uri.parse(SEARCH_BASE_URL).buildUpon();
         uriBuilderTemp.appendQueryParameter("response_group", "high_resolution");
 
         if (searchQuery.length() > 0) {
@@ -94,7 +139,7 @@ public class NetworkUtils {
             e.printStackTrace();
         }
 
-        Log.d("URL Created", url.toString());
+        Log.d("URL_Created", url.toString());
 
         return url;
     }

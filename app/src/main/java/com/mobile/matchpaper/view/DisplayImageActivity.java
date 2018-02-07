@@ -52,6 +52,13 @@ public class DisplayImageActivity extends AppCompatActivity {
 
         tmpImage = ListFragment.getImageFromHomeByID(imageID);
 
+        RequestMaker.searchImagesByID(imageID, new SearchResultReceivedListener() {
+            @Override
+            public void callListenerEvent(JSONSearchResult results) {
+                searchResultsReceived(results);
+            }
+        });
+
         if (tmpImage != null) {
             ImageVisualizer.downloadImageAndNotifyView(DOWNLOAD_FINISHED_EVENT_NAME, tmpImage, ImageVisualizer.ResolutionQuality.MID);
         }
@@ -72,14 +79,20 @@ public class DisplayImageActivity extends AppCompatActivity {
         });
     }
 
+    private void searchResultsReceived(JSONSearchResult result){
+        if (tmpImage != null) {
+            ImageVisualizer.downloadImageAndNotifyView(DOWNLOAD_FINISHED_EVENT_NAME, tmpImage, ImageVisualizer.ResolutionQuality.MID);
+        }
+    }
+
     private BroadcastReceiver fullscreenImageDownloadFinished = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
             String imageID = intent.getStringExtra("loadedImageID");
-            // TODO Find a way to display the image because i give up :((
+
             ImageView view = new ImageView(context);
-            view.setImageDrawable(tmpImage.getFullHDDrawable());
+            view.setImageDrawable(tmpImage.getMidResDrawable());
             setContentView(view);
         }
     };

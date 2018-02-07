@@ -53,7 +53,7 @@ public class ListFragment extends Fragment{
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(homeImageDownloadFinished,
                 new IntentFilter(DOWNLOAD_FINISHED_EVENT_NAME));
 
-        RequestMaker.searchRandomImages(currentPage, RESULTS_PER_PAGE, new SearchResultReceivedListener() {
+        RequestMaker.searchImagesByQuery(GetMostLikedTags(),currentPage, RESULTS_PER_PAGE, new SearchResultReceivedListener() {
             @Override
             public void callListenerEvent(JSONSearchResult results) {
                 searchResultsReceived(results);
