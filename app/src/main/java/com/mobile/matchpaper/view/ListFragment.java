@@ -102,7 +102,7 @@ public class ListFragment extends Fragment{
     /**
      * Adapter to display recycler view.
      */
-    public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
+     private class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         public ContentAdapter(Context context) {
         }
