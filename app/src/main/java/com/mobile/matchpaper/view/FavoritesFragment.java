@@ -26,6 +26,7 @@ import com.mobile.matchpaper.R;
  * Created by emilio on 12/4/17.
  */
 
+//TODO show user favorites
 public class FavoritesFragment extends Fragment {
 
     @Override
