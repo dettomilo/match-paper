@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.mobile.matchpaper.model.JSONParser;
 import com.mobile.matchpaper.model.JSONSearchResult;
+import com.mobile.matchpaper.view.FavoritesFragment;
 import com.mobile.matchpaper.view.ListFragment;
 import com.mobile.matchpaper.view.MainActivity;
 
@@ -129,6 +130,7 @@ public class RequestMaker {
                     case RANDOM_IMAGE:
                         // TODO Call appropriate view method for RANDOM_IMAGE (Like to fill the random image Like/Dislike page)
                         ListFragment.searchResultsReceived(searchResultsContainer);
+                        FavoritesFragment.searchResultsReceived(searchResultsContainer);
                         break;
                 }
 
