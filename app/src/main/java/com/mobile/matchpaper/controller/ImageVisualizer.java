@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 
 public class ImageVisualizer {
-    private static ArrayList<Target> targetsQueue = new ArrayList<>();
+    private static ArrayList<CustomTarget> targetsQueue = new ArrayList<>();
 
     /**
      * Returns a Drawable from an URL
@@ -30,13 +30,18 @@ public class ImageVisualizer {
 
         String URL = "";
 
-        Target finalTarget = new Target() {
+        CustomTarget finalTarget = new CustomTarget() {
             private Bitmap img;
 
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 img = bitmap;
 
+                onDownloadCompleted();
+            }
+
+            @Override
+            public void onDownloadCompleted(){
                 Intent intent = new Intent(downloadFinishedEventName);
                 intent.putExtra("loadedImageID", originalImage.getImageID());
                 switch (quality){
@@ -47,10 +52,10 @@ public class ImageVisualizer {
                         originalImage.setMidResDrawable(getDrawable());
                         break;
                     case HIGH:
-                        /**
-                         * TODO Add HQ download.
-                         */
-                        originalImage.setMidResDrawable(getDrawable());
+                        originalImage.setFullHDDrawable(getDrawable());
+                        break;
+                    case FULL:
+                        originalImage.setFullResDrawable(getDrawable());
                         break;
                 }
 
@@ -76,27 +81,46 @@ public class ImageVisualizer {
 
         switch (quality) {
             case PREVIEW:
-                URL = originalImage.getPreviewURL();
-                Picasso.with(MatchPaperApp.getContext())
-                        .load(URL)
-                        .resize(350,350)
-                        .centerCrop()
-                        .into(finalTarget);
+                if (originalImage.getPreviewDrawable() == null) {
+                    URL = originalImage.getPreviewURL();
+                    Picasso.with(MatchPaperApp.getContext())
+                            .load(URL)
+                            .resize(350,350)
+                            .centerCrop()
+                            .into(finalTarget);
+                } else {
+                    finalTarget.onDownloadCompleted();
+                }
                 break;
             case MID:
-                URL = originalImage.getMidResURL();
-                Picasso.with(MatchPaperApp.getContext())
-                        .load(URL)
-                        .into(finalTarget);
+                if (originalImage.getMidResDrawable() == null) {
+                    URL = originalImage.getMidResURL();
+                    Picasso.with(MatchPaperApp.getContext())
+                            .load(URL)
+                            .into(finalTarget);
+                } else {
+                    finalTarget.onDownloadCompleted();
+                }
                 break;
             case HIGH:
-                /**
-                 * TODO Add HQ download.
-                 */
-                URL = originalImage.getMidResURL();
-                Picasso.with(MatchPaperApp.getContext())
-                        .load(URL)
-                        .into(finalTarget);
+                if (originalImage.getFullHDDrawable() == null) {
+                    URL = originalImage.getFullHDURL();
+                    Picasso.with(MatchPaperApp.getContext())
+                            .load(URL)
+                            .into(finalTarget);
+                } else {
+                    finalTarget.onDownloadCompleted();
+                }
+                break;
+            case FULL:
+                if (originalImage.getFullResDrawable() == null) {
+                    URL = originalImage.getFullResURL();
+                    Picasso.with(MatchPaperApp.getContext())
+                            .load(URL)
+                            .into(finalTarget);
+                } else {
+                    finalTarget.onDownloadCompleted();
+                }
                 break;
         }
 
@@ -104,6 +128,7 @@ public class ImageVisualizer {
     }
 
     public enum ResolutionQuality {
+        FULL,
         HIGH,
         MID,
         PREVIEW;

@@ -13,6 +13,7 @@ import com.mobile.matchpaper.view.MainActivity;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.Callable;
 
 import static com.mobile.matchpaper.utilities.NetworkUtils.*;
 
@@ -28,7 +29,7 @@ public class RequestMaker {
      * @param pageNumber The result page number.
      * @param resultsPerPage The results per page.
      */
-    public static void searchImagesByQuery(String simpleQuery, Integer pageNumber, Integer resultsPerPage) {
+    public static void searchImagesByQuery(String simpleQuery, Integer pageNumber, Integer resultsPerPage, SearchResultReceivedListener downloadFinishedListener) {
         String requestURL = buildSearchURL(
                 simpleQuery,
                 "",
@@ -37,7 +38,7 @@ public class RequestMaker {
                 resultsPerPage.toString()
         ).toString();
 
-        makeRequest(requestURL, QueryType.QUERY_SEARCH);
+        makeRequest(requestURL, downloadFinishedListener);
     }
 
     /**
@@ -46,7 +47,7 @@ public class RequestMaker {
      * @param pageNumber The result page number.
      * @param resultsPerPage The results per page.
      */
-    public static void searchImagesByID(String imagesIDs, Integer pageNumber, Integer resultsPerPage) {
+    public static void searchImagesByID(String imagesIDs, Integer pageNumber, Integer resultsPerPage, SearchResultReceivedListener downloadFinishedListener) {
         String requestURL = buildSearchURL(
                 "",
                 imagesIDs,
@@ -55,7 +56,7 @@ public class RequestMaker {
                 resultsPerPage.toString()
         ).toString();
 
-        makeRequest(requestURL, QueryType.ID_SEARCH);
+        makeRequest(requestURL, downloadFinishedListener);
     }
 
     /**
@@ -63,7 +64,7 @@ public class RequestMaker {
      * @param pageNumber
      * @param resultsPerPage
      */
-    public static void searchRandomImages(Integer pageNumber, Integer resultsPerPage) {
+    public static void searchRandomImages(Integer pageNumber, Integer resultsPerPage, SearchResultReceivedListener downloadFinishedListener) {
         String requestURL = buildSearchURL(
                 "",
                 "",
@@ -72,34 +73,34 @@ public class RequestMaker {
                 resultsPerPage.toString()
         ).toString();
 
-        makeRequest(requestURL, QueryType.RANDOM_IMAGE);
+        makeRequest(requestURL, downloadFinishedListener);
     }
 
     /**
      * Makes a request using a request URL.
      * @param requestURL The request URL.
-     * @param type The kind of request.
+     * @param listener The listener of request.
      */
-    private static void makeRequest(String requestURL, QueryType type) {
+    private static void makeRequest(String requestURL, SearchResultReceivedListener listener) {
 
         URL searchUrl = null;
         try {
             searchUrl = new URL(requestURL);
-            new QueryTaskAsync().execute(new QueryContainer(searchUrl, type));
+            new QueryTaskAsync().execute(new QueryContainer(searchUrl, listener));
         } catch (MalformedURLException e) {
-            Log.e("Malformed URL", "Request of type: " + type.toString() + " not correct with URL: " + requestURL);
+            Log.e("Malformed URL", "Request not correct with URL: " + requestURL);
             e.printStackTrace();
         }
     }
 
     private static class QueryTaskAsync extends AsyncTask<QueryContainer, Void, String> {
-        private QueryType type;
+        private SearchResultReceivedListener listener;
 
         @Override
         protected String doInBackground(QueryContainer ...params) {
 
             URL searchUrl = params[0].getQueryUrl();
-            type = params[0].getType();
+            listener = params[0].getListener();
 
             String searchResults = null;
             try {
@@ -117,47 +118,23 @@ public class RequestMaker {
                 // When the query ends, check what kind of query it was, and call the appropriate method.
                 JSONSearchResult searchResultsContainer = JSONParser.parseJSONSearchResult(searchResults);
 
-                switch (type){
-                    case QUERY_SEARCH:
-                        Log.d("Search", "Home search completed");
-                        ListFragment.searchResultsReceived(searchResultsContainer);
-                        break;
-                    case ID_SEARCH:
-                        Log.d("Search", "Favorite search completed");
-                        FavoritesFragment.searchResultsReceived(searchResultsContainer);
-                        // TODO Call appropriate view method for ID_SEARCH (Like visualize a previously liked image stored by ID)
-                        break;
-                    case HQ_ID_SEARCH:
-                        // TODO Call appropriate view method for HQ_ID_SEARCH (Like to download an image in HQ)
-                        break;
-                    case RANDOM_IMAGE:
-                        // TODO Call appropriate view method for RANDOM_IMAGE (Like to fill the random image Like/Dislike page)
-                        break;
-                }
-
+                listener.callListenerEvent(searchResultsContainer);
             }
         }
     }
 
-    private enum QueryType {
-        QUERY_SEARCH,
-        RANDOM_IMAGE,
-        ID_SEARCH,
-        HQ_ID_SEARCH;
-    }
-
     private static class QueryContainer {
 
-        private QueryType type;
+        private SearchResultReceivedListener listener;
         private URL queryUrl;
 
-        public QueryContainer(URL queryUrl, QueryType type) {
-            this.type = type;
+        public QueryContainer(URL queryUrl, SearchResultReceivedListener listener) {
+            this.listener = listener;
             this.queryUrl = queryUrl;
         }
 
-        public QueryType getType() {
-            return type;
+        public SearchResultReceivedListener getListener() {
+            return listener;
         }
 
         public URL getQueryUrl() {

@@ -15,12 +15,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.mobile.matchpaper.R;
 import com.mobile.matchpaper.controller.ImageVisualizer;
 import com.mobile.matchpaper.controller.RequestMaker;
+import com.mobile.matchpaper.controller.SearchResultReceivedListener;
 import com.mobile.matchpaper.model.ImageContainer;
 import com.mobile.matchpaper.model.JSONSearchResult;
 import com.mobile.matchpaper.model.MatchPaperApp;
@@ -50,10 +50,15 @@ public class ListFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(mMessageReceiver,
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(homeImageDownloadFinished,
                 new IntentFilter(DOWNLOAD_FINISHED_EVENT_NAME));
 
-        RequestMaker.searchImagesByQuery(GetMostLikedTags(),currentPage, RESULTS_PER_PAGE);
+        RequestMaker.searchImagesByQuery(GetMostLikedTags(), currentPage, RESULTS_PER_PAGE, new SearchResultReceivedListener() {
+            @Override
+            public void callListenerEvent(JSONSearchResult results) {
+                searchResultsReceived(results);
+            }
+        });
 
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.recycler_view,
@@ -132,7 +137,7 @@ public class ListFragment extends Fragment{
                     String id = imageContainers.get(position).getImageID();
                     //String msg = "Clicked image with ID: ";
                     Log.d("ClickEvent", "Position: " + position + " " + imageContainers.get(position).getMidResURL());
-                    showFullScreenImage(v, id);
+                    showFullScreenImage(v, id, imageContainers.get(position));
                 }
             });
 
@@ -143,7 +148,12 @@ public class ListFragment extends Fragment{
                 lastRequestAtPosition = position;
 
                 currentPage++;
-                RequestMaker.searchImagesByQuery(GetMostLikedTags(),currentPage, RESULTS_PER_PAGE);
+                RequestMaker.searchImagesByQuery(GetMostLikedTags(),currentPage, RESULTS_PER_PAGE, new SearchResultReceivedListener() {
+                    @Override
+                    public void callListenerEvent(JSONSearchResult results) {
+                        searchResultsReceived(results);
+                    }
+                });
             }
         }
 
@@ -153,16 +163,20 @@ public class ListFragment extends Fragment{
         }
     }
 
-    private void showFullScreenImage(View view, String text) {
+    private void showFullScreenImage(View view, String text, ImageContainer imageInHome) {
         Intent intent = new Intent(this.getActivity(), DisplayImageActivity.class);
         intent.putExtra(INTENT_STRING_CONTENT, text);
         startActivity(intent);
     }
 
-    public static void searchResultsReceived(JSONSearchResult searchResult) {
+    public void searchResultsReceived(JSONSearchResult searchResult) {
+        Log.d("ResultReceived", "ListFragment Result Received");
+
         maxImagesFound = searchResult.getNumberOfImagesFound();
         final List<ImageContainer> results = searchResult.getImageList(true);
         imageContainers.addAll(results);
+
+        Log.d("ResultReceived", "ListFragment results: " + results.size());
 
         // Starts all the downloads for the drawableImages:
         for (ImageContainer imageToDownload:results){
@@ -172,24 +186,34 @@ public class ListFragment extends Fragment{
         adapter.notifyDataSetChanged();
     }
 
-    public void addDrawablePreviewToList(String imageID) {
+    public void notifyViewOfNewLoadedImage() {
         adapter.notifyDataSetChanged();
         loadedImagesNumber++;
     }
 
-    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+    public static ImageContainer getImageFromHomeByID(String imageID){
+         for (ImageContainer img: imageContainers){
+             if (img.equals(imageID)){
+                 return img;
+             }
+         }
+
+         return null;
+    }
+
+    private BroadcastReceiver homeImageDownloadFinished = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
-            String message = intent.getStringExtra("loadedImageID");
-            addDrawablePreviewToList(message);
+            //String imageID = intent.getStringExtra("loadedImageID");
+            notifyViewOfNewLoadedImage();
         }
     };
 
     @Override
     public void onDestroy() {
         // Unregister since the activity is about to be closed.
-        LocalBroadcastManager.getInstance(MatchPaperApp.getContext()).unregisterReceiver(mMessageReceiver);
+        LocalBroadcastManager.getInstance(MatchPaperApp.getContext()).unregisterReceiver(homeImageDownloadFinished);
         super.onDestroy();
     }
 }

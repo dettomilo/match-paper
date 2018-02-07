@@ -38,7 +38,9 @@ public class JSONSearchResult {
                             currImg.getString("id"),
                             tagParser(currImg.getString("tags")),
                             currImg.getString("previewURL"),
-                            currImg.getString("webformatURL"))
+                            currImg.getString("webformatURL"),
+                            currImg.getString("fullHDURL"),
+                            currImg.getString("imageURL"))
                 );
 
             } catch (JSONException e) {

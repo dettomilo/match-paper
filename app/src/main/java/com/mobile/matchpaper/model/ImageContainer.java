@@ -16,15 +16,21 @@ public class ImageContainer {
     private ArrayList<String> tagList;
     private String previewURL = "";
     private String midResURL = "";
+    private String fullHDURL = "";
+    private String fullResURL = "";
 
     private Drawable previewDrawable = null;
     private Drawable midResDrawable = null;
+    private Drawable fullHDDrawable = null;
+    private Drawable fullResDrawable = null;
 
-    public ImageContainer(String imageID, ArrayList<String> tagList, String previewURL, String midResURL) {
+    public ImageContainer(String imageID, ArrayList<String> tagList, String previewURL, String midResURL, String fullHDURL, String fullResURL) {
         this.imageID = imageID;
         this.tagList = tagList;
         this.previewURL = previewURL;
         this.midResURL = midResURL;
+        this.fullHDURL = fullHDURL;
+        this.fullResURL = fullResURL;
     }
 
     public String getImageID() {
@@ -57,5 +63,26 @@ public class ImageContainer {
 
     public void setPreviewDrawable(Drawable previewDrawable) {
         this.previewDrawable = previewDrawable;
+    }
+
+    public String getFullHDURL() {
+        return fullHDURL;
+    }
+    public String getFullResURL() {
+        return fullResURL;
+    }
+    public Drawable getFullHDDrawable() {
+        return fullHDDrawable;
+    }
+
+    public void setFullHDDrawable(Drawable fullHDDrawable) {
+        this.fullHDDrawable = fullHDDrawable;
+    }
+
+    public Drawable getFullResDrawable() {
+        return fullResDrawable;
+    }
+    public void setFullResDrawable(Drawable fullResDrawable) {
+        this.fullResDrawable = fullResDrawable;
     }
 }

@@ -29,7 +29,7 @@ import java.util.Scanner;
  */
 public class NetworkUtils {
 
-    private static final String SEARCH_BASE_URL = "https://pixabay.com/api/?key=7224233-e95ab7aee14015f4bc4fede93";
+    private static final String SEARCH_BASE_URL = "https://pixabay.com/api/?key=7224233-e95ab7aee14015f4bc4fede93&response_group=high_resolution";
 
     public enum ResultsOrder {
         POPULAR ("popular"),

@@ -79,7 +79,7 @@ public class SwipeFragment extends Fragment{
         });
     }
 
-    /*public void addDrawablePreviewToList(String imageID) {
+    /*public void notifyViewOfNewLoadedImage(String imageID) {
         adapter.notifyDataSetChanged();
         loadedImagesNumber++;
     }
@@ -89,7 +89,7 @@ public class SwipeFragment extends Fragment{
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
             String message = intent.getStringExtra("loadedImageID");
-            addDrawablePreviewToList(message);
+            notifyViewOfNewLoadedImage(message);
         }
     };*/
 }

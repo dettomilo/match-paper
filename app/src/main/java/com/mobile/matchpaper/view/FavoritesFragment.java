@@ -4,32 +4,23 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobile.matchpaper.R;
 import com.mobile.matchpaper.controller.ImageVisualizer;
 import com.mobile.matchpaper.controller.RequestMaker;
+import com.mobile.matchpaper.controller.SearchResultReceivedListener;
 import com.mobile.matchpaper.model.ImageContainer;
 import com.mobile.matchpaper.model.JSONSearchResult;
 import com.mobile.matchpaper.model.MatchPaperApp;
@@ -59,10 +50,15 @@ public class FavoritesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(mMessageReceiver,
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(favouriteImageDownloadFinished,
                 new IntentFilter(DOWNLOAD_FINISHED_EVENT_NAME));
 
-        RequestMaker.searchImagesByID(GetConcatenatedLikedIDs(), currentPage, RESULTS_PER_PAGE);
+        RequestMaker.searchImagesByID(GetConcatenatedLikedIDs(), currentPage, RESULTS_PER_PAGE, new SearchResultReceivedListener() {
+            @Override
+            public void callListenerEvent(JSONSearchResult results) {
+                searchResultsReceived(results);
+            }
+        });
 
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.recycler_view,
@@ -154,7 +150,12 @@ public class FavoritesFragment extends Fragment {
                     lastRequestAtPosition = position;
 
                     currentPage++;
-                    RequestMaker.searchImagesByID(GetConcatenatedLikedIDs(), currentPage, RESULTS_PER_PAGE);
+                    RequestMaker.searchImagesByID(GetConcatenatedLikedIDs(), currentPage, RESULTS_PER_PAGE, new SearchResultReceivedListener() {
+                        @Override
+                        public void callListenerEvent(JSONSearchResult results) {
+                            searchResultsReceived(results);
+                        }
+                    });
                 }
             }
         }
@@ -171,10 +172,14 @@ public class FavoritesFragment extends Fragment {
         startActivity(intent);
     }
 
-    public static void searchResultsReceived(JSONSearchResult searchResult) {
+    public void searchResultsReceived(JSONSearchResult searchResult) {
+        Log.d("ResultReceived", "FavoritesFragment Result Received");
+
         maxImagesFound = searchResult.getNumberOfImagesFound();
         final List<ImageContainer> results = searchResult.getImageList(true);
         imageContainers.addAll(results);
+
+        Log.d("ResultReceived", "FavoritesFragment results: " + results.size());
 
         // Starts all the downloads for the drawableImages:
         for (ImageContainer imageToDownload:results){
@@ -189,7 +194,7 @@ public class FavoritesFragment extends Fragment {
         loadedImagesNumber++;
     }
 
-    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver favouriteImageDownloadFinished = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
@@ -201,7 +206,7 @@ public class FavoritesFragment extends Fragment {
     @Override
     public void onDestroy() {
         // Unregister since the activity is about to be closed.
-        LocalBroadcastManager.getInstance(MatchPaperApp.getContext()).unregisterReceiver(mMessageReceiver);
+        LocalBroadcastManager.getInstance(MatchPaperApp.getContext()).unregisterReceiver(favouriteImageDownloadFinished);
         super.onDestroy();
     }
 }
