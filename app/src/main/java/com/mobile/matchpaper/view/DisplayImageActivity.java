@@ -22,6 +22,7 @@ import com.mobile.matchpaper.controller.SearchResultReceivedListener;
 import com.mobile.matchpaper.model.ImageContainer;
 import com.mobile.matchpaper.model.JSONSearchResult;
 import com.mobile.matchpaper.model.MatchPaperApp;
+import com.mobile.matchpaper.model.UserPreferences;
 
 import java.io.IOException;
 
@@ -58,6 +59,13 @@ public class DisplayImageActivity extends AppCompatActivity {
         if (tmpImage != null) {
             ImageVisualizer.downloadImageAndNotifyView(DOWNLOAD_FINISHED_EVENT_NAME, tmpImage, ImageVisualizer.ResolutionQuality.MID);
         }
+
+        favoritesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UserPreferences.AddImageToFavourites(tmpImage);
+            }
+        });
 
         setWallpaperButton.setOnClickListener(new View.OnClickListener() {
             @Override
