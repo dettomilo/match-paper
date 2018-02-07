@@ -16,6 +16,7 @@
 package com.mobile.matchpaper.utilities;
 
 import android.net.Uri;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,7 +30,7 @@ import java.util.Scanner;
  */
 public class NetworkUtils {
 
-    private static final String SEARCH_BASE_URL = "https://pixabay.com/api/?key=7224233-e95ab7aee14015f4bc4fede93&response_group=high_resolution";
+    private static final String SEARCH_BASE_URL = "https://pixabay.com/api/?key=7224233-e95ab7aee14015f4bc4fede93";
 
     public enum ResultsOrder {
         POPULAR ("popular"),
@@ -65,6 +66,7 @@ public class NetworkUtils {
     public static URL buildSearchURL(String searchQuery, String searchID, ResultsOrder searchOrder, String pageNum, String resultsPerPage) {
 
         Uri.Builder uriBuilderTemp = Uri.parse(SEARCH_BASE_URL).buildUpon();
+        uriBuilderTemp.appendQueryParameter("response_group", "high_resolution");
 
         if (searchQuery.length() > 0) {
             uriBuilderTemp.appendQueryParameter(PARAM_SEARCH_QUERY, searchQuery);
@@ -91,6 +93,8 @@ public class NetworkUtils {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+
+        Log.d("URL Created", url.toString());
 
         return url;
     }

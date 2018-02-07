@@ -44,16 +44,14 @@ public class RequestMaker {
     /**
      *  Searches for images by image IDs
      * @param imagesIDs Image IDs (If multiple, separate them by comma. Ex: ID1,ID2,...)
-     * @param pageNumber The result page number.
-     * @param resultsPerPage The results per page.
      */
-    public static void searchImagesByID(String imagesIDs, Integer pageNumber, Integer resultsPerPage, SearchResultReceivedListener downloadFinishedListener) {
+    public static void searchImagesByID(String imagesIDs, SearchResultReceivedListener downloadFinishedListener) {
         String requestURL = buildSearchURL(
                 "",
                 imagesIDs,
                 ResultsOrder.POPULAR,
-                pageNumber.toString(),
-                resultsPerPage.toString()
+                "",
+                ""
         ).toString();
 
         makeRequest(requestURL, downloadFinishedListener);
@@ -119,6 +117,7 @@ public class RequestMaker {
                 JSONSearchResult searchResultsContainer = JSONParser.parseJSONSearchResult(searchResults);
 
                 listener.callListenerEvent(searchResultsContainer);
+                Log.d("ListenerType", searchResultsContainer.getImageList(false).size() + "");
             }
         }
     }

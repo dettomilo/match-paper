@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -29,7 +30,7 @@ public class DisplayImageActivity extends AppCompatActivity {
     private ImageButton favoritesButton;
     private ImageButton downloadButton;
     private ImageButton setWallpaperButton;
-    private ImageContainer imageToDownload;
+    private ImageContainer tmpImage;
     public static final String DOWNLOAD_FINISHED_EVENT_NAME = "display_image_download_finished";
 
     @Override
@@ -49,12 +50,11 @@ public class DisplayImageActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String imageID = intent.getStringExtra(ListFragment.INTENT_STRING_CONTENT);
 
-        RequestMaker.searchImagesByID(imageID, 1, 1, new SearchResultReceivedListener() {
-            @Override
-            public void callListenerEvent(JSONSearchResult results) {
-                searchResultsReceived(results);
-            }
-        });
+        tmpImage = ListFragment.getImageFromHomeByID(imageID);
+
+        if (tmpImage != null) {
+            ImageVisualizer.downloadImageAndNotifyView(DOWNLOAD_FINISHED_EVENT_NAME, tmpImage, ImageVisualizer.ResolutionQuality.MID);
+        }
 
         setWallpaperButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,16 +77,10 @@ public class DisplayImageActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
             String imageID = intent.getStringExtra("loadedImageID");
-            ListFragment.getImageFromHomeByID(imageID).setFullHDDrawable(imageToDownload.getFullHDDrawable());
-
+            // TODO Find a way to display the image because i give up :((
             ImageView view = new ImageView(context);
-            view.setImageDrawable(imageToDownload.getFullHDDrawable());
+            view.setImageDrawable(tmpImage.getFullHDDrawable());
             setContentView(view);
         }
     };
-
-    private void searchResultsReceived(JSONSearchResult results){
-        imageToDownload = results.getImageList(1, false).get(1);
-        ImageVisualizer.downloadImageAndNotifyView(DisplayImageActivity.DOWNLOAD_FINISHED_EVENT_NAME, imageToDownload, ImageVisualizer.ResolutionQuality.HIGH);
-    }
 }

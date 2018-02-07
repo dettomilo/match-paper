@@ -39,9 +39,9 @@ public class JSONSearchResult {
                             tagParser(currImg.getString("tags")),
                             currImg.getString("previewURL"),
                             currImg.getString("webformatURL"),
-                            currImg.getString("fullHDURL"),
-                            currImg.getString("imageURL"))
-                );
+                            "",
+                            ""
+                ));
 
             } catch (JSONException e) {
                 Log.e("Parsing Error", "Error parsing results array.");

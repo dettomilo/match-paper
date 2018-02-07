@@ -192,8 +192,9 @@ public class ListFragment extends Fragment{
     }
 
     public static ImageContainer getImageFromHomeByID(String imageID){
+
          for (ImageContainer img: imageContainers){
-             if (img.equals(imageID)){
+             if (img.getImageID().equals(imageID)){
                  return img;
              }
          }

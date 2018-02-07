@@ -53,7 +53,7 @@ public class FavoritesFragment extends Fragment {
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(favouriteImageDownloadFinished,
                 new IntentFilter(DOWNLOAD_FINISHED_EVENT_NAME));
 
-        RequestMaker.searchImagesByID(GetConcatenatedLikedIDs(), currentPage, RESULTS_PER_PAGE, new SearchResultReceivedListener() {
+        RequestMaker.searchImagesByID(GetConcatenatedLikedIDs(), new SearchResultReceivedListener() {
             @Override
             public void callListenerEvent(JSONSearchResult results) {
                 searchResultsReceived(results);
@@ -150,7 +150,7 @@ public class FavoritesFragment extends Fragment {
                     lastRequestAtPosition = position;
 
                     currentPage++;
-                    RequestMaker.searchImagesByID(GetConcatenatedLikedIDs(), currentPage, RESULTS_PER_PAGE, new SearchResultReceivedListener() {
+                    RequestMaker.searchImagesByID(GetConcatenatedLikedIDs(), new SearchResultReceivedListener() {
                         @Override
                         public void callListenerEvent(JSONSearchResult results) {
                             searchResultsReceived(results);
