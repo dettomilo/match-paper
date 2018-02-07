@@ -43,7 +43,7 @@ public class FavoritesFragment extends Fragment {
     private static final int RESULTS_PER_PAGE = 24;
     private static final int NEW_REQUEST_THRESHOLD = 20;
 
-    private static final String DOWNLOAD_FINISHED_EVENT_NAME = "list_image_download_finished";
+    private static final String DOWNLOAD_FINISHED_EVENT_NAME = "favourite_image_download_finished";
     protected static final String INTENT_STRING_CONTENT = "image_id";
 
     private static List<ImageContainer> imageContainers = new LinkedList<>();

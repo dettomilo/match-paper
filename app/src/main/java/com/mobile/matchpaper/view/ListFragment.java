@@ -29,10 +29,6 @@ import com.mobile.matchpaper.model.UserPreferences;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by emilio on 12/4/17.
- */
-
 public class ListFragment extends Fragment{
 
     private static final int RESULTS_PER_PAGE = 24;
