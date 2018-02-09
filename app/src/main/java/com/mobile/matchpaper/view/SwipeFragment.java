@@ -116,8 +116,8 @@ public class SwipeFragment extends Fragment{
             progressBar.setVisibility(View.GONE);
             currentPhoto.setVisibility(View.VISIBLE);
             Log.d("ResultReceived", "SwipeFragment curr pos. " + currentPhotoIndex);
-            iv.setImageDrawable(imageContainers.get(currentPhotoIndex).getMidResDrawable());
             Log.d("ResultReceived", "SwipeFragment img id " + imageContainers.get(currentPhotoIndex).getImageID());
+            iv.setImageDrawable(imageContainers.get(currentPhotoIndex).getMidResDrawable());
             //currentPhoto.invalidate();
         }
     }
