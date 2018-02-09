@@ -66,10 +66,6 @@ public class FavoritesFragment extends Fragment {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-
-                if (!recyclerView.canScrollVertically(1)) {
-                    Toast.makeText(getActivity(),"Loading new images...",Toast.LENGTH_SHORT).show();
-                }
             }
         });
 

@@ -31,7 +31,7 @@ import java.util.List;
 
 public class ListFragment extends Fragment{
 
-    private static final int RESULTS_PER_PAGE = 5;
+    //private static final int RESULTS_PER_PAGE = 5;
     private static final int NEW_REQUEST_THRESHOLD = 5;
 
     private static final String DOWNLOAD_FINISHED_EVENT_NAME = "list_image_download_finished";
@@ -143,7 +143,7 @@ public class ListFragment extends Fragment{
 
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
-            //Log.d("Current position", "Position requested is: " + position + " total images: " + getItemCount() + " page: " + currentPage);
+            Log.d("Current position", "Position requested is: " + position + " total images: " + getItemCount() + " page: " + currentPage);
 
             Drawable img = imageContainers.get(position).getPreviewDrawable();
             holder.picture.setImageDrawable(img);
@@ -199,7 +199,7 @@ public class ListFragment extends Fragment{
         adapter.notifyDataSetChanged();
     }
 
-    public void notifyViewOfNewLoadedImage() {
+    private void notifyViewOfNewLoadedImage() {
         adapter.notifyDataSetChanged();
         loadedImagesNumber++;
     }
