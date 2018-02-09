@@ -30,7 +30,10 @@ import com.mobile.matchpaper.controller.RequestMaker;
 import com.mobile.matchpaper.controller.SearchResultReceivedListener;
 import com.mobile.matchpaper.model.ImageContainer;
 import com.mobile.matchpaper.model.JSONSearchResult;
+import com.mobile.matchpaper.model.MatchPaperApp;
+import com.mobile.matchpaper.model.UserPreferences;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -147,4 +150,30 @@ public class SwipeFragment extends Fragment{
             notifyViewOfNewLoadedImage();
         }
     };
+
+    @Override
+    public void onDestroy() {
+        // Unregister since the activity is about to be closed.
+        LocalBroadcastManager.getInstance(MatchPaperApp.getContext()).unregisterReceiver(swipeImageDownloadFinished);
+        super.onDestroy();
+
+        try {
+            UserPreferences.GetInstance().SavePreferences();
+            Log.d("FILESAVE", "on exit");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        try {
+            UserPreferences.GetInstance().SavePreferences();
+            Log.d("FILESAVE", "on exit");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

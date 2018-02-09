@@ -26,6 +26,7 @@ import com.mobile.matchpaper.model.JSONSearchResult;
 import com.mobile.matchpaper.model.MatchPaperApp;
 import com.mobile.matchpaper.model.UserPreferences;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class ListFragment extends Fragment{
 
     private static Integer currentPage = 1;
     private static Integer lastRequestAtPosition = 0;
+    private boolean firstOpen = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,13 +89,14 @@ public class ListFragment extends Fragment{
         int maxTags = 15;
         int currTags = 0;
 
-        if (!UserPreferences.GetInstance().GetMostLikedTags().keySet().isEmpty()) {
-            Log.d("NOTEMPTY", "SADASDASDAS");
+        if (!UserPreferences.GetInstance().GetMostLikedTags().keySet().isEmpty()
+                && UserPreferences.GetInstance().GetMostLikedTags().keySet().size() >= 20
+                    && firstOpen) {
 
             for (String tag : UserPreferences.GetInstance().GetMostLikedTags().keySet()) {
                 if (currTags < maxTags){
                     // Mixing things up
-                    RequestMaker.searchImagesByQuery(tag, currentPage, 4, new SearchResultReceivedListener() {
+                    RequestMaker.searchImagesByQuery(tag, 1, 5, new SearchResultReceivedListener() {
                         @Override
                         public void callListenerEvent(JSONSearchResult results) {
                             searchResultsReceived(results);
@@ -104,6 +107,8 @@ public class ListFragment extends Fragment{
                     break;
                 }
             }
+
+            firstOpen = false;
         } else {
             RequestMaker.searchRandomImages(currentPage, 24, new SearchResultReceivedListener() {
                 @Override
@@ -226,5 +231,24 @@ public class ListFragment extends Fragment{
         // Unregister since the activity is about to be closed.
         LocalBroadcastManager.getInstance(MatchPaperApp.getContext()).unregisterReceiver(homeImageDownloadFinished);
         super.onDestroy();
+
+        try {
+            UserPreferences.GetInstance().SavePreferences();
+            Log.d("FILESAVE", "on exit");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        try {
+            UserPreferences.GetInstance().SavePreferences();
+            Log.d("FILESAVE", "on exit");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

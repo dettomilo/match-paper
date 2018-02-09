@@ -23,6 +23,7 @@ import com.mobile.matchpaper.model.JSONSearchResult;
 import com.mobile.matchpaper.model.MatchPaperApp;
 import com.mobile.matchpaper.model.UserPreferences;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -181,5 +182,29 @@ public class FavoritesFragment extends Fragment {
     public static void notifyViewForDatasetChange() {
         imageContainers = UserPreferences.GetInstance().GetLikedImages();
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        try {
+            UserPreferences.GetInstance().SavePreferences();
+            Log.d("FILESAVE", "on exit");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        try {
+            UserPreferences.GetInstance().SavePreferences();
+            Log.d("FILESAVE", "on exit");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

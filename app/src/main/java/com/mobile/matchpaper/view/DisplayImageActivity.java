@@ -104,4 +104,16 @@ public class DisplayImageActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(MatchPaperApp.getContext()).unregisterReceiver(fullscreenImageDownloadFinished);
         super.onDestroy();
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        try {
+            UserPreferences.GetInstance().SavePreferences();
+            Log.d("FILESAVE", "on exit");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

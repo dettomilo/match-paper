@@ -100,8 +100,27 @@ public class MainActivity extends AppCompatActivity {
         });
 
         try {
-            UserPreferences.GetInstance().LoadPreferences();
-            Log.d("Loaded", "on start");
+            // Loads the preferences and then downloads the preferenced images
+            ArrayList<String> imageIDs = UserPreferences.GetInstance().LoadPreferences();
+
+            String concatIDs = "";
+
+            for (String id : imageIDs){
+                concatIDs += id + ',';
+            }
+
+            if (concatIDs == "") {
+                concatIDs = "NO_ID";
+            }
+
+            RequestMaker.searchImagesByID(concatIDs, new SearchResultReceivedListener() {
+                @Override
+                public void callListenerEvent(JSONSearchResult results) {
+                    preferencesResultsReceived(results);
+                }
+            });
+
+            Log.d("FILESAVE", "on resume");
         } catch (IOException e) {
             Log.d("Error loading file", "No savefile");
         } catch (ClassNotFoundException e) {
