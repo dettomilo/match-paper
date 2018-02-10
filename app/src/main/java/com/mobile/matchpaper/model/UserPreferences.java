@@ -91,7 +91,7 @@ public class UserPreferences {
         ArrayList<String> likedIDs = new ArrayList<>(loadedUserPrefs.getLikedImages());
         likedTags = new HashMap<>(loadedUserPrefs.getLikedTags());
 
-        Log.d("FILESAVE", "LOADED " + likedImages.toArray().length + " images and: " + likedTags.size() + " tags.");
+        Log.d("FILESAVE", "LOADED " + likedIDs.size() + " images and: " + likedTags.size() + " tags.");
 
         inputStream.close();
 
