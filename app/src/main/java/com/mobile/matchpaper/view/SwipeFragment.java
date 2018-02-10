@@ -117,7 +117,8 @@ public class SwipeFragment extends Fragment{
             currentPhoto.setVisibility(View.VISIBLE);
             Log.d("ResultReceived", "SwipeFragment curr pos. " + currentPhotoIndex);
             Log.d("ResultReceived", "SwipeFragment img id " + imageContainers.get(currentPhotoIndex).getImageID());
-            iv.setImageDrawable(imageContainers.get(currentPhotoIndex).getMidResDrawable());
+            //iv.setImageDrawable(imageContainers.get(currentPhotoIndex).getMidResDrawable());
+            iv.setImageResource(R.drawable.ic_android_black_24dp);
             //currentPhoto.invalidate();
         }
     }
