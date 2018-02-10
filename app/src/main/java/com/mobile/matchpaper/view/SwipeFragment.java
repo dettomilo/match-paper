@@ -72,12 +72,7 @@ public class SwipeFragment extends Fragment{
 
         currentPhotoIndex = 0;
 
-        RequestMaker.searchRandomImages(currentPage, 24, new SearchResultReceivedListener() {
-            @Override
-            public void callListenerEvent(JSONSearchResult results) {
-                searchResultsReceived(results);
-            }
-        });
+        makeRequest();
 
         LinearLayout ll = (LinearLayout) inflater.inflate(
                 R.layout.item_swipe, container, false);
@@ -99,14 +94,22 @@ public class SwipeFragment extends Fragment{
         likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO like photo
+                UserPreferences.GetInstance().LikeImage(imageContainers.get(0));
+                //currentPhotoIndex++;
+                updateCurrentPhoto(currentPhoto);
+
+                imageContainers.remove(0);
             }
         });
 
         dislikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO dislike photo
+                UserPreferences.GetInstance().DislikeImage(imageContainers.get(0).getImageID());
+                //currentPhotoIndex++;
+                updateCurrentPhoto(currentPhoto);
+
+                imageContainers.remove(0);
             }
         });
     }
@@ -115,12 +118,27 @@ public class SwipeFragment extends Fragment{
         if (!imageContainers.isEmpty()) {
             progressBar.setVisibility(View.GONE);
             currentPhoto.setVisibility(View.VISIBLE);
-            Log.d("ResultReceived", "SwipeFragment curr pos. " + currentPhotoIndex);
-            Log.d("ResultReceived", "SwipeFragment img id " + imageContainers.get(currentPhotoIndex).getImageID());
-            //iv.setImageDrawable(imageContainers.get(currentPhotoIndex).getMidResDrawable());
-            iv.setImageResource(R.drawable.ic_android_black_24dp);
+            //Log.d("ResultReceived", "SwipeFragment curr pos. " + currentPhotoIndex);
+            //Log.d("ResultReceived", "SwipeFragment img id " + imageContainers.get(currentPhotoIndex).getImageID());
+            iv.setImageDrawable(imageContainers.get(0).getMidResDrawable());
+            //iv.setImageResource(R.drawable.ic_android_black_24dp);
             //currentPhoto.invalidate();
         }
+
+        if (imageContainers.size() < 2) {
+            makeRequest();
+        }
+    }
+
+    private void makeRequest() {
+        currentPage++;
+
+        RequestMaker.searchRandomImages(currentPage, 24, new SearchResultReceivedListener() {
+            @Override
+            public void callListenerEvent(JSONSearchResult results) {
+                searchResultsReceived(results);
+            }
+        });
     }
 
     public void searchResultsReceived(JSONSearchResult searchResult) {
@@ -128,13 +146,14 @@ public class SwipeFragment extends Fragment{
 
         maxImagesFound = searchResult.getNumberOfImagesFound();
         final List<ImageContainer> results = searchResult.getImageList(true);
+
         imageContainers.addAll(results);
 
         Log.d("ResultReceived", "SwipeFragment results: " + results.size());
 
         // Starts all the downloads for the drawableImages:
         for (ImageContainer imageToDownload:results){
-            ImageVisualizer.downloadImageAndNotifyView(DOWNLOAD_FINISHED_EVENT_NAME, imageToDownload, ImageVisualizer.ResolutionQuality.PREVIEW);
+            ImageVisualizer.downloadImageAndNotifyView(DOWNLOAD_FINISHED_EVENT_NAME, imageToDownload, ImageVisualizer.ResolutionQuality.MID);
         }
 
         updateCurrentPhoto(currentPhoto);

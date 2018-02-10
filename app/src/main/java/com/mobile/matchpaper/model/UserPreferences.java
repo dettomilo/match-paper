@@ -124,6 +124,41 @@ public class UserPreferences {
     }
 
     /**
+     * Dislike image tags.
+     * @param imageID The image to like.
+     */
+    public static void DislikeImage(String imageID) {
+
+        ImageContainer foundImg = null;
+
+        for (ImageContainer img: likedImages) {
+            if (imageID.equals(img.getImageID())) {
+                foundImg = img;
+                break;
+            }
+        }
+
+        if (foundImg != null) {
+
+            // Remove -1 to every tag of the image
+            for (String tag:foundImg.getTagList()) {
+
+                String lowerTag = tag.toLowerCase();
+                // There should be already at least 1 like per tag since the image was found in the liked ones.
+                Integer previousTagLikes  = likedTags.get(lowerTag).intValue();
+
+                likedTags.put(lowerTag, previousTagLikes - 1);
+
+                if(likedTags.get(lowerTag).intValue() == 0) {
+                    likedTags.remove(lowerTag);
+                }
+            }
+        } else {
+            Log.e("Image ID not found!", "Can't unlike image with ID: " + imageID);
+        }
+    }
+
+    /**
      * Memorizes the liked image and updateds liked tags.
      * @param likedImage The image to like.
      */
