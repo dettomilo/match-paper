@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +45,7 @@ public class SearchableActivity extends AppCompatActivity {
     private ImageButton imageButtonSearch;
     private TextView textViewSearchResults;
     private GridView gridView;
+    private ProgressBar progressBar;
 
     private static final String DOWNLOAD_FINISHED_EVENT_NAME = "search_image_download_finished";
     private static List<ImageContainer> imageContainers = new LinkedList<>();
@@ -60,7 +62,9 @@ public class SearchableActivity extends AppCompatActivity {
         imageButtonSearch = findViewById(R.id.ib_search);
         textViewSearchResults = findViewById(R.id.tv_search_results);
         gridView = findViewById(R.id.gv_search);
-        gridView.setAdapter(new ImageAdapter(this));
+        ImageAdapter adapter = new ImageAdapter(this);
+        gridView.setAdapter(adapter);
+        progressBar = findViewById(R.id.pb_search);
 
         editTextSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -71,6 +75,8 @@ public class SearchableActivity extends AppCompatActivity {
                     textViewSearchResults.setVisibility(View.VISIBLE);
                     ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE))
                             .hideSoftInputFromWindow(textView.getWindowToken(), 0);
+
+                    progressBar.setVisibility(View.VISIBLE);
 
                     RequestMaker.searchImagesByQuery(textView.getText().toString(), 1, 24, new SearchResultReceivedListener() {
                         @Override
@@ -112,6 +118,12 @@ public class SearchableActivity extends AppCompatActivity {
             String imageID = intent.getStringExtra("loadedImageID");
             // TODO per prendere l'immagine da mostrare tocca che fai un for per cercare dentro imageContainers quale ha lo stesso ID cercato (mi pare) :)
             Log.d("SEARCHDOWNLOAD", "Download completed for image: " + imageID);
+
+            gridView.setAdapter(new ImageAdapter(getBaseContext()));
+            gridView.invalidate();
+
+            progressBar.setVisibility(View.GONE);
+            gridView.setVisibility(View.VISIBLE);
         }
     };
 
@@ -131,7 +143,7 @@ public class SearchableActivity extends AppCompatActivity {
         }
 
         public int getCount() {
-            return mThumbIds.length;
+            return imageContainers.size();
         }
 
         public Object getItem(int position) {
@@ -156,22 +168,10 @@ public class SearchableActivity extends AppCompatActivity {
                 imageView = (ImageView) convertView;
             }
 
-            imageView.setImageResource(mThumbIds[position]);
+            if(imageContainers.size() > position) {
+                imageView.setImageDrawable(imageContainers.get(position).getMidResDrawable());
+            }
             return imageView;
         }
-
-        // references to our images
-        private Integer[] mThumbIds = {
-                R.drawable.ic_android_black_24dp, R.drawable.ic_android_black_24dp,
-                R.drawable.ic_android_black_24dp, R.drawable.ic_android_black_24dp,
-                R.drawable.ic_android_black_24dp, R.drawable.ic_android_black_24dp,
-                R.drawable.ic_android_black_24dp, R.drawable.ic_android_black_24dp,
-                R.drawable.ic_android_black_24dp, R.drawable.ic_android_black_24dp,
-                R.drawable.ic_android_black_24dp, R.drawable.ic_android_black_24dp,
-                R.drawable.ic_android_black_24dp, R.drawable.ic_android_black_24dp,
-                R.drawable.ic_android_black_24dp, R.drawable.ic_android_black_24dp,
-                R.drawable.ic_android_black_24dp, R.drawable.ic_android_black_24dp,
-                R.drawable.ic_android_black_24dp, R.drawable.ic_android_black_24dp
-        };
     }
 }

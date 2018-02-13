@@ -40,13 +40,21 @@
         android:layout_height="wrap_content"
         android:id="@+id/tv_search_results"
         android:text="No results for the query requested!"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"/>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pb_search"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 
     <GridView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/gv_search"
-        android:visibility="visible"
+        android:visibility="gone"
         android:columnWidth="90dp"
         android:numColumns="auto_fit"
         android:verticalSpacing="10dp"
