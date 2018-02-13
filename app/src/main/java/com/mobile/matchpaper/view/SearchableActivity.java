@@ -136,13 +136,6 @@ public class SearchableActivity extends AppCompatActivity {
     private BroadcastReceiver searchImageDownloadFinished = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //TODO qua si notifica che l'immagine con id IMAGE ID (Dentro a imageContainers) ha finito il download quindi tocca dire alla view che ora può mostrarla
-
-            // Get extra data included in the Intent
-            String imageID = intent.getStringExtra("loadedImageID");
-            // TODO per prendere l'immagine da mostrare tocca che fai un for per cercare dentro imageContainers quale ha lo stesso ID cercato (mi pare) :)
-            Log.d("SEARCHDOWNLOAD", "Download completed for image: " + imageID);
-
             gridView.setAdapter(new ImageAdapter(getBaseContext()));
             gridView.invalidate();
 

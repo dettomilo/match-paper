@@ -231,7 +231,7 @@ public class UserPreferences {
         SaveStatusToDisk();
     }
 
-    private static void SaveStatusToDisk() {
+    public static void SaveStatusToDisk() {
         try {
             if (!likedTags.isEmpty()) {
                 SavePreferences();
@@ -240,6 +240,16 @@ public class UserPreferences {
             Log.d("FILESAVE", "ERROR SAVING! :(");
             e.printStackTrace();
         }
+    }
+
+    public static Boolean getIfImageIsInFavourites(String imgID) {
+        for (ImageContainer img : likedImages) {
+            if (imgID.equals(img.getImageID())){
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

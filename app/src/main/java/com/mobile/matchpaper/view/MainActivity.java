@@ -177,12 +177,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        try {
-            UserPreferences.GetInstance().SavePreferences();
-            Log.d("FILESAVE", "on exit");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        UserPreferences.GetInstance().SaveStatusToDisk();
     }
 
     @Override
@@ -205,12 +200,7 @@ public class MainActivity extends AppCompatActivity {
         // Unregister since the activity is about to be closed.
         LocalBroadcastManager.getInstance(MatchPaperApp.getContext()).unregisterReceiver(preferencesDownloadCompleted);
 
-        try {
-            UserPreferences.GetInstance().SavePreferences();
-            Log.d("FILESAVE", "on exit");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        UserPreferences.GetInstance().SaveStatusToDisk();
     }
 
     private BroadcastReceiver preferencesDownloadCompleted = new BroadcastReceiver() {

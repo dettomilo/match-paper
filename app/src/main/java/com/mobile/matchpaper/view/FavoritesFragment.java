@@ -134,4 +134,10 @@ public class FavoritesFragment extends Fragment {
         imageContainers = UserPreferences.GetInstance().GetLikedImages();
         adapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        UserPreferences.GetInstance().SaveStatusToDisk();
+    }
 }

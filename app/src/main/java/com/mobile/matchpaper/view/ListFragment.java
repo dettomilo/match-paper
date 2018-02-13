@@ -232,4 +232,10 @@ public class ListFragment extends Fragment{
         // Unregister since the activity is about to be closed.
         LocalBroadcastManager.getInstance(MatchPaperApp.getContext()).unregisterReceiver(homeImageDownloadFinished);
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        UserPreferences.GetInstance().SaveStatusToDisk();
+    }
 }
