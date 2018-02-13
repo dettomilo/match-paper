@@ -124,12 +124,6 @@ public class DisplayImageActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-
-        try {
-            UserPreferences.GetInstance().SavePreferences();
-            Log.d("FILESAVE", "on exit");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        UserPreferences.GetInstance().SaveStatusToDisk();
     }
 }

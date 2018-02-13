@@ -231,7 +231,7 @@ public class UserPreferences {
         SaveStatusToDisk();
     }
 
-    private static void SaveStatusToDisk() {
+    public static void SaveStatusToDisk() {
         try {
             if (!likedTags.isEmpty()) {
                 SavePreferences();

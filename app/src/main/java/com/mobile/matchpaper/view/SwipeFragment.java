@@ -174,27 +174,18 @@ public class SwipeFragment extends Fragment{
 
     @Override
     public void onDestroy() {
-        // Unregister since the activity is about to be closed.
-        LocalBroadcastManager.getInstance(MatchPaperApp.getContext()).unregisterReceiver(swipeImageDownloadFinished);
         super.onDestroy();
 
-        try {
-            UserPreferences.GetInstance().SavePreferences();
-            Log.d("FILESAVE", "on exit");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Unregister since the activity is about to be closed.
+        LocalBroadcastManager.getInstance(MatchPaperApp.getContext()).unregisterReceiver(swipeImageDownloadFinished);
+
+        UserPreferences.GetInstance().SaveStatusToDisk();
     }
 
     @Override
     public void onPause() {
         super.onPause();
 
-        try {
-            UserPreferences.GetInstance().SavePreferences();
-            Log.d("FILESAVE", "on exit");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        UserPreferences.GetInstance().SaveStatusToDisk();
     }
 }
