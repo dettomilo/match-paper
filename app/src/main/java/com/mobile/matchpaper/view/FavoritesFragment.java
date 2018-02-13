@@ -81,7 +81,7 @@ public class FavoritesFragment extends Fragment {
         }
 
         if (concatIDs == "") {
-            concatIDs = "NO_ID";
+            concatIDs = "0";
         }
 
         return concatIDs;
