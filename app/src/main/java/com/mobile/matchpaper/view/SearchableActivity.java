@@ -101,11 +101,12 @@ public class SearchableActivity extends AppCompatActivity {
 
     public void searchResultsReceived(JSONSearchResult searchResult) {
         final List<ImageContainer> results = searchResult.getImageList(true);
+        imageContainers.clear();
         imageContainers.addAll(results);
 
         // Starts all the downloads for the drawableImages:
         for (ImageContainer imageToDownload:results){
-            ImageVisualizer.downloadImageAndNotifyView(DOWNLOAD_FINISHED_EVENT_NAME, imageToDownload, ImageVisualizer.ResolutionQuality.PREVIEW);
+            ImageVisualizer.downloadImageAndNotifyView(DOWNLOAD_FINISHED_EVENT_NAME, imageToDownload, ImageVisualizer.ResolutionQuality.MID);
         }
     }
 
@@ -171,6 +172,7 @@ public class SearchableActivity extends AppCompatActivity {
             if(imageContainers.size() > position) {
                 imageView.setImageDrawable(imageContainers.get(position).getMidResDrawable());
             }
+
             return imageView;
         }
     }
