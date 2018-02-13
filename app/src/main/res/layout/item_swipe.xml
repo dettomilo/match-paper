@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:background="?android:attr/selectableItemBackground"
     android:padding="@dimen/md_keylines"
     android:orientation="vertical"
@@ -39,13 +40,14 @@
             android:id="@+id/dislike_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="NAY!"
             android:layout_weight="1"
+            android:backgroundTint="#312e2e"
+            android:drawableTint="#d10000"
             android:drawableTop="@drawable/ic_x_black_24dp"
-            android:drawableTint="#FF0000"
             android:padding="16dp"
-            android:textSize="45dp"
-            android:backgroundTint="#312e2e"/>
+            android:text="NAY!"
+            android:textColor="@color/medium_grey"
+            android:textSize="45dp" />
 
         <Button
             android:id="@+id/like_btn"
@@ -54,9 +56,10 @@
             android:text="YAY!"
             android:layout_weight="1"
             android:drawableTop="@drawable/ic_star_black_24dp"
-            android:drawableTint="#FFFF00"
+            android:drawableTint="#ffcc00"
             android:padding="16dp"
             android:textSize="45dp"
+            android:textColor="@color/medium_grey"
             android:backgroundTint="#312e2e"/>
 
     </LinearLayout>
