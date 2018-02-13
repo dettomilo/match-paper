@@ -50,6 +50,7 @@ public class SearchableActivity extends AppCompatActivity {
     private int imageWidth;
 
     private static final String DOWNLOAD_FINISHED_EVENT_NAME = "search_image_download_finished";
+    protected static final String INTENT_STRING_CONTENT = "image_id";
     private static List<ImageContainer> imageContainers = new LinkedList<>();
 
     @Override
@@ -102,9 +103,19 @@ public class SearchableActivity extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Toast.makeText(SearchableActivity.this, "" + position, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(SearchableActivity.this, "" + position, Toast.LENGTH_SHORT).show();
+                String id = imageContainers.get(position).getImageID();
+                //String msg = "Clicked image with ID: ";
+                //Log.d("ClickEvent", "Position: " + position + " " + imageContainers.get(position).getMidResURL());
+                showFullScreenImage(view, id, imageContainers.get(position));
             }
         });
+    }
+
+    private void showFullScreenImage(View view, String text, ImageContainer imageInHome) {
+        Intent intent = new Intent(getBaseContext(), DisplayImageActivity.class);
+        intent.putExtra(INTENT_STRING_CONTENT, text);
+        startActivity(intent);
     }
 
     public void searchResultsReceived(JSONSearchResult searchResult) {
