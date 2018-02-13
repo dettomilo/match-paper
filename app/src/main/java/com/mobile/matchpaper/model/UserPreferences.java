@@ -167,6 +167,7 @@ public class UserPreferences {
      * @param likedImage The image to like.
      */
     public static void AddImageToFavourites(ImageContainer likedImage) {
+
         if (!likedImages.contains(likedImage)) {
             likedImages.add(likedImage);
 
@@ -202,12 +203,12 @@ public class UserPreferences {
         for (ImageContainer img: likedImages) {
             if (imageID.equals(img.getImageID())) {
                 foundImg = img;
+                likedImages.remove(img);
                 break;
             }
         }
 
         if (foundImg != null) {
-            likedImages.remove(foundImg);
 
             // Remove -1 to every tag of the image
             for (String tag:foundImg.getTagList()) {
@@ -226,9 +227,9 @@ public class UserPreferences {
             Log.e("Image ID not found!", "Can't unlike image with ID: " + imageID);
         }
 
-        FavoritesFragment.notifyViewForDatasetChange();
-
         SaveStatusToDisk();
+
+        FavoritesFragment.notifyViewForDatasetChange();
     }
 
     public static void SaveStatusToDisk() {

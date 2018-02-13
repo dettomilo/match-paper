@@ -72,15 +72,26 @@ public class DisplayImageActivity extends AppCompatActivity {
             });
         } else {
             ImageVisualizer.downloadImageAndNotifyView(DOWNLOAD_FINISHED_EVENT_NAME, tmpImage, ImageVisualizer.ResolutionQuality.MID);
+
+            if (UserPreferences.getIfImageIsInFavourites(tmpImage.getImageID())) {
+                favoritesButton.setImageResource(R.drawable.ic_star_black_24dp);
+            }
         }
 
         favoritesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (tmpImage != null) {
 
-                    Toast.makeText(getBaseContext(), "Image added to favorites!", Toast.LENGTH_SHORT).show();
-                    UserPreferences.AddImageToFavourites(tmpImage);
+                if (tmpImage != null) {
+                    if (UserPreferences.getIfImageIsInFavourites(tmpImage.getImageID())) {
+                        UserPreferences.RemoveImageFromFavourites(tmpImage.getImageID());
+                        favoritesButton.setImageResource(R.drawable.ic_star_border_black_24dp);
+                        Toast.makeText(getBaseContext(), "Image removed from favorites!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        UserPreferences.AddImageToFavourites(tmpImage);
+                        favoritesButton.setImageResource(R.drawable.ic_star_black_24dp);
+                        Toast.makeText(getBaseContext(), "Image added to favorites!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
