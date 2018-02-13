@@ -62,6 +62,7 @@ public class DisplayImageActivity extends AppCompatActivity {
         tmpImage = ListFragment.getImageFromHomeByID(imageID);
 
         if (tmpImage != null) {
+            Log.d("DISPLAY_IMG", "Downloading image with MIDRES URL: " + tmpImage.getMidResURL());
             ImageVisualizer.downloadImageAndNotifyView(DOWNLOAD_FINISHED_EVENT_NAME, tmpImage, ImageVisualizer.ResolutionQuality.MID);
         }
 

@@ -103,10 +103,10 @@ public class SearchableActivity extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                //Toast.makeText(SearchableActivity.this, "" + position, Toast.LENGTH_SHORT).show();
                 String id = imageContainers.get(position).getImageID();
-                //String msg = "Clicked image with ID: ";
-                //Log.d("ClickEvent", "Position: " + position + " " + imageContainers.get(position).getMidResURL());
+
+                Log.d("ClickEvent", "Position: " + position + " " + imageContainers.get(position).getMidResURL());
+
                 showFullScreenImage(view, id, imageContainers.get(position));
             }
         });

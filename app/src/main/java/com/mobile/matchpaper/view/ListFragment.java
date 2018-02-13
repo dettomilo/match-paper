@@ -148,7 +148,6 @@ public class ListFragment extends Fragment{
 
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
-            Log.d("Current position", "Position requested is: " + position + " total images: " + getItemCount() + " page: " + currentPage);
 
             Drawable img = imageContainers.get(position).getPreviewDrawable();
             holder.picture.setImageDrawable(img);
@@ -158,7 +157,6 @@ public class ListFragment extends Fragment{
                 public void onClick(View v) {
                     String id = imageContainers.get(position).getImageID();
                     //String msg = "Clicked image with ID: ";
-                    Log.d("ClickEvent", "Position: " + position + " " + imageContainers.get(position).getMidResURL());
                     showFullScreenImage(v, id, imageContainers.get(position));
                 }
             });
@@ -188,13 +186,10 @@ public class ListFragment extends Fragment{
     }
 
     public void searchResultsReceived(JSONSearchResult searchResult) {
-        Log.d("ResultReceived", "ListFragment Result Received");
 
         maxImagesFound = searchResult.getNumberOfImagesFound();
         final List<ImageContainer> results = searchResult.getImageList(true);
         imageContainers.addAll(results);
-
-        Log.d("ResultReceived", "ListFragment results: " + results.size());
 
         // Starts all the downloads for the drawableImages:
         for (ImageContainer imageToDownload:results){
