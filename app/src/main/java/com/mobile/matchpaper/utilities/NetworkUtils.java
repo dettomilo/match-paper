@@ -83,7 +83,7 @@ public class NetworkUtils {
             uriBuilderTemp.appendQueryParameter(PARAM_RESULTS_PER_PAGE, resultsPerPage);
         }
         uriBuilderTemp.appendQueryParameter("image_type", "photo");
-
+        uriBuilderTemp.appendQueryParameter("safesearch", "true");
         Uri finalUrl = uriBuilderTemp.build();
 
         URL url = null;
