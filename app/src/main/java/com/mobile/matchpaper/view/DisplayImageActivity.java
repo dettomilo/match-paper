@@ -61,6 +61,9 @@ public class DisplayImageActivity extends AppCompatActivity {
         String imageID = intent.getStringExtra(ListFragment.INTENT_STRING_CONTENT);
 
         tmpImage = ListFragment.getImageFromHomeByID(imageID);
+        if (UserPreferences.getIfImageIsInFavourites(imageID)) {
+            favoritesButton.setImageResource(R.drawable.ic_star_black_24dp);
+        }
 
         // If null it means this activity wasn't opened from ListFragment, so we have to query for the image by ID and get the image container
         if (tmpImage == null) {
@@ -72,10 +75,6 @@ public class DisplayImageActivity extends AppCompatActivity {
             });
         } else {
             ImageVisualizer.downloadImageAndNotifyView(DOWNLOAD_FINISHED_EVENT_NAME, tmpImage, ImageVisualizer.ResolutionQuality.MID);
-
-            if (UserPreferences.getIfImageIsInFavourites(tmpImage.getImageID())) {
-                favoritesButton.setImageResource(R.drawable.ic_star_black_24dp);
-            }
         }
 
         favoritesButton.setOnClickListener(new View.OnClickListener() {
