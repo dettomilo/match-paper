@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new SwipeFragment(), "Swipe");
-        adapter.addFragment(new ListFragment(), "List");
+        adapter.addFragment(new ListFragment(), "Home");
         adapter.addFragment(new FavoritesFragment(), "Favorites");
         viewPager.setAdapter(adapter);
     }
