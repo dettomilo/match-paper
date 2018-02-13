@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -46,6 +47,7 @@ public class SearchableActivity extends AppCompatActivity {
     private TextView textViewSearchResults;
     private GridView gridView;
     private ProgressBar progressBar;
+    private int imageWidth;
 
     private static final String DOWNLOAD_FINISHED_EVENT_NAME = "search_image_download_finished";
     private static List<ImageContainer> imageContainers = new LinkedList<>();
@@ -57,6 +59,12 @@ public class SearchableActivity extends AppCompatActivity {
 
         LocalBroadcastManager.getInstance(MatchPaperApp.getContext()).registerReceiver(searchImageDownloadFinished,
                 new IntentFilter(DOWNLOAD_FINISHED_EVENT_NAME));
+
+
+        DisplayMetrics metrics = this.getResources().getDisplayMetrics();
+        int screenWidth = metrics.widthPixels;
+        imageWidth = ((screenWidth / 2) / 100) * 95;
+
 
         editTextSearch = findViewById(R.id.et_search);
         imageButtonSearch = findViewById(R.id.ib_search);
@@ -162,9 +170,9 @@ public class SearchableActivity extends AppCompatActivity {
             if (convertView == null) {
                 // if it's not recycled, initialize some attributes
                 imageView = new ImageView(mContext);
-                imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
+                imageView.setLayoutParams(new GridView.LayoutParams(imageWidth, imageWidth));
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                imageView.setPadding(8, 8, 8, 8);
+                imageView.setPadding(0, 0, 0, 0);
             } else {
                 imageView = (ImageView) convertView;
             }

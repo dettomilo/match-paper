@@ -5,6 +5,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mobile.matchpaper.R;
 import com.mobile.matchpaper.controller.ImageVisualizer;
@@ -73,12 +77,12 @@ public class DisplayImageActivity extends AppCompatActivity {
                 WallpaperManager myWallpaperManager = WallpaperManager
                         .getInstance(getApplicationContext());
 
-                //TODO replace ... with img
-                /*try {
-                    myWallpaperManager.setResource(R.drawable. ... );
+                try {
+                    myWallpaperManager.setBitmap(((BitmapDrawable)fullScreenImg.getDrawable()).getBitmap());
+                    Toast.makeText(getBaseContext(), "Wallpaper set!", Toast.LENGTH_SHORT).show();
                 } catch (IOException e) {
                     e.printStackTrace();
-                }*/
+                }
             }
         });
     }
