@@ -132,6 +132,6 @@ public class ImageVisualizer {
         FULL,
         HIGH,
         MID,
-        PREVIEW;
+        PREVIEW
     }
 }
