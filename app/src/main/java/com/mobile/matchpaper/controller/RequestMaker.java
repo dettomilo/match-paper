@@ -82,7 +82,7 @@ public class RequestMaker {
         String requestURL = buildSearchURL(
                 "",
                 "",
-                ResultsOrder.POPULAR,
+                ResultsOrder.LATEST,
                 pageNumber.toString(),
                 resultsPerPage.toString()
         ).toString();
