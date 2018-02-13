@@ -125,7 +125,7 @@ public class SearchableActivity extends AppCompatActivity {
 
         // Starts all the downloads for the drawableImages:
         for (ImageContainer imageToDownload:results){
-            ImageVisualizer.downloadImageAndNotifyView(DOWNLOAD_FINISHED_EVENT_NAME, imageToDownload, ImageVisualizer.ResolutionQuality.PREVIEW);
+            ImageVisualizer.downloadImageAndNotifyView(DOWNLOAD_FINISHED_EVENT_NAME, imageToDownload, ImageVisualizer.ResolutionQuality.MID);
         }
     }
 
@@ -189,7 +189,7 @@ public class SearchableActivity extends AppCompatActivity {
             }
 
             if(imageContainers.size() > position) {
-                imageView.setImageDrawable(imageContainers.get(position).getPreviewDrawable());
+                imageView.setImageDrawable(imageContainers.get(position).getMidResDrawable());
             }
 
             return imageView;

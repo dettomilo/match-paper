@@ -95,7 +95,7 @@ public class SwipeFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 UserPreferences.GetInstance().LikeImage(imageContainers.get(0));
-                //currentPhotoIndex++;
+                Log.d("SWIPE_ACTIONS", "Clicked LIKE");
                 updateCurrentPhoto(currentPhoto);
 
                 imageContainers.remove(0);
@@ -106,6 +106,7 @@ public class SwipeFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 UserPreferences.GetInstance().DislikeImage(imageContainers.get(0).getImageID());
+                Log.d("SWIPE_ACTIONS", "Clicked DISLIKE");
                 //currentPhotoIndex++;
                 updateCurrentPhoto(currentPhoto);
 

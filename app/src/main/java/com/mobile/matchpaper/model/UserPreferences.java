@@ -233,7 +233,9 @@ public class UserPreferences {
 
     private static void SaveStatusToDisk() {
         try {
-            SavePreferences();
+            if (!likedTags.isEmpty()) {
+                SavePreferences();
+            }
         } catch (IOException e) {
             Log.d("FILESAVE", "ERROR SAVING! :(");
             e.printStackTrace();
