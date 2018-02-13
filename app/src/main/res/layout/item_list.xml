@@ -10,14 +10,15 @@
         android:id="@+id/tile_picture"
         android:layout_width="match_parent"
         android:layout_height="@dimen/tile_height"
+        android:paddingHorizontal="6dp"
         android:scaleType="centerCrop"
+        android:background="@drawable/shadow_rect"
         tools:src="@drawable/a" />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/tile_height"
-        android:alpha="0"
-        android:background="@drawable/shadow_rect" />
+        android:alpha="0"/>
 
     <!--<TextView
         android:id="@+id/tile_title"
