@@ -36,7 +36,7 @@ public class DisplayImageActivity extends AppCompatActivity {
 
     private ImageView fullScreenImg;
     private ImageButton favoritesButton;
-    private ImageButton downloadButton;
+    //private ImageButton downloadButton;
     private ImageButton setWallpaperButton;
     private ImageContainer tmpImage;
     private ProgressBar progressBar;
@@ -53,7 +53,7 @@ public class DisplayImageActivity extends AppCompatActivity {
 
         fullScreenImg = findViewById(R.id.full_screen_img);
         favoritesButton = findViewById(R.id.btn_img_favorites);
-        downloadButton = findViewById(R.id.btn_img_download);
+        //downloadButton = findViewById(R.id.btn_img_download);
         setWallpaperButton = findViewById(R.id.btn_img_set_wallpaper);
         progressBar = findViewById(R.id.progressbar_image);
 
@@ -110,7 +110,7 @@ public class DisplayImageActivity extends AppCompatActivity {
             }
         });
 
-        downloadButton.setOnClickListener(new View.OnClickListener() {
+        /*downloadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (tmpImage != null) {
@@ -121,7 +121,7 @@ public class DisplayImageActivity extends AppCompatActivity {
                             "Downloaded from MatchPaper");
                 }
             }
-        });
+        });*/
     }
 
     public void displayResultsReceived(JSONSearchResult searchResult) {
