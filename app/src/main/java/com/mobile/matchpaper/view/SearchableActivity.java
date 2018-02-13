@@ -74,6 +74,7 @@ public class SearchableActivity extends AppCompatActivity {
                 });
 
                 if (i == EditorInfo.IME_ACTION_DONE) {
+                    Log.d("put", "analamad");
                     textViewSearchResults.setVisibility(View.VISIBLE);
                     ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE))
                             .hideSoftInputFromWindow(textView.getWindowToken(), 0);
