@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.mobile.matchpaper.view.SearchableActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#535353">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +22,9 @@
             android:padding="@dimen/activity_horizontal_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:inputType="text"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:textColor="#9f9f9f"
+            android:textColorHint="#9f9f9f"/>
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -38,10 +41,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="20dp"
         android:id="@+id/tv_search_results"
         android:text="No results for the query requested!"
-        android:layout_gravity="center_horizontal"
-        android:visibility="gone"/>
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:textColor="#9f9f9f"/>
 
     <ProgressBar
         android:layout_width="wrap_content"

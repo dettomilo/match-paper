@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.mobile.matchpaper.view.DisplayImageActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#535353">
 
     <ImageView
         android:id="@+id/full_screen_img"
