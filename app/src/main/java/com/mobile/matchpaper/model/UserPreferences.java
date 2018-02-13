@@ -242,6 +242,16 @@ public class UserPreferences {
         }
     }
 
+    public static Boolean getIfImageIsInFavourites(String imgID) {
+        for (ImageContainer img : likedImages) {
+            if (imgID.equals(img.getImageID())){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Get all the liked images.
      * @return The liked images arraylist.
