@@ -27,7 +27,6 @@ public class ImageVisualizer {
      * @return The Drawable representing the image.
      */
     public static void downloadImageAndNotifyView(final String downloadFinishedEventName, final ImageContainer originalImage, final ResolutionQuality quality) {
-        ImageView view = new ImageView(MatchPaperApp.getContext());
 
         String URL = "";
 
@@ -44,8 +43,10 @@ public class ImageVisualizer {
             @Override
             public void onDownloadCompleted(Drawable d){
                 Intent intent = new Intent(downloadFinishedEventName);
+
                 intent.putExtra("loadedImageID", originalImage.getImageID());
-                switch (quality){
+
+                switch (quality) {
                     case PREVIEW:
                         originalImage.setPreviewDrawable(d);
                         break;
@@ -59,6 +60,7 @@ public class ImageVisualizer {
                         originalImage.setFullResDrawable(d);
                         break;
                 }
+
 
                 LocalBroadcastManager.getInstance(MatchPaperApp.getContext()).sendBroadcast(intent);
 

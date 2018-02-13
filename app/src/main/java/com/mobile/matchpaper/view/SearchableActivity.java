@@ -105,7 +105,7 @@ public class SearchableActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 String id = imageContainers.get(position).getImageID();
-                
+
                 showFullScreenImage(id);
             }
         });

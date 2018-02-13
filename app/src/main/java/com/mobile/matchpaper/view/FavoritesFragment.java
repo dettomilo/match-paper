@@ -56,20 +56,6 @@ public class FavoritesFragment extends Fragment {
         return recyclerView;
     }
 
-    private String GetConcatenatedLikedIDs(){
-        String concatIDs = "";
-
-        for (ImageContainer img : UserPreferences.GetInstance().GetLikedImages()){
-            concatIDs += img.getImageID() + ',';
-        }
-
-        if (concatIDs == "") {
-            concatIDs = "0";
-        }
-
-        return concatIDs;
-    }
-
     @Override
     public void onResume() {
         super.onResume();

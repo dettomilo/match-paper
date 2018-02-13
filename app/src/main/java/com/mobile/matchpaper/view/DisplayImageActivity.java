@@ -30,6 +30,7 @@ import com.mobile.matchpaper.model.MatchPaperApp;
 import com.mobile.matchpaper.model.UserPreferences;
 
 import java.io.IOException;
+import java.util.List;
 
 public class DisplayImageActivity extends AppCompatActivity {
 
@@ -61,16 +62,26 @@ public class DisplayImageActivity extends AppCompatActivity {
 
         tmpImage = ListFragment.getImageFromHomeByID(imageID);
 
-        if (tmpImage != null) {
-            Log.d("DISPLAY_IMG", "Downloading image with MIDRES URL: " + tmpImage.getMidResURL());
+        // If null it means this activity wasn't opened from ListFragment, so we have to query for the image by ID and get the image container
+        if (tmpImage == null) {
+            RequestMaker.searchImagesByID(imageID, new SearchResultReceivedListener() {
+                @Override
+                public void callListenerEvent(JSONSearchResult results) {
+                    displayResultsReceived(results);
+                }
+            });
+        } else {
             ImageVisualizer.downloadImageAndNotifyView(DOWNLOAD_FINISHED_EVENT_NAME, tmpImage, ImageVisualizer.ResolutionQuality.MID);
         }
 
         favoritesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getBaseContext(), "Image added to favorites!", Toast.LENGTH_SHORT).show();
-                UserPreferences.AddImageToFavourites(tmpImage);
+                if (tmpImage != null) {
+
+                    Toast.makeText(getBaseContext(), "Image added to favorites!", Toast.LENGTH_SHORT).show();
+                    UserPreferences.AddImageToFavourites(tmpImage);
+                }
             }
         });
 
@@ -92,12 +103,22 @@ public class DisplayImageActivity extends AppCompatActivity {
         downloadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MediaStore.Images.Media.insertImage(getContentResolver(),
-                        ((BitmapDrawable)fullScreenImg.getDrawable()).getBitmap(),
-                        tmpImage.getImageID(),
-                        "Downloaded from Matchpaper");
+                if (tmpImage != null) {
+
+                    MediaStore.Images.Media.insertImage(getContentResolver(),
+                            ((BitmapDrawable) fullScreenImg.getDrawable()).getBitmap(),
+                            tmpImage.getImageID(),
+                            "Downloaded from MatchPaper");
+                }
             }
         });
+    }
+
+    public void displayResultsReceived(JSONSearchResult searchResult) {
+
+        tmpImage = searchResult.getImageList(false).get(0);
+
+        ImageVisualizer.downloadImageAndNotifyView(DOWNLOAD_FINISHED_EVENT_NAME, tmpImage, ImageVisualizer.ResolutionQuality.MID);
     }
 
     private BroadcastReceiver fullscreenImageDownloadFinished = new BroadcastReceiver() {
