@@ -121,6 +121,8 @@ public class UserPreferences {
 
             likedTags.put(lowerTag, previousTagLikes + 1);
         }
+
+        SaveStatusToDisk();
     }
 
     /**
@@ -156,6 +158,8 @@ public class UserPreferences {
         } else {
             Log.e("Image ID not found!", "Can't unlike image with ID: " + imageID);
         }
+
+        SaveStatusToDisk();
     }
 
     /**
@@ -179,14 +183,9 @@ public class UserPreferences {
                 likedTags.put(lowerTag, previousTagLikes + 1);
             }
 
-            try {
-                SavePreferences();
-            } catch (IOException e) {
-                Log.d("FILESAVE", "ERROR SAVING! :(");
-                e.printStackTrace();
-            }
-
             FavoritesFragment.notifyViewForDatasetChange();
+
+            SaveStatusToDisk();
 
             Log.d("UserPreferences", "Favourite images count: " + likedImages.size());
         }
@@ -225,6 +224,19 @@ public class UserPreferences {
             }
         } else {
             Log.e("Image ID not found!", "Can't unlike image with ID: " + imageID);
+        }
+
+        FavoritesFragment.notifyViewForDatasetChange();
+
+        SaveStatusToDisk();
+    }
+
+    private static void SaveStatusToDisk() {
+        try {
+            SavePreferences();
+        } catch (IOException e) {
+            Log.d("FILESAVE", "ERROR SAVING! :(");
+            e.printStackTrace();
         }
     }
 

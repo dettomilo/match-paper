@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -99,6 +98,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        loadAllPreferences();
+    }
+
+    private void loadAllPreferences(){
         try {
             // Loads the preferences and then downloads the preferenced images
             ArrayList<String> imageIDs = UserPreferences.GetInstance().LoadPreferences();
@@ -110,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (concatIDs == "") {
-                concatIDs = "NO_ID";
+                concatIDs = "0";
             }
 
             RequestMaker.searchImagesByID(concatIDs, new SearchResultReceivedListener() {
@@ -185,33 +188,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        try {
-            // Loads the preferences and then downloads the preferenced images
-            ArrayList<String> imageIDs = UserPreferences.GetInstance().LoadPreferences();
-
-            String concatIDs = "";
-
-            for (String id : imageIDs){
-                concatIDs += id + ',';
-            }
-
-            if (concatIDs == "") {
-                concatIDs = "NO_ID";
-            }
-
-            RequestMaker.searchImagesByID(concatIDs, new SearchResultReceivedListener() {
-                @Override
-                public void callListenerEvent(JSONSearchResult results) {
-                    preferencesResultsReceived(results);
-                }
-            });
-
-            Log.d("FILESAVE", "on resume");
-        } catch (IOException e) {
-            Log.d("Error loading file", "No savefile");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        loadAllPreferences();
     }
 
     private void preferencesResultsReceived(JSONSearchResult results){

@@ -228,27 +228,8 @@ public class ListFragment extends Fragment{
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         // Unregister since the activity is about to be closed.
         LocalBroadcastManager.getInstance(MatchPaperApp.getContext()).unregisterReceiver(homeImageDownloadFinished);
-        super.onDestroy();
-
-        try {
-            UserPreferences.GetInstance().SavePreferences();
-            Log.d("FILESAVE", "on exit");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        try {
-            UserPreferences.GetInstance().SavePreferences();
-            Log.d("FILESAVE", "on exit");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
