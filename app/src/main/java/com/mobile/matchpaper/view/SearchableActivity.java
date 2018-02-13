@@ -86,6 +86,7 @@ public class SearchableActivity extends AppCompatActivity {
                             .hideSoftInputFromWindow(textView.getWindowToken(), 0);
 
                     progressBar.setVisibility(View.VISIBLE);
+                    textViewSearchResults.setVisibility(View.GONE);
 
                     RequestMaker.searchImagesByQuery(textView.getText().toString(), 1, 24, new SearchResultReceivedListener() {
                         @Override
@@ -104,16 +105,14 @@ public class SearchableActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 String id = imageContainers.get(position).getImageID();
-
-                Log.d("ClickEvent", "Position: " + position + " " + imageContainers.get(position).getMidResURL());
-
-                showFullScreenImage(view, id, imageContainers.get(position));
+                
+                showFullScreenImage(id);
             }
         });
     }
 
-    private void showFullScreenImage(View view, String text, ImageContainer imageInHome) {
-        Intent intent = new Intent(getBaseContext(), DisplayImageActivity.class);
+    private void showFullScreenImage(String text) {
+        Intent intent = new Intent(this, DisplayImageActivity.class);
         intent.putExtra(INTENT_STRING_CONTENT, text);
         startActivity(intent);
     }
@@ -122,6 +121,11 @@ public class SearchableActivity extends AppCompatActivity {
         final List<ImageContainer> results = searchResult.getImageList(true);
         imageContainers.clear();
         imageContainers.addAll(results);
+
+        if(results.isEmpty()) {
+            textViewSearchResults.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
+        }
 
         // Starts all the downloads for the drawableImages:
         for (ImageContainer imageToDownload:results){

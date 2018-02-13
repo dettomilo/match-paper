@@ -157,7 +157,7 @@ public class ListFragment extends Fragment{
                 public void onClick(View v) {
                     String id = imageContainers.get(position).getImageID();
                     //String msg = "Clicked image with ID: ";
-                    showFullScreenImage(v, id, imageContainers.get(position));
+                    showFullScreenImage(id);
                 }
             });
 
@@ -179,7 +179,7 @@ public class ListFragment extends Fragment{
         }
     }
 
-    private void showFullScreenImage(View view, String text, ImageContainer imageInHome) {
+    private void showFullScreenImage(String text) {
         Intent intent = new Intent(this.getActivity(), DisplayImageActivity.class);
         intent.putExtra(INTENT_STRING_CONTENT, text);
         startActivity(intent);
