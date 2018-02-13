@@ -65,21 +65,19 @@ public class SearchableActivity extends AppCompatActivity {
         editTextSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                // TODO Da mettere dentro all'if sotto quando funzionerà? lol boh
-                RequestMaker.searchImagesByQuery(textView.getText().toString(), 1, 24, new SearchResultReceivedListener() {
-                    @Override
-                    public void callListenerEvent(JSONSearchResult results) {
-                        searchResultsReceived(results);
-                    }
-                });
 
                 if (i == EditorInfo.IME_ACTION_DONE) {
-                    Log.d("put", "analamad");
+
                     textViewSearchResults.setVisibility(View.VISIBLE);
                     ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE))
                             .hideSoftInputFromWindow(textView.getWindowToken(), 0);
 
-                    // TODO y u no work?!?
+                    RequestMaker.searchImagesByQuery(textView.getText().toString(), 1, 24, new SearchResultReceivedListener() {
+                        @Override
+                        public void callListenerEvent(JSONSearchResult results) {
+                            searchResultsReceived(results);
+                        }
+                    });
 
                     return true;
                 }
