@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -67,6 +68,7 @@ public class DisplayImageActivity extends AppCompatActivity {
         favoritesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(getBaseContext(), "Image added to favorites!", Toast.LENGTH_SHORT).show();
                 UserPreferences.AddImageToFavourites(tmpImage);
             }
         });
@@ -83,6 +85,16 @@ public class DisplayImageActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        downloadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MediaStore.Images.Media.insertImage(getContentResolver(),
+                        ((BitmapDrawable)fullScreenImg.getDrawable()).getBitmap(),
+                        tmpImage.getImageID(),
+                        "Downloaded from Matchpaper");
             }
         });
     }
